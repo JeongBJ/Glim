@@ -23,5 +23,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Glim"
-include(":app")
- 
+include(":presentation")
+include(":core-android")
+include(":core")
+include(":domain")
+include(":data")
+include(":data")

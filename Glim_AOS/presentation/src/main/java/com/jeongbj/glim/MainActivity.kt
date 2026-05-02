@@ -1,6 +1,7 @@
 package com.jeongbj.glim
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.jeongbj.glim.ui.theme.GlimTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        test()
     }
 }
 
@@ -44,4 +48,9 @@ fun GreetingPreview() {
     GlimTheme {
         Greeting("Android")
     }
+}
+
+fun test()
+{
+    Log.d("TAG", "test: hi")
 }

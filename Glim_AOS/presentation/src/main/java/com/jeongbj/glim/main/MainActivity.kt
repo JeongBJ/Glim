@@ -1,17 +1,16 @@
-package com.jeongbj.glim
+package com.jeongbj.glim.main
 
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.jeongbj.glim.common.preview.Previews
+import com.jeongbj.glim.feature.login.LoginScreen
 import com.jeongbj.glim.ui.theme.GlimTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,15 +21,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GlimTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                MainScreen()
             }
         }
-        test()
     }
 }
 
@@ -42,15 +35,11 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
+@Previews
 @Composable
 fun GreetingPreview() {
     GlimTheme {
-        Greeting("Android")
+        MainScreen(
+        )
     }
-}
-
-fun test()
-{
-    Log.d("TAG", "test: hi")
 }

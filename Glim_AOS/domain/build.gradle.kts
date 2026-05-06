@@ -1,5 +1,4 @@
 plugins {
-    id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 java {
@@ -10,4 +9,8 @@ kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
     }
+}
+dependencies {
+    implementation(project(":core"))
+    implementation(libs.kotlinx.coroutines)
 }

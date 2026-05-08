@@ -1,17 +1,10 @@
 package com.jeongbj.domain.auth.usecase
 
-import com.jeongbj.core.ResultType
-import com.jeongbj.domain.auth.model.AuthToken
-import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-interface RefreshAccessTokenUseCase {
-    suspend operator fun invoke(): Flow<ResultType<AuthToken>>
-}
-
-interface ClearTokenUseCase {
-    suspend operator fun invoke(): Flow<ResultType<Unit>>
-}
-
-interface ResignUseCase {
-    suspend operator fun invoke(): Flow<ResultType<Unit>>
-}
+data class AuthUseCases @Inject constructor(
+    val refreshAccessTokenUseCase: RefreshAccessTokenUseCase,
+    val clearTokenUseCase: ClearTokenUseCase,
+    val resignUseCase: ResignUseCase,
+    val logoutUseCase: LogoutUseCase
+)

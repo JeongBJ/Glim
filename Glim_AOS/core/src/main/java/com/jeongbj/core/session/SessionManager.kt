@@ -7,6 +7,3 @@ interface SessionManager {
     suspend fun notifySessionExpired()
 }
 
-sealed class SessionEvent {
-    data object Expired : SessionEvent()
-}

@@ -3,6 +3,8 @@ package com.jeongbj.data.auth.manager
 import com.jeongbj.data.auth.datasource.RefreshTokenLocalDataSource
 import com.jeongbj.data.auth.storage.AccessTokenStorageImpl
 import com.jeongbj.domain.auth.model.AuthToken
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,4 +35,15 @@ class TokenManager @Inject constructor(
     fun getAccessToken(): String? = accessTokenLocalDataSource.getAccessToken()
 
     fun getRefreshToken(): String? = refreshTokenLocalDataSource.get()
+
+    private val _sessionEvent = MutableSharedFlow<SessionEvent>(extraBufferCapacity = 1)
+    val sessionEvent get() = _sessionEvent.asSharedFlow()
+
+    fun notifyTokenExpired() {
+        _sessionEvent.tryEmit(SessionEvent.Expired)
+    }
+}
+
+sealed class SessionEvent {
+    data object Expired : SessionEvent()
 }

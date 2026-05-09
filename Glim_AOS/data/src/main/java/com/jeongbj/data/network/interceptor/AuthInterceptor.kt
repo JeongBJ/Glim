@@ -1,10 +1,10 @@
 package com.jeongbj.data.network.interceptor
 
-import android.util.Log
 import com.jeongbj.core.common.JWT
 import com.jeongbj.domain.auth.storage.AccessTokenStorage
 import okhttp3.Interceptor
 import okhttp3.Response
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,7 +14,7 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val token = accessTokenStorage.getAccessToken()
-        Log.d("AccessTokenInterceptor", "intercept: $token")
+        Timber.d("intercept: $token")
 
         val request = chain.request().newBuilder().apply {
             token?.let {

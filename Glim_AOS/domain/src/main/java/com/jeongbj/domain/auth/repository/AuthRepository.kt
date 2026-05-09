@@ -1,16 +1,14 @@
 package com.jeongbj.domain.auth.repository
 
-import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.auth.model.AuthToken
-import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
-    fun refreshAccessToken(): Flow<ResultType<AuthToken>>
+    suspend fun refreshAccessToken(refreshToken: String): AuthToken
 
-    fun clearToken(): Flow<ResultType<Unit>>
+    suspend fun clearToken()
 
-    fun resign(): Flow<ResultType<Unit>>
+    suspend fun resign()
 
-    fun logout(): Flow<ResultType<Unit>>
+    suspend fun logout()
 }

@@ -1,5 +1,3 @@
-import com.android.build.api.variant.BuildConfigField
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.hilt)

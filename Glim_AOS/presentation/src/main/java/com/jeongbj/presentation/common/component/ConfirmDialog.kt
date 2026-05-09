@@ -1,6 +1,5 @@
 package com.jeongbj.presentation.common.component
 
-import android.R.id.message
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape

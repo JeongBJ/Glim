@@ -1,7 +1,5 @@
 package com.jeongbj.core.common
 
-import java.io.IOException
-
 sealed class ResultType<out T> {
     data object Loading : ResultType<Nothing>()
 

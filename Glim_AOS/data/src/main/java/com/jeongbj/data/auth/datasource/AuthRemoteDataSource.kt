@@ -3,7 +3,7 @@ package com.jeongbj.data.auth.datasource
 import com.jeongbj.core.common.BaseResponse
 import com.jeongbj.data.auth.api.AuthApi
 import com.jeongbj.data.auth.request.RefreshTokenRequest
-import com.jeongbj.data.auth.response.TokenResponse
+import com.jeongbj.data.auth.response.AuthTokenResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,7 +12,7 @@ class AuthRemoteDataSource @Inject constructor(
     private val authApi: AuthApi,
 ){
     suspend fun refreshAccessToken(refreshTokenRequest: RefreshTokenRequest)
-    : BaseResponse<TokenResponse> =
+    : BaseResponse<AuthTokenResponse> =
         authApi.refreshAccessToken(refreshTokenRequest)
     
 

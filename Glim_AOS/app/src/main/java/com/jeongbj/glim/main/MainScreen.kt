@@ -1,8 +1,8 @@
-package com.jeongbj.presentation.main
+package com.jeongbj.glim.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
-import com.jeongbj.presentation.navigation.AppNavGraph
+import com.jeongbj.glim.navigation.AppNavGraph
 
 @Composable
 fun MainScreen() {

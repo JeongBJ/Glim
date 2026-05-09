@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Glim">
         <activity
-            android:name="com.jeongbj.presentation.main.MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Glim">
             <intent-filter>

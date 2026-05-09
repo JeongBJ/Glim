@@ -1,4 +1,4 @@
-package com.jeongbj.presentation.navigation
+package com.jeongbj.glim.navigation
 
 sealed interface Route {
     val route: String

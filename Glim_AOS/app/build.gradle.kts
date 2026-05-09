@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -34,6 +35,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+
     buildFeatures {
         compose = true
     }
@@ -45,9 +47,13 @@ dependencies {
     implementation(project(":core-android"))
     implementation(project(":presentation"))
     implementation(project(":data"))
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime.ktx)
 
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.hilt.navigation)
+    implementation(libs.timber)
+    implementation(platform(libs.androidx.compose.bom))
 }

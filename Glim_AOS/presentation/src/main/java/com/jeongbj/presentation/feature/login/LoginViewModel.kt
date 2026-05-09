@@ -1,5 +1,6 @@
-package com.jeongbj.presentation.login
+package com.jeongbj.presentation.feature.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeongbj.domain.auth.usecase.AuthUseCases
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +26,9 @@ class LoginViewModel @Inject constructor(
 
             }
         }
+    }
 
+    fun googleLogin(idToken: String) {
+        Timber.d("googleLogin: $idToken")
     }
 }

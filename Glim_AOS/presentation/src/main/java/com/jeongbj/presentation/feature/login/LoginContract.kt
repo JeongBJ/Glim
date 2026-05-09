@@ -1,4 +1,4 @@
-package com.jeongbj.presentation.login
+package com.jeongbj.presentation.feature.login
 
 sealed interface LoginEvent {
     data object OnKakaoClick : LoginEvent

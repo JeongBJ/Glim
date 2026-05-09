@@ -18,6 +18,7 @@ class RefreshAccessTokenUseCaseImpl @Inject constructor(
 
     override operator fun invoke(): Flow<ResultType<AuthToken>> {
         return flowResult {
+            val refreshToken = tokenManager.getRefreshToken() ?: throw Exception("Refresh Token is Missing")
             val newToken = authRepository.refreshAccessToken(refreshToken)
             tokenManager.saveAccessToken(newToken.accessToken)
             newToken

@@ -36,9 +36,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
+    val kakaoNativeAppKey = (System.getenv("KAKAO_NATIVE_APP_KEY_GLIM") ?: "DEFAULT").lowercase()
+    defaultConfig {
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY_GLIM", "\"$kakaoNativeAppKey\"")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = kakaoNativeAppKey
+    }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
+
 }
 
 dependencies {
@@ -56,4 +63,6 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.timber)
     implementation(platform(libs.androidx.compose.bom))
+
+    implementation(libs.kakao.login)
 }

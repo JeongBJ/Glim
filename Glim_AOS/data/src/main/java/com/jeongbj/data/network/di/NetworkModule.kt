@@ -2,7 +2,7 @@ package com.jeongbj.data.network.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.jeongbj.data.BuildConfig
+import com.jeongbj.android.BuildConfig
 import com.jeongbj.data.network.interceptor.AuthInterceptor
 import com.jeongbj.data.network.interceptor.TokenAuthenticator
 import dagger.Module

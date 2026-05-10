@@ -23,15 +23,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-    buildFeatures{
-        buildConfig = true
-    }
-
-    val baseUrl = System.getenv("BASE_URL") ?: "https://default"
-    defaultConfig {
-        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = false

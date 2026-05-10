@@ -13,8 +13,8 @@ class GoogleLoginUseCaseImpl @Inject constructor(
     private val loginRepository: LoginRepository,
     private val tokenManager: TokenManager
 ) : GoogleLoginUseCase {
-    override fun invoke(idToken: String, fcmToken: String): Flow<ResultType<Unit>> = flowResult {
-        val tokens = loginRepository.googleLogin(LoginToken(idToken, fcmToken))
+    override fun invoke(idToken: String): Flow<ResultType<Unit>> = flowResult {
+        val tokens = loginRepository.googleLogin(LoginToken(idToken))
         tokenManager.saveTokens(tokens)
     }
 }

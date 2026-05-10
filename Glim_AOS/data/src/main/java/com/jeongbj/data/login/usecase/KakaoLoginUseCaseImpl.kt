@@ -15,8 +15,8 @@ class KakaoLoginUseCaseImpl @Inject constructor(
     private val loginRepository: LoginRepository,
     private val tokenManager: TokenManager
 ) : KakaoLoginUseCase {
-    override fun invoke(idToken: String, fcmToken: String): Flow<ResultType<Unit>> = flowResult {
-        val tokens = loginRepository.kakaoLogin(LoginToken(idToken, fcmToken))
+    override fun invoke(idToken: String): Flow<ResultType<Unit>> = flowResult {
+        val tokens = loginRepository.kakaoLogin(LoginToken(idToken))
         tokenManager.saveTokens(tokens)
     }
 }

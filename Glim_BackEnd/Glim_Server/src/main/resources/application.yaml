@@ -1,3 +1,30 @@
 spring:
   application:
     name: Glim_Server
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ENC(fHY5oWRCaBzS57lGwrfuix8rjqsi1llEcS4jpyq3CXm1xqJq3TYNnSO7xV1mAle2BIsyEZu9Kl1e1jiOH/AC+yzOSLZzTYiq1/M1gqa1RO4=)
+    username: ENC(xBFR63gDrimIDS1Gmnv802CbBHfY/DZFC2esE7bDHxPGsC03nhOlKg1g/hTEaT/T)
+    password: ENC(VkaoFZ1a5spf0m77HwZDRZK1Y4NVz1talKGR1++nM890/ihPtJ1WTGZQLft/FqEo)
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+jwt:
+  secret: ENC(/jt4ypobScuVa5dMsAPoSAfVGs1L4AkVqjrooKxYM+u/TboQz4DOsxpiHNnWk8YmP8nN3YTQPIPG1D+fxLmG4GPJkyihZ/CvYOGaCiZGx5w=)
+  access-token-validity-in-minutes: 15
+  refresh-token-validity-in-days: 7
+
+server:
+  port: 8091

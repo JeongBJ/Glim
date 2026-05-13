@@ -40,6 +40,8 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.12.7")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.7")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.7")
+
+    implementation("com.google.api-client:google-api-client:2.9.0")
 }
 
 kotlin {

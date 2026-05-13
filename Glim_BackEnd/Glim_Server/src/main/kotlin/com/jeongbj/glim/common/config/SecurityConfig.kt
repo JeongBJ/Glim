@@ -1,4 +1,4 @@
-package com.jeongbj.glim.security.config
+package com.jeongbj.glim.common.config
 
 import com.jeongbj.glim.security.filter.JwtFilter
 import org.springframework.context.annotation.Bean

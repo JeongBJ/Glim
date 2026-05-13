@@ -1,4 +1,4 @@
-package com.jeongbj.glim.security.config
+package com.jeongbj.glim.common.config
 
 import org.jasypt.encryption.StringEncryptor
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor

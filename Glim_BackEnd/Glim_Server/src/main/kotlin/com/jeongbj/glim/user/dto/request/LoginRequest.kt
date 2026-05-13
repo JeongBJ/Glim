@@ -1,4 +1,4 @@
-package com.jeongbj.glim.auth.dto.request
+package com.jeongbj.glim.user.dto.request
 
 data class LoginRequest(
     val idToken: String,

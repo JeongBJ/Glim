@@ -1,0 +1,45 @@
+pipeline {
+    agent none
+    stages {
+
+        stage('Gradle Build') {
+            agent any
+            steps {
+                dir('Glim_BackEnd/Glim_Server') {
+                    sh 'chmod +x ./gradlew'
+                    sh 'export JASYPT_ENCRYPTOR_PASSWORD=${JASYPT_PASSWORD} && ./gradlew clean bootJar --no-daemon'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            agent any
+            steps {
+                dir('Glim_BackEnd/Glim_Server') {
+                    sh 'docker build -t glim:latest .'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            agent any
+            steps {
+                sh '''
+                    docker stop glim || true
+                    docker rm glim || true
+                    docker run -d \
+                        --name glim \
+                        --add-host=host.docker.internal:host-gateway \
+                        -p ${GLIM_PORT}:8080 \
+                        -m 4g \
+                        -v /home/ubuntu/Glim/log:/home/log \
+                        -v /home/ubuntu/.oci:/root/.oci \
+                        -e SPRING_PROFILES_ACTIVE=prod \
+                        -e JASYPT_ENCRYPTOR_PASSWORD=${JASYPT_PASSWORD} \
+                        --restart unless-stopped \
+                        glim:latest
+                '''
+            }
+        }
+    }
+}

@@ -22,11 +22,14 @@ class JwtFilter(
         val token = resolveToken(request)
 
         if (token != null && jwtProvider.validateToken(token)) {
+            logger.info("token valid: $token")
             val userId = jwtProvider.getUserId(token)
             val auth = UsernamePasswordAuthenticationToken(
                 userId, null, emptyList()
             )
             SecurityContextHolder.getContext().authentication = auth
+        } else {
+            logger.info("token invalid or null: $token")
         }
 
         filterChain.doFilter(request, response)

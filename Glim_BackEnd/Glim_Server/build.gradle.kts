@@ -26,7 +26,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("tools.jackson.module:jackson-module-kotlin")
-    implementation("org.springframework.boot:spring-boot-starter-flyway")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-security-test")
@@ -42,6 +43,10 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.7")
 
     implementation("com.google.api-client:google-api-client:2.9.0")
+
+    implementation("com.oracle.oci.sdk:oci-java-sdk-objectstorage:3.86.2")
+    implementation("com.oracle.oci.sdk:oci-java-sdk-common-httpclient-jersey3:3.86.2")
+
 }
 
 kotlin {

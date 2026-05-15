@@ -36,9 +36,10 @@ class User(
     val createdAt: LocalDateTime = LocalDateTime.now()
 
 ) {
-    fun updateProfile(nickname: String, imageUrl: String?) {
+    fun updateProfile(nickname: String, imageUrl: String?): User {
         this.nickname = nickname
         this.imageUrl = imageUrl
+        return this
     }
 }
 

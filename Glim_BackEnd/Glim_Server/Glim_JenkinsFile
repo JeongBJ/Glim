@@ -35,6 +35,7 @@ pipeline {
                         -v /home/ubuntu/Glim/log:/home/log \
                         -v /home/ubuntu/.oci:/root/.oci \
                         -e SPRING_PROFILES_ACTIVE=prod \
+                        -e GLIM_DB_PORT=${GLIM_DB_PORT} \
                         -e JASYPT_ENCRYPTOR_PASSWORD=${JASYPT_PASSWORD} \
                         --restart unless-stopped \
                         glim:latest

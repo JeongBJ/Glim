@@ -1,11 +1,11 @@
-package com.jeongbj.data.login.di
+package com.jeongbj.data.user.di
 
-import com.jeongbj.data.login.repository.LoginRepositoryImpl
-import com.jeongbj.data.login.usecase.GoogleLoginUseCaseImpl
-import com.jeongbj.data.login.usecase.KakaoLoginUseCaseImpl
-import com.jeongbj.domain.login.repository.LoginRepository
-import com.jeongbj.domain.login.usecase.GoogleLoginUseCase
-import com.jeongbj.domain.login.usecase.KakaoLoginUseCase
+import com.jeongbj.data.user.repository.LoginRepositoryImpl
+import com.jeongbj.data.user.usecase.GoogleLoginUseCaseImpl
+import com.jeongbj.data.user.usecase.KakaoLoginUseCaseImpl
+import com.jeongbj.domain.user.repository.LoginRepository
+import com.jeongbj.domain.user.usecase.GoogleLoginUseCase
+import com.jeongbj.domain.user.usecase.KakaoLoginUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

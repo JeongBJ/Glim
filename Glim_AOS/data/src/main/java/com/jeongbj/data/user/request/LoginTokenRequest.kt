@@ -1,4 +1,4 @@
-package com.jeongbj.data.login.request
+package com.jeongbj.data.user.request
 
 import com.google.gson.annotations.SerializedName
 

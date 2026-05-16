@@ -26,7 +26,7 @@ android {
         buildConfig = true
     }
 
-    val baseUrl = System.getenv("BASE_URL") ?: "https://default"
+    val baseUrl = System.getenv("GLIM_BASE_URL") ?: "https://default"
     defaultConfig {
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
     }

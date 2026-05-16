@@ -1,6 +1,6 @@
-package com.jeongbj.data.login.di
+package com.jeongbj.data.user.di
 
-import com.jeongbj.data.login.api.LoginApi
+import com.jeongbj.data.user.api.LoginApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

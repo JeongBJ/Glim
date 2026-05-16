@@ -49,7 +49,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("${BuildConfig.BASE_URL}/glim/api/")
+            .baseUrl("${BuildConfig.BASE_URL}/glim/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()

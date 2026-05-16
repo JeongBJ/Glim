@@ -1,4 +1,4 @@
-package com.jeongbj.domain.login.model
+package com.jeongbj.domain.user.model
 
 data class LoginToken(
     val idToken: String,

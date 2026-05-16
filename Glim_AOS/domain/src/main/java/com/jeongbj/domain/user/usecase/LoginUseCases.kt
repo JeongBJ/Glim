@@ -1,4 +1,4 @@
-package com.jeongbj.domain.login.usecase
+package com.jeongbj.domain.user.usecase
 
 import javax.inject.Inject
 

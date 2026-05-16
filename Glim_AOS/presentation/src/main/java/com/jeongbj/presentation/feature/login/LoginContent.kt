@@ -21,7 +21,8 @@ import com.jeongbj.presentation.feature.login.component.LogoSection
 
 @Composable
 fun LoginContent(
-    onEvent : (LoginEvent) -> Unit
+    onEvent: (LoginEvent) -> Unit,
+    isLoading: Boolean
 ) {
     BoxWithConstraints(
         modifier = Modifier

@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 
 const val LOGIN_ROUTE = "login"
 const val HOME_ROUTE = "home"
+
+const val PROFILE_ROUTE = "profile"
 fun NavGraphBuilder.loginNav(
     navController: NavHostController,
     googleClientId: String
@@ -16,12 +18,17 @@ fun NavGraphBuilder.loginNav(
 
         LoginScreen (
             viewModel = viewModel,
+            googleClientId = googleClientId,
             onNavigateHome = {
                 navController.navigate(HOME_ROUTE) {
                     popUpTo(LOGIN_ROUTE) { inclusive = true }
                 }
             },
-            googleClientId = googleClientId
+            onNavigateProfile = {
+                navController.navigate(PROFILE_ROUTE) {
+                    popUpTo(LOGIN_ROUTE) { inclusive = true }
+                }
+            }
         )
     }
 }

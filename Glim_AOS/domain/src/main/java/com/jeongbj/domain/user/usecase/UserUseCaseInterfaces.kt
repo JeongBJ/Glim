@@ -6,5 +6,5 @@ import com.jeongbj.domain.user.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface UpdateProfileUseCase {
-    operator fun invoke(image: MultipartImage, profile: User): Flow<ResultType<User>>
+    operator fun invoke(image: MultipartImage?, profile: User): Flow<ResultType<User>>
 }

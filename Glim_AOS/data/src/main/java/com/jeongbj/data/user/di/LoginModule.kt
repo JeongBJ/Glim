@@ -1,11 +1,15 @@
 package com.jeongbj.data.user.di
 
 import com.jeongbj.data.user.repository.LoginRepositoryImpl
+import com.jeongbj.data.user.repository.UserRepositoryImpl
 import com.jeongbj.data.user.usecase.GoogleLoginUseCaseImpl
 import com.jeongbj.data.user.usecase.KakaoLoginUseCaseImpl
+import com.jeongbj.data.user.usecase.UpdateProfileUseCaseImpl
 import com.jeongbj.domain.user.repository.LoginRepository
+import com.jeongbj.domain.user.repository.UserRepository
 import com.jeongbj.domain.user.usecase.GoogleLoginUseCase
 import com.jeongbj.domain.user.usecase.KakaoLoginUseCase
+import com.jeongbj.domain.user.usecase.UpdateProfileUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -21,8 +25,15 @@ abstract class LoginModule {
     abstract fun bindLoginRepository(impl: LoginRepositoryImpl): LoginRepository
 
     @Binds
+    @Singleton
+    abstract fun bindUserRepository(impl: UserRepositoryImpl): UserRepository
+
+    @Binds
     abstract fun bindGoogleLoginUseCase(impl: GoogleLoginUseCaseImpl): GoogleLoginUseCase
 
     @Binds
     abstract fun bindKakaoLoginUseCase(impl: KakaoLoginUseCaseImpl): KakaoLoginUseCase
+
+    @Binds
+    abstract fun bindUpdateProfileUseCase(impl: UpdateProfileUseCaseImpl): UpdateProfileUseCase
 }

@@ -13,7 +13,7 @@ class UpdateProfileUseCaseImpl @Inject constructor(
     private val userRepository: UserRepository
 ) : UpdateProfileUseCase {
     override operator fun invoke(
-        image: MultipartImage,
+        image: MultipartImage?,
         profile: User
     ): Flow<ResultType<User>> = flowResult {
         userRepository.updateProfile(image, profile)

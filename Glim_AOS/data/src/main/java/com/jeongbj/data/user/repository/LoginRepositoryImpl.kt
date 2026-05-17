@@ -6,7 +6,6 @@ import com.jeongbj.data.auth.mapper.toDomain
 import com.jeongbj.data.user.datasource.LoginRemoteDataSource
 import com.jeongbj.data.user.mapper.toDomain
 import com.jeongbj.data.user.mapper.toRequest
-import com.jeongbj.domain.auth.model.AuthToken
 import com.jeongbj.domain.user.model.LoginToken
 import com.jeongbj.domain.user.model.User
 import com.jeongbj.domain.user.repository.LoginRepository

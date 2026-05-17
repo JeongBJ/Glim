@@ -25,12 +25,8 @@ class KakaoLoginLauncher(
                 }
 
                 token != null -> {
-                    val idToken = token.idToken
-                    if (idToken != null) {
-                        continuation.resume(KakaoLoginResult.Success(idToken))
-                    } else {
-                        continuation.resume(KakaoLoginResult.Error(Throwable("idToken is null")))
-                    }
+                    val accessToken = token.accessToken
+                    continuation.resume(KakaoLoginResult.Success(accessToken))
                 }
                 else -> continuation.resume(KakaoLoginResult.Error(Throwable("Unknown error")))
             }
@@ -48,12 +44,8 @@ class KakaoLoginLauncher(
                     }
 
                     token != null -> {
-                        val idToken = token.idToken
-                        if (idToken != null) {
-                            continuation.resume(KakaoLoginResult.Success(idToken))
-                        } else {
-                            continuation.resume(KakaoLoginResult.Error(Throwable("idToken is null")))
-                        }
+                        val accessToken = token.accessToken
+                        continuation.resume(KakaoLoginResult.Success(accessToken))
                     }
                 }
             }

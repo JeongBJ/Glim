@@ -5,7 +5,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.jeongbj.glim.R
+import com.jeongbj.presentation.feature.login.HomeRoute
+import com.jeongbj.presentation.feature.login.LoginRoute
 import com.jeongbj.presentation.feature.login.loginNav
+import com.jeongbj.presentation.feature.profile.ProfileRoute
+import com.jeongbj.presentation.feature.profile.profileNav
 
 @Composable
 fun AppNavGraph(
@@ -14,8 +18,18 @@ fun AppNavGraph(
     val googleClientId = stringResource(R.string.default_web_client_id)
     NavHost(
         navController = navController,
-        startDestination = Route.Login.route
+        startDestination = LoginRoute
     ) {
-        loginNav(navController, googleClientId)
+        loginNav(
+            googleClientId = googleClientId,
+            navigateToHome = { navController.navigate(HomeRoute) },
+            navigateToProfile = { navController.navigate(ProfileRoute) }
+        )
+
+        profileNav(
+            navigateToHome = { navController.navigate(HomeRoute) {
+                popUpTo(LoginRoute) { inclusive = true }
+            } }
+        )
     }
 }

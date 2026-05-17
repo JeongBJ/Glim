@@ -1,6 +1,5 @@
 package com.jeongbj.domain.user.repository
 
-import com.jeongbj.domain.auth.model.AuthToken
 import com.jeongbj.domain.user.model.LoginToken
 import com.jeongbj.domain.user.model.User
 

@@ -5,9 +5,12 @@ import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider
 import com.oracle.bmc.objectstorage.ObjectStorageClient
 import com.oracle.bmc.objectstorage.requests.DeleteObjectRequest
 import com.oracle.bmc.objectstorage.requests.PutObjectRequest
+import jakarta.annotation.PreDestroy
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.io.BufferedInputStream
+import java.io.ByteArrayInputStream
 import java.util.UUID
 
 @Service
@@ -22,21 +25,26 @@ class BucketService(
     }
 
     fun uploadImage(file: MultipartFile, prefix: String): String {
-        val extension = file.originalFilename?.substringAfterLast(".", "")
+        val extension = file.originalFilename?.substringAfterLast(".", "") ?: "jpg"
         val objectName = "$prefix/${UUID.randomUUID()}.$extension"
+        val inputStream = BufferedInputStream(file.inputStream)
+
         val request = PutObjectRequest.builder()
             .namespaceName(ociProperties.namespace)
             .bucketName(ociProperties.bucket)
             .objectName(objectName)
-            .putObjectBody(file.inputStream)
+            .putObjectBody(inputStream)
             .contentLength(file.size)
             .contentType(file.contentType)
             .build()
 
         try {
-            client.putObject(request)
+            inputStream.use {
+                client.putObject(request)
+            }
         } catch (e: Exception) {
-            log.info(e.message)
+            log.error("uploadImage failed", e)
+            throw e
         }
 
         return "https://objectstorage.${ociProperties.region}.oraclecloud.com/n/${ociProperties.namespace}/b/${ociProperties.bucket}/o/$objectName"
@@ -50,6 +58,11 @@ class BucketService(
             .objectName(objectName)
             .build()
         client.deleteObject(request)
+    }
+
+    @PreDestroy
+    private fun destroy() {
+        client.close()
     }
 
     companion object {

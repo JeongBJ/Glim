@@ -1,8 +1,8 @@
 package com.jeongbj.glim.user.service
 
 import com.jeongbj.glim.auth.service.AuthService
-import com.jeongbj.glim.user.client.GoogleAuthClient
-import com.jeongbj.glim.user.client.KakaoAuthClient
+import com.jeongbj.glim.external.auth.GoogleAuthClient
+import com.jeongbj.glim.external.auth.KakaoAuthClient
 import com.jeongbj.glim.user.dto.request.LoginRequest
 import com.jeongbj.glim.user.dto.response.LoginResponse
 import com.jeongbj.glim.user.entity.Provider

@@ -1,4 +1,4 @@
-package com.jeongbj.glim.user.client
+package com.jeongbj.glim.external.auth
 
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient

@@ -1,12 +1,13 @@
 package com.jeongbj.glim
 
-import com.jeongbj.glim.infra.bucket.OciProperties
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
-@EnableConfigurationProperties(OciProperties::class)
+@ConfigurationPropertiesScan
+@EnableFeignClients
 class GlimServerApplication
 
 fun main(args: Array<String>) {

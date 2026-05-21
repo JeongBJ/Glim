@@ -30,3 +30,9 @@ oci:
   namespace: ENC(l2xIgNKXGn7Guj4uQRD9sIkfWiBmgU/uFGSWFVYwMcsZYxu6OX4/01TRCcAVDZid)
   bucket: Glim_Image
   region: ap-chuncheon-1
+
+aladin:
+  base-url: https://www.aladin.co.kr
+  ttb-key: ENC(Xgl/ntCpri/zEQiIzrjQXJpc6O8rnFtliXaLMeF1SAhE7pUTk7x22AdTk8X5OFqpEY4lud9QZcgs6atfEXpUng==)
+  output: JS
+  version: 20131101

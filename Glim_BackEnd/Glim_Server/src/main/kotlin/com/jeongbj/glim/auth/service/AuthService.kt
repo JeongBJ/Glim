@@ -7,6 +7,7 @@ import com.jeongbj.glim.security.jwt.JwtProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 @Service
 @Transactional
@@ -19,10 +20,14 @@ class AuthService(
         val now = System.currentTimeMillis()
         val accessToken = jwtProvider.createAccessToken(userSeq, now)
         val refreshToken = jwtProvider.createRefreshToken(now)
+
+        val claims = jwtProvider.getClaims(refreshToken)
+
         authRepository.save(RefreshToken(
             userSeq = userSeq,
             refreshToken = refreshToken,
-            expiresAt = LocalDateTime.now()
+            expiresAt = claims.expiration
+                .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
         ))
 
         return AuthTokenResponse(
@@ -40,6 +45,12 @@ class AuthService(
             throw IllegalArgumentException("RefreshToken expired")
         }
 
+        if (!jwtProvider.validateToken(refreshToken)) {
+            authRepository.delete(entity)
+            throw IllegalArgumentException("Invalid RefreshToken")
+        }
+
+        authRepository.delete(entity)
         return createAuthToken(entity.userSeq)
     }
 

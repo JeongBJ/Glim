@@ -6,6 +6,8 @@ data class AladinItemResponse(
     val title: String,
     @JsonProperty("link")
     val linkUrl: String,
+    @JsonProperty("cover")
+    val coverUrl: String,
     val author: String,
     val translator: String? = null,
     val isbn13: String,

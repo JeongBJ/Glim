@@ -18,6 +18,9 @@ class AladinService(
     fun getAladinItemSearch(query: String, queryType: ItemSearchQueryType): List<AladinItemResponse> =
         aladinClient.aladinItemSearch(queryType.toRequest(query)).item
 
-    fun getAladinItemLookUp(isbn13: String): List<AladinItemResponse> =
-        aladinClient.aladinItemLookUp(AladinItemLookUpRequest(itemId = isbn13)).item
+    fun getAladinItemLookUp(isbn13: String): List<AladinItemResponse>? {
+         val list = aladinClient.aladinItemLookUp(AladinItemLookUpRequest(itemId = isbn13)).item
+        if(list.isEmpty()) return null
+        return list
+    }
 }

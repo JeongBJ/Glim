@@ -49,6 +49,8 @@ dependencies {
     implementation("com.oracle.oci.sdk:oci-java-sdk-objectstorage:3.86.2")
     implementation("com.oracle.oci.sdk:oci-java-sdk-common-httpclient-jersey3:3.86.2")
 
+    implementation("io.github.oshai:kotlin-logging-jvm:8.0.03")
+
 }
 
 kotlin {

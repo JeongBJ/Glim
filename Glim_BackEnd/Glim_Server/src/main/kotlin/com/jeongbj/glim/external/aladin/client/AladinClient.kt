@@ -3,7 +3,6 @@ package com.jeongbj.glim.external.aladin.client
 import com.jeongbj.glim.external.aladin.dto.request.AladinItemListRequest
 import com.jeongbj.glim.external.aladin.dto.request.AladinItemLookUpRequest
 import com.jeongbj.glim.external.aladin.dto.request.AladinItemSearchRequest
-import com.jeongbj.glim.external.aladin.dto.response.AladinItemResponse
 import com.jeongbj.glim.external.aladin.dto.response.AladinResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.cloud.openfeign.SpringQueryMap

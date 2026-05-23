@@ -7,7 +7,7 @@ spring:
 
   data:
     redis:
-      host: host.docker.internal
+      host: redis
       port: ${REDIS_PORT}
       password: ENC(SPDZl3P0oZjCZtAHUlA19HvSiEUEL3RbZoA5KCyf9qQZxnsZnW24L/w1HHe72rUs)
 

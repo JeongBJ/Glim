@@ -1,34 +1,26 @@
 package com.jeongbj.glim.auth.service
 
 import com.jeongbj.glim.auth.dto.response.AuthTokenResponse
-import com.jeongbj.glim.auth.entity.RefreshToken
-import com.jeongbj.glim.auth.repository.AuthRepository
+import com.jeongbj.glim.auth.repository.AuthRedisRepository
 import com.jeongbj.glim.security.jwt.JwtProvider
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 @Service
 @Transactional
 class AuthService(
     private val jwtProvider: JwtProvider,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRedisRepository
 ) {
 
     fun createAuthToken(userSeq: Long): AuthTokenResponse {
         val now = System.currentTimeMillis()
         val accessToken = jwtProvider.createAccessToken(userSeq, now)
-        val refreshToken = jwtProvider.createRefreshToken(now)
+        val refreshToken = jwtProvider.createRefreshToken(userSeq, now)
 
-        val claims = jwtProvider.getClaims(refreshToken)
-
-        authRepository.save(RefreshToken(
+        authRepository.save(
             userSeq = userSeq,
-            refreshToken = refreshToken,
-            expiresAt = claims.expiration
-                .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-        ))
+            refreshToken = refreshToken)
 
         return AuthTokenResponse(
             accessToken = accessToken,
@@ -37,24 +29,15 @@ class AuthService(
     }
 
     fun reissueAuthToken(refreshToken: String): AuthTokenResponse {
-        val entity = authRepository.findByRefreshToken(refreshToken)
-            ?: throw IllegalArgumentException("RefreshToken not found")
+        if(!jwtProvider.validateRefreshToken(refreshToken)) throw IllegalArgumentException("Invalid RefreshToken")
+        val userSeq = jwtProvider.getUserId(refreshToken)
+        val savedToken = authRepository.find(userSeq) ?: throw IllegalArgumentException("Not Exist RefreshToken")
+        if(savedToken != refreshToken) throw IllegalArgumentException("Invalid RefreshToken")
 
-        if (entity.expiresAt.isBefore(LocalDateTime.now())) {
-            authRepository.delete(entity)
-            throw IllegalArgumentException("RefreshToken expired")
-        }
-
-        if (!jwtProvider.validateToken(refreshToken)) {
-            authRepository.delete(entity)
-            throw IllegalArgumentException("Invalid RefreshToken")
-        }
-
-        authRepository.delete(entity)
-        return createAuthToken(entity.userSeq)
+        return createAuthToken(userSeq)
     }
 
     fun logout(userSeq: Long) {
-        authRepository.deleteAllByUserSeq(userSeq)
+        authRepository.delete(userSeq)
     }
 }

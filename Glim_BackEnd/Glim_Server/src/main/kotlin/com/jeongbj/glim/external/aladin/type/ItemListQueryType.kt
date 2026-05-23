@@ -7,7 +7,7 @@ enum class ItemListQueryType(
 ) {
 
     NEW_SPECIAL("ItemNewSpecial"),
-    BEST_SELLER("BEST_SELLER"),
+    BEST_SELLER("BestSeller"),
     EDITOR_CHOICE("ItemEditorChoice");
 
     fun toRequest(): AladinItemListRequest {

@@ -13,10 +13,10 @@ class AladinRequestInterceptor(
     private val logger = KotlinLogging.logger {  }
 
     override fun apply(template: RequestTemplate) {
-        logger.info { "Aladin API - $template" }
         template.query("ttbkey", props.ttbKey)
         template.query("output", props.output)
         template.query("Version", props.version)
         template.query("searchTarget", "Book")
+        logger.info { "Aladin API - $template" }
     }
 }

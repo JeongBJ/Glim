@@ -1,17 +1,21 @@
 package com.jeongbj.glim.book.service
 
+import com.jeongbj.glim.book.dto.BookItemListResponse
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.entity.Book
+import com.jeongbj.glim.book.mapper.toBookResponse
 import com.jeongbj.glim.book.mapper.toEntity
 import com.jeongbj.glim.book.mapper.toResponse
 import com.jeongbj.glim.book.repository.BookRepository
+import com.jeongbj.glim.book.repository.ItemListCacheRepository
 import com.jeongbj.glim.book.repository.SearchCacheRepository
-import com.jeongbj.glim.common.extention.toPage
 import com.jeongbj.glim.common.extention.toPagingResult
 import com.jeongbj.glim.common.response.PagingResult
 import com.jeongbj.glim.external.aladin.service.AladinService
+import com.jeongbj.glim.external.aladin.type.ItemListQueryType
 import com.jeongbj.glim.external.aladin.type.ItemSearchQueryType
 import org.springframework.data.domain.Pageable
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional
 class BookService(
     private val bookRepository: BookRepository,
     private val searchCacheRepository: SearchCacheRepository,
+    private val itemListCacheRepository: ItemListCacheRepository,
     private val aladinService: AladinService
 ) {
 
@@ -37,6 +42,18 @@ class BookService(
         return response.toPagingResult(pageable)
     }
 
+    fun getAladinItemList(): BookItemListResponse {
+        val bestSeller = getItemList(ItemListQueryType.BEST_SELLER)
+        val editorChoice = getItemList(ItemListQueryType.EDITOR_CHOICE)
+        val newSpecial = getItemList(ItemListQueryType.NEW_SPECIAL)
+
+        return BookItemListResponse(
+            bestSeller = bestSeller,
+            editorChoice = editorChoice,
+            newSpecial = newSpecial
+        )
+    }
+
     fun searchBookByIsbn13(isbn13: String): BookResponse? {
         val book = bookRepository.findByIsbn13(isbn13)
         if(book != null) return book.toResponse()
@@ -51,5 +68,16 @@ class BookService(
             .map { it.isbn13 }.toSet()
         val newBooks = books.filter { it.isbn13 !in existingIsbn13s }
         if (newBooks.isNotEmpty()) bookRepository.saveAll(newBooks)
+    }
+
+    private fun getItemList(type: ItemListQueryType): List<BookResponse> {
+        itemListCacheRepository.get(type)?.let {
+            return it
+        }
+        val newBooks = aladinService.getAladinItemList(type)
+        saveNewBooks(newBooks.map { it.toEntity() })
+        val response = newBooks.map { it.toBookResponse() }
+        itemListCacheRepository.save(type, response)
+        return response
     }
 }

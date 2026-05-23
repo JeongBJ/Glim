@@ -36,3 +36,18 @@ fun AladinItemResponse.toEntity(): Book {
         publisher = publisher
     )
 }
+
+fun AladinItemResponse.toBookResponse(): BookResponse {
+    return BookResponse(
+        title = title,
+        linkUrl = linkUrl,
+        coverUrl = coverUrl,
+        author = author,
+        translator = translator,
+        isbn13 = isbn13,
+        description = description,
+        pubDate = LocalDate.parse(pubDate),
+        priceSales = priceSales,
+        publisher = publisher
+    )
+}

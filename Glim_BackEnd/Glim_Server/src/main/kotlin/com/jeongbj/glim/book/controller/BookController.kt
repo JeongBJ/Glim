@@ -1,5 +1,6 @@
 package com.jeongbj.glim.book.controller
 
+import com.jeongbj.glim.book.dto.BookItemListResponse
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.dto.BookSearchRequest
 import com.jeongbj.glim.book.service.BookService
@@ -27,5 +28,18 @@ class BookController(
     : ResponseEntity<BaseResponse<BookResponse?>> {
         val data = bookService.searchBookByIsbn13(isbn13)
         return ResponseEntity.ok(BaseResponse.success(data, "성공"))
+    }
+
+    @GetMapping
+    fun getHomeScreenData()
+    : Any {
+//        val data = bookService.getAladinItemList()
+//        return ResponseEntity.ok(BaseResponse.success(data, "홈 화면 데이터 조회 성공"))
+        return try {
+            bookService.getAladinItemList()
+        } catch (e: Exception) {
+            println(e)
+            listOf<BookItemListResponse>()
+        }
     }
 }

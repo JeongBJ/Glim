@@ -28,7 +28,7 @@ class JwtProvider(
     fun createAccessToken(userSeq: Long, now: Long): String =
         Jwts.builder()
             .subject(userSeq.toString())
-            .claim("type", TokenType.ACCESS)
+            .claim("type", TokenType.ACCESS.name)
             .issuedAt(Date(now))
             .expiration(Date(now + accessExpiration))
             .signWith(key)
@@ -37,7 +37,7 @@ class JwtProvider(
     fun createRefreshToken(userSeq: Long, now: Long): String {
         return Jwts.builder()
             .subject(userSeq.toString())
-            .claim("type", TokenType.REFRESH)
+            .claim("type", TokenType.REFRESH.name)
             .issuedAt(Date(now))
             .expiration(Date(now + refreshExpiration))
             .signWith(key)
@@ -47,7 +47,7 @@ class JwtProvider(
 
     fun validateAccessToken(token: String): Boolean = runCatching {
         val claims = getClaims(token)
-        claims["type"] == TokenType.ACCESS
+        claims["type"] == TokenType.ACCESS.name
     }.getOrElse { e ->
         when (e) {
             is MalformedJwtException -> logger.info { "잘못된 JWT 서명" }
@@ -61,8 +61,7 @@ class JwtProvider(
 
     fun validateRefreshToken(token: String): Boolean = runCatching {
         val claims = getClaims(token)
-
-        claims["type"] == TokenType.REFRESH
+        claims["type"] == TokenType.REFRESH.name
     }.getOrElse { e ->
         logger.info { "Refresh Token 검증 실패: ${e.message}" }
         false

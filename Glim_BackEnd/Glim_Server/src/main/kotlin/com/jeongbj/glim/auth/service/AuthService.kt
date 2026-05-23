@@ -20,7 +20,8 @@ class AuthService(
 
         authRepository.save(
             userSeq = userSeq,
-            refreshToken = refreshToken)
+            refreshToken = refreshToken
+        )
 
         return AuthTokenResponse(
             accessToken = accessToken,
@@ -29,10 +30,10 @@ class AuthService(
     }
 
     fun reissueAuthToken(refreshToken: String): AuthTokenResponse {
-        if(!jwtProvider.validateRefreshToken(refreshToken)) throw IllegalArgumentException("Invalid RefreshToken")
+        if (!jwtProvider.validateRefreshToken(refreshToken)) throw IllegalArgumentException("Invalid RefreshToken")
         val userSeq = jwtProvider.getUserId(refreshToken)
         val savedToken = authRepository.find(userSeq) ?: throw IllegalArgumentException("Not Exist RefreshToken")
-        if(savedToken != refreshToken) throw IllegalArgumentException("Invalid RefreshToken")
+        if (savedToken != refreshToken) throw IllegalArgumentException("Invalid RefreshToken!")
 
         return createAuthToken(userSeq)
     }

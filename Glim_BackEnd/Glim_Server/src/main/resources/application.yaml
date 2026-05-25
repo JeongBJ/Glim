@@ -39,3 +39,10 @@ aladin:
   ttb-key: ENC(Xgl/ntCpri/zEQiIzrjQXJpc6O8rnFtliXaLMeF1SAhE7pUTk7x22AdTk8X5OFqpEY4lud9QZcgs6atfEXpUng==)
   output: JS
   version: 20131101
+
+pollination:
+  base-url: https://gen.pollinations.ai/image
+  key: ENC(GTYetLWNepVE2SNnS6YwbG6URRXFyjazKvfxMMA1YSGFQrVEJ/NcCw6hfB0n7kOeAMFhz280/brJPK8Mtv3xwwugag+YOGD0ubC6/Gi67Pg=)
+  height: 1792
+  width: 1024
+  model: flux

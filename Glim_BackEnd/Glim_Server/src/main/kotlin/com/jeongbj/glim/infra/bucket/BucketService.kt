@@ -9,7 +9,7 @@ import jakarta.annotation.PreDestroy
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.io.BufferedInputStream
+import java.io.InputStream
 import java.util.*
 
 @Service
@@ -23,18 +23,19 @@ class BucketService(
             .build(provider)
     }
 
-    fun uploadImage(file: MultipartFile, prefix: String): String {
-        val extension = file.originalFilename?.substringAfterLast(".", "") ?: "jpg"
-        val objectName = "$prefix/${UUID.randomUUID()}.$extension"
-        val inputStream = BufferedInputStream(file.inputStream)
-
+    fun uploadImage(
+        inputStream: InputStream,
+        prefix: String,
+        contentLength: Long)
+    : String {
+        val objectName = "$prefix/${UUID.randomUUID()}.jpg"
         val request = PutObjectRequest.builder()
             .namespaceName(ociProperties.namespace)
             .bucketName(ociProperties.bucket)
             .objectName(objectName)
             .putObjectBody(inputStream)
-            .contentLength(file.size)
-            .contentType(file.contentType)
+            .contentLength(contentLength)
+            .contentType("image/jpeg")
             .build()
 
         try {
@@ -47,6 +48,15 @@ class BucketService(
         }
 
         return "https://objectstorage.${ociProperties.region}.oraclecloud.com/n/${ociProperties.namespace}/b/${ociProperties.bucket}/o/$objectName"
+    }
+
+    fun uploadImage(file: MultipartFile, prefix: String): String {
+        return uploadImage(file.inputStream, prefix, file.size)
+    }
+
+
+    fun uploadImage(bytes: ByteArray, prefix: String): String {
+        return uploadImage(bytes.inputStream(), prefix, bytes.size.toLong())
     }
 
     fun deleteImage(imageUrl: String) {

@@ -1,5 +1,6 @@
 package com.jeongbj.glim.user.entity
 
+import com.jeongbj.glim.quote.entity.Quote
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -33,7 +34,10 @@ class User(
     var imageUrl: String? = null,
 
     @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val quotes: MutableList<Quote> = mutableListOf()
 
 ) {
     fun updateProfile(nickname: String, imageUrl: String?): User {

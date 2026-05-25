@@ -1,5 +1,6 @@
 package com.jeongbj.glim.book.entity
 
+import com.jeongbj.glim.quote.entity.Quote
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDate
@@ -59,7 +60,10 @@ class Book(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "view_count", nullable = false)
-    var viewCount: Long = 0
+    var viewCount: Long = 0,
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val quotes: MutableList<Quote> = mutableListOf()
 
 ) {
     fun increaseViewCount() {

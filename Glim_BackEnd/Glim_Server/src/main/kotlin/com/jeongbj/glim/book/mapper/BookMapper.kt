@@ -3,6 +3,7 @@ package com.jeongbj.glim.book.mapper
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.entity.Book
 import com.jeongbj.glim.external.aladin.dto.response.AladinItemResponse
+import com.jeongbj.glim.quote.dto.QuoteBookResponse
 import java.time.LocalDate
 
 fun Book.toResponse(): BookResponse {
@@ -37,17 +38,10 @@ fun AladinItemResponse.toEntity(): Book {
     )
 }
 
-fun AladinItemResponse.toBookResponse(): BookResponse {
-    return BookResponse(
+fun Book.toQuoteResponse(): QuoteBookResponse =
+    QuoteBookResponse(
+        bookSeq = bookSeq,
         title = title,
-        linkUrl = linkUrl,
         coverUrl = coverUrl,
-        author = author,
-        translator = translator,
-        isbn13 = isbn13,
-        description = description,
-        pubDate = LocalDate.parse(pubDate),
-        priceSales = priceSales,
-        publisher = publisher
+        author = author
     )
-}

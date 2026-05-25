@@ -3,7 +3,6 @@ package com.jeongbj.glim.book.service
 import com.jeongbj.glim.book.dto.BookItemListResponse
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.entity.Book
-import com.jeongbj.glim.book.mapper.toBookResponse
 import com.jeongbj.glim.book.mapper.toEntity
 import com.jeongbj.glim.book.mapper.toResponse
 import com.jeongbj.glim.book.repository.BookRepository
@@ -15,7 +14,6 @@ import com.jeongbj.glim.external.aladin.service.AladinService
 import com.jeongbj.glim.external.aladin.type.ItemListQueryType
 import com.jeongbj.glim.external.aladin.type.ItemSearchQueryType
 import org.springframework.data.domain.Pageable
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -63,11 +61,12 @@ class BookService(
         return bookRepository.save(newBook.toEntity()).toResponse()
     }
 
-    private fun saveNewBooks(books: List<Book>) {
+    private fun saveNewBooks(books: List<Book>): List<Book> {
         val existingIsbn13s = bookRepository.findAllByIsbn13In(books.map { it.isbn13 })
             .map { it.isbn13 }.toSet()
         val newBooks = books.filter { it.isbn13 !in existingIsbn13s }
         if (newBooks.isNotEmpty()) bookRepository.saveAll(newBooks)
+        return books
     }
 
     private fun getItemList(type: ItemListQueryType): List<BookResponse> {
@@ -75,8 +74,9 @@ class BookService(
             return it
         }
         val newBooks = aladinService.getAladinItemList(type)
-        saveNewBooks(newBooks.map { it.toEntity() })
-        val response = newBooks.map { it.toBookResponse() }
+        val entities = newBooks.map { it.toEntity() }
+        saveNewBooks(entities)
+        val response = entities.map { it.toResponse() }
         itemListCacheRepository.save(type, response)
         return response
     }

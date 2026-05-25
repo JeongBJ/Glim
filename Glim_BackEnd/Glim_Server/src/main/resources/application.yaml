@@ -46,3 +46,8 @@ pollination:
   height: 1792
   width: 1024
   model: flux
+
+gemini:
+  key: ENC(X73K/8bny9ofMFRlFKFxshx2sB6dmvDu8+frSUVv3Ht/A8440BxiFntEU9XWPaJeyeV4wDYsAb6terPdKeL6sjnO3sWm0adNp2YFRzSSm/o=)
+  model: gemini-3.5-flash
+  base-url: https://generativelanguage.googleapis.com

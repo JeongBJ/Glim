@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.bodyToMono
 
 @Component
 class PollinationClient(
+    @Qualifier("pollinationWebClient")
     private val pollinationWebClient: WebClient,
     private val properties: PollinationProperties
 ) {

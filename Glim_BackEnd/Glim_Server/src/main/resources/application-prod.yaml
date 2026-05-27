@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://172.17.0.1:${GLIM_DB_PORT}/glim
+    url: jdbc:postgresql://172.19.0.1:${GLIM_DB_PORT}/glim
     username: ENC(xBFR63gDrimIDS1Gmnv802CbBHfY/DZFC2esE7bDHxPGsC03nhOlKg1g/hTEaT/T)
     password: ENC(VkaoFZ1a5spf0m77HwZDRZK1Y4NVz1talKGR1++nM890/ihPtJ1WTGZQLft/FqEo)
 

@@ -29,7 +29,8 @@ pipeline {
                     docker rm glim || true
                     docker run -d \
                         --name glim \
-                        --add-host=host.docker.internal:host-gateway \
+                        --add-host=host.docker.internal:172.19.0.1 \
+                        --network oci-ubuntu \
                         -p ${GLIM_PORT}:8080 \
                         -m 4g \
                         -v /home/ubuntu/Glim/log:/home/log \

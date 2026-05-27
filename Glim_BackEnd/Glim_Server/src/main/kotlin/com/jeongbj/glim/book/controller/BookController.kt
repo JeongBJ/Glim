@@ -32,14 +32,8 @@ class BookController(
 
     @GetMapping
     fun getHomeScreenData()
-    : Any {
-//        val data = bookService.getAladinItemList()
-//        return ResponseEntity.ok(BaseResponse.success(data, "홈 화면 데이터 조회 성공"))
-        return try {
-            bookService.getAladinItemList()
-        } catch (e: Exception) {
-            println(e)
-            listOf<BookItemListResponse>()
-        }
+    :  ResponseEntity<BaseResponse<BookItemListResponse>> {
+        val data = bookService.getAladinItemList()
+        return ResponseEntity.ok(BaseResponse.success(data, "홈 화면 데이터 조회 성공"))
     }
 }

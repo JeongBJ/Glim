@@ -16,9 +16,21 @@ class LoginController(
     private val loginService: LoginService
 ) {
     @PostMapping("/google")
-    fun googleLogin(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<LoginResponse>> {
-        val response = loginService.googleLogin(loginRequest)
-        return ResponseEntity.ok(BaseResponse.success(response))
+    fun googleLogin(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<LoginResponse?>> {
+//        val response = loginService.googleLogin(loginRequest)
+//        return ResponseEntity.ok(BaseResponse.success(response))
+        return try {
+            val response = loginService.googleLogin(loginRequest)
+
+            ResponseEntity.ok(
+                BaseResponse.success(response)
+            )
+        } catch (e: Exception) {
+            println(e)
+            ResponseEntity.ok(
+                BaseResponse.success(null)
+            )
+        }
     }
 
     @PostMapping("/kakao")

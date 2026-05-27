@@ -14,6 +14,10 @@ fun MultipartImage?.toMultipartBody(): MultipartBody.Part?{
     return MultipartBody.Part.createFormData("image", fileName, requestBody)
 }
 
+fun MultipartImage.toMultipartBody(): MultipartBody.Part{
+    val requestBody = bytes.toRequestBody(mimeType.toMediaType())
+    return MultipartBody.Part.createFormData("image", fileName, requestBody)
+}
 private val gson = Gson()
 fun Any.toJsonRequestBody(): RequestBody {
     return gson

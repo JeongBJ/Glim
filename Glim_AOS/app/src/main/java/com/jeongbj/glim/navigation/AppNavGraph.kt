@@ -5,8 +5,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.jeongbj.glim.R
-import com.jeongbj.presentation.feature.login.HomeRoute
+import com.jeongbj.presentation.feature.home.HomeRoute
+import com.jeongbj.presentation.feature.home.homeNav
+import com.jeongbj.presentation.feature.login.BookDetailRoute
 import com.jeongbj.presentation.feature.login.LoginRoute
+import com.jeongbj.presentation.feature.login.QuoteDetailRoute
 import com.jeongbj.presentation.feature.login.loginNav
 import com.jeongbj.presentation.feature.profile.ProfileRoute
 import com.jeongbj.presentation.feature.profile.profileNav
@@ -30,6 +33,11 @@ fun AppNavGraph(
             navigateToHome = { navController.navigate(HomeRoute) {
                 popUpTo(LoginRoute) { inclusive = true }
             } }
+        )
+
+        homeNav(
+            navigateToBookDetail = { navController.navigate(BookDetailRoute) },
+            navigateToQuoteDetail = { navController.navigate(QuoteDetailRoute) }
         )
     }
 }

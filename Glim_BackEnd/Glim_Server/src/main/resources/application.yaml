@@ -49,5 +49,5 @@ pollination:
 
 gemini:
   key: ENC(X73K/8bny9ofMFRlFKFxshx2sB6dmvDu8+frSUVv3Ht/A8440BxiFntEU9XWPaJeyeV4wDYsAb6terPdKeL6sjnO3sWm0adNp2YFRzSSm/o=)
-  model: gemini-3.5-flash
+  model: gemini-3.1-flash-lite
   base-url: https://generativelanguage.googleapis.com

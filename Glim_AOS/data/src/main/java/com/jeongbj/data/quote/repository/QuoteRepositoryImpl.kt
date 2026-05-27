@@ -19,7 +19,7 @@ class QuoteRepositoryImpl @Inject constructor(
         createQuote: CreateQuote,
         image: MultipartImage,
     ): Quote =
-        quoteRemoteDataSource.saveQuote(createQuote.toRequest(), image.toMultipartBody())
+        quoteRemoteDataSource.saveQuote(createQuote.toRequest(), image.toMultipartBody()!!)
             .unwrap().toDomain()
 
     override suspend fun generateImage(content: String): ByteArray =

@@ -25,7 +25,7 @@ fun AladinItemResponse.toEntity(): Book {
     return Book(
         title = title,
         linkUrl = linkUrl,
-        coverUrl = coverUrl,
+        coverUrl = coverUrl.replace("coversum", "cover"),
         author = author,
         translator = translator,
         isbn13 = isbn13,

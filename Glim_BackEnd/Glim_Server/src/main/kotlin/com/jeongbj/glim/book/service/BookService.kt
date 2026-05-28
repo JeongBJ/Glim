@@ -64,7 +64,7 @@ class BookService(
     private fun saveNewBooks(books: List<Book>): List<Book> {
         val existingIsbn13s = bookRepository.findAllByIsbn13In(books.map { it.isbn13 })
             .map { it.isbn13 }.toSet()
-        val newBooks = books.filter { it.isbn13 !in existingIsbn13s }
+        val newBooks = books.distinctBy { it.isbn13 }.filter { it.isbn13 !in existingIsbn13s }
         if (newBooks.isNotEmpty()) bookRepository.saveAll(newBooks)
         return books
     }

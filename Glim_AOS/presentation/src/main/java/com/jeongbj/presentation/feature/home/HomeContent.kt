@@ -31,7 +31,7 @@ fun HomeContent(state: HomeState, onAction: (HomeAction) -> Unit) {
         if (maxWidth < 600.dp) {
             HomePortrait(state, onAction)
         } else {
-            HomeLandscape()
+            HomeLandscape(state, onAction)
         }
     }
 }
@@ -60,7 +60,16 @@ fun HomePortrait(state: HomeState, onAction: (HomeAction) -> Unit) {
         item {
             HomeItemSection("베스트 셀러") {
                 BookCarousel(
-                    books = state.books,
+                    books = state.bestSeller,
+                    onBookClick = { onAction(HomeAction.OnBookClick(it)) }
+                )
+            }
+        }
+
+        item {
+            HomeItemSection("편집자 추천") {
+                BookCarousel(
+                    books = state.editorChoice,
                     onBookClick = { onAction(HomeAction.OnBookClick(it)) }
                 )
             }
@@ -69,7 +78,7 @@ fun HomePortrait(state: HomeState, onAction: (HomeAction) -> Unit) {
         item {
             HomeItemSection("추천 신간") {
                 BookCarousel(
-                    books = state.books,
+                    books = state.newSpecial,
                     onBookClick = { onAction(HomeAction.OnBookClick(it)) }
                 )
             }
@@ -78,8 +87,53 @@ fun HomePortrait(state: HomeState, onAction: (HomeAction) -> Unit) {
 }
 
 @Composable
-fun HomeLandscape() {
+fun HomeLandscape(state: HomeState, onAction: (HomeAction) -> Unit) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .imePadding()
+    ) {
+        item {
+            HomeLogoSection()
+            Spacer(modifier = Modifier.height(20.dp))
+        }
 
+        item {
+            HomeItemSection("오늘의 글귀") {
+                QuoteCarousel(
+                    quotes = state.quotes,
+                    onQuoteClick = { onAction(HomeAction.OnQuoteClick(it)) },
+                )
+            }
+        }
+
+        item {
+            HomeItemSection("베스트 셀러") {
+                BookCarousel(
+                    books = state.bestSeller,
+                    onBookClick = { onAction(HomeAction.OnBookClick(it)) }
+                )
+            }
+        }
+
+        item {
+            HomeItemSection("편집자 추천") {
+                BookCarousel(
+                    books = state.editorChoice,
+                    onBookClick = { onAction(HomeAction.OnBookClick(it)) }
+                )
+            }
+        }
+
+        item {
+            HomeItemSection("추천 신간") {
+                BookCarousel(
+                    books = state.newSpecial,
+                    onBookClick = { onAction(HomeAction.OnBookClick(it)) }
+                )
+            }
+        }
+    }
 }
 
 @Previews
@@ -96,7 +150,7 @@ fun HomeContentPreview() {
                         10,
                         false,
                         User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "")
+                        Book("title", "", author = "author", isbn13 = "13")
                     ),
                     Quote(
                         1,
@@ -105,7 +159,7 @@ fun HomeContentPreview() {
                         10,
                         false,
                         User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "")
+                        Book("title", "", author = "author", isbn13 = "24")
                     ),
                     Quote(
                         2,
@@ -114,13 +168,13 @@ fun HomeContentPreview() {
                         10,
                         false,
                         User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "")
+                        Book("title", "", author = "author", isbn13 = "23")
                     ),
                 ),
-                books = listOf(
-                    Book("title", "", author = "author", isbn13 = ""),
-                    Book("title", "", author = "author", isbn13 = ""),
-                    Book("title", "", author = "author", isbn13 = "")
+                bestSeller = listOf(
+                    Book("title", "", author = "author", isbn13 = "9"),
+                    Book("title", "", author = "author", isbn13 = "5"),
+                    Book("title", "", author = "author", isbn13 = "6")
                 )
 
             ),

@@ -1,7 +1,6 @@
 package com.jeongbj.presentation.feature.profile
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeongbj.core.common.MultipartImage

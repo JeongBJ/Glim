@@ -55,6 +55,8 @@ dependencies {
     implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.material3)
+    implementation(libs.material.icons)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
 

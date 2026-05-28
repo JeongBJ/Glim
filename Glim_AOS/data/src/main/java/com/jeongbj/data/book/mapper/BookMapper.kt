@@ -5,6 +5,7 @@ import com.jeongbj.data.book.response.BookItemListResponse
 import com.jeongbj.data.book.response.BookResponse
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookItemList
+import java.time.LocalDate
 
 fun BookResponse.toBook(): Book = Book(
     title = title,
@@ -12,7 +13,7 @@ fun BookResponse.toBook(): Book = Book(
     author = author,
     isbn13 = isbn13,
     description = description,
-    pubDate = pubDate
+    pubDate = LocalDate.parse(pubDate)
 )
 
 fun BookDetailResponse.toBook(): Book = Book(

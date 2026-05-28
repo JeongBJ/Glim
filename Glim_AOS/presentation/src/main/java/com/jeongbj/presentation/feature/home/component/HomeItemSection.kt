@@ -45,7 +45,7 @@ fun HomeItemSectionPreview() {
                         12,
                         false,
                         User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "")
+                        Book("title", "", author = "author", isbn13 = "3")
                     ),
                     Quote(
                         1,
@@ -54,7 +54,7 @@ fun HomeItemSectionPreview() {
                         12,
                         false,
                         User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "")
+                        Book("title", "", author = "author", isbn13 = "2")
                     ),
                     Quote(
                         2,
@@ -63,7 +63,7 @@ fun HomeItemSectionPreview() {
                         12,
                         false,
                         User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "")
+                        Book("title", "", author = "author", isbn13 = "1")
                     )
                 ), { })
         })

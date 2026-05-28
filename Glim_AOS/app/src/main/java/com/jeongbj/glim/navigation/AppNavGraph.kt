@@ -25,7 +25,9 @@ fun AppNavGraph(
     ) {
         loginNav(
             googleClientId = googleClientId,
-            navigateToHome = { navController.navigate(HomeRoute) },
+            navigateToHome = { navController.navigate(HomeRoute) {
+                popUpTo(LoginRoute) { inclusive = true }
+            } },
             navigateToProfile = { navController.navigate(ProfileRoute) }
         )
 

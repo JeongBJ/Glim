@@ -18,12 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.quote.model.Quote
-import com.jeongbj.domain.user.model.User
 import com.jeongbj.presentation.common.component.GlimAsyncImage
-import com.jeongbj.presentation.common.preview.Previews
-import com.jeongbj.presentation.theme.GlimTheme
 
 @Composable
 fun QuoteCarousel(
@@ -59,44 +55,5 @@ fun QuoteCarousel(
 
             }
         }
-    }
-}
-
-@Previews
-@Composable
-fun QuoteCarouselPreview() {
-    GlimTheme {
-        QuoteCarousel(
-            listOf(
-                Quote(
-                    0,
-                    "",
-                    "",
-                    12,
-                    false,
-                    User("nickname"),
-                    Book("title", "", author = "author", isbn13 = "")
-                ),
-                Quote(
-                    1,
-                    "",
-                    "",
-                    12,
-                    false,
-                    User("nickname"),
-                    Book("title", "", author = "author", isbn13 = "")
-                ),
-                Quote(
-                    2,
-                    "",
-                    "",
-                    12,
-                    false,
-                    User("nickname"),
-                    Book("title", "", author = "author", isbn13 = "")
-                )
-            ),
-            { }
-        )
     }
 }

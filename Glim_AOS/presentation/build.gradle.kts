@@ -58,7 +58,8 @@ dependencies {
 
     implementation(libs.timber)
     implementation(libs.coil)
-
+    implementation(libs.coil.network)
+    implementation(libs.coil.gif)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

@@ -6,7 +6,7 @@ import com.jeongbj.core.common.PagingResult
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookSearchQueryType
 import com.jeongbj.domain.book.usecase.SearchBookUseCase
-import com.jeongbj.presentation.feature.home.paging.BookPagingSource
+import com.jeongbj.presentation.feature.book.search.paging.BookPagingSource
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

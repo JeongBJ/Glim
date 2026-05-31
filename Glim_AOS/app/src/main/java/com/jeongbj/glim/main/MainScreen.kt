@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jeongbj.glim.navigation.AppNavGraph
 import com.jeongbj.glim.navigation.GlimBottomBar
+import com.jeongbj.presentation.feature.book.search.SearchRoute
 import com.jeongbj.presentation.feature.home.HomeRoute
 import com.jeongbj.presentation.feature.login.LoginRoute
 import com.jeongbj.presentation.feature.profile.ProfileRoute
@@ -33,6 +34,7 @@ fun MainScreen() {
 
     val bottomBarRoutes = setOf(
         HomeRoute::class,
+        SearchRoute::class
     )
 
     val destination = navBackStackEntry?.destination

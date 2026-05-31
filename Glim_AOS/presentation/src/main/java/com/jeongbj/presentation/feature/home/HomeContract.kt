@@ -15,6 +15,5 @@ data class HomeState(
 sealed interface HomeAction {
     data class OnQuoteClick(val quoteSeq: Long): HomeAction
     data class OnBookClick(val isbn13: String): HomeAction
-
     data object OnRefreshing: HomeAction
 }

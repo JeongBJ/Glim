@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
     implementation(libs.firebase.auth)
     implementation(libs.googleid)
     implementation(libs.kakao.login)

@@ -10,7 +10,7 @@ import com.jeongbj.domain.book.model.BookSearchQueryType
 import com.jeongbj.domain.book.usecase.BookUseCases
 import com.jeongbj.presentation.feature.home.HomeAction
 import com.jeongbj.presentation.feature.home.HomeState
-import com.jeongbj.presentation.feature.home.paging.BookPagingSource
+import com.jeongbj.presentation.feature.book.search.paging.BookPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -80,13 +80,4 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
-    fun searchBook(query: String, type: BookSearchQueryType) = Pager(
-        config = PagingConfig(pageSize = 20),
-        pagingSourceFactory = { BookPagingSource(
-            searchBookUseCase = bookUseCases.searchBookUseCase,
-            query = query,
-            type = type
-        ) }
-    ).flow.cachedIn(viewModelScope)
 }

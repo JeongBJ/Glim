@@ -11,6 +11,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -29,7 +30,7 @@ fun ProfileInputSection(
         OutlinedTextField(
             value = nickname,
             onValueChange = onNicknameChange,
-            label = { Text("닉네임") },
+            label = { Text("닉네임", color = Color.White) },
             modifier = Modifier.fillMaxWidth()
         )
 

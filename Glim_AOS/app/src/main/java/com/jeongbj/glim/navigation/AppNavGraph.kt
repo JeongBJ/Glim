@@ -5,6 +5,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.jeongbj.glim.R
+import com.jeongbj.presentation.feature.book.search.searchNav
 import com.jeongbj.presentation.feature.home.HomeRoute
 import com.jeongbj.presentation.feature.home.homeNav
 import com.jeongbj.presentation.feature.login.BookDetailRoute
@@ -40,6 +41,11 @@ fun AppNavGraph(
         homeNav(
             navigateToBookDetail = { navController.navigate(BookDetailRoute) },
             navigateToQuoteDetail = { navController.navigate(QuoteDetailRoute) }
+        )
+
+        searchNav(
+            navigateToBookDetail = { },
+            navigateToQuoteDetail = { }
         )
     }
 }

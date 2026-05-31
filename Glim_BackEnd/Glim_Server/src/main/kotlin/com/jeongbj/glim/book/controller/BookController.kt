@@ -6,6 +6,7 @@ import com.jeongbj.glim.book.dto.BookSearchRequest
 import com.jeongbj.glim.book.service.BookService
 import com.jeongbj.glim.common.response.BaseResponse
 import com.jeongbj.glim.common.response.PagingResult
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -17,8 +18,12 @@ class BookController(
 ) {
 
     @PostMapping("/search")
-    fun searchBook(@RequestBody request: BookSearchRequest, pageable: Pageable)
+    fun searchBook(@RequestBody request: BookSearchRequest)
     : ResponseEntity<BaseResponse<PagingResult<BookResponse>>>{
+        val pageable = PageRequest.of(
+            request.page,
+            request.size
+        )
         val data = bookService.searchBook(request.query, request.queryType, pageable)
         return ResponseEntity.ok(BaseResponse.success(data, "책 정보 조회 성공"))
     }

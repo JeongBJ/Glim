@@ -11,13 +11,14 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun LoadingOverlay(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = Color.Black
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(
-                Color.Black.copy(alpha = 0.3f)
+                backgroundColor.copy(alpha = 0.3f)
             ),
         contentAlignment = Alignment.Center
     ) {

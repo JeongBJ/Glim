@@ -15,11 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookRank
+import com.jeongbj.presentation.common.component.LoadingOverlay
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.book.search.component.QueryListSection
 import com.jeongbj.presentation.feature.book.search.component.SearchResultSection
@@ -101,6 +103,9 @@ fun SearchPortrait(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    if(books.loadState.refresh == LoadState.Loading) {
+                        LoadingOverlay(backgroundColor = Color.White)
+                    }
                     when (state.selectedTab) {
                         SearchTab.BOOK -> {
                             this@LazyColumn.bookResultSection(

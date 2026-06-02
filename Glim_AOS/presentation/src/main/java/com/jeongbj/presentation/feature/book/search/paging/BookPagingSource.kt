@@ -11,7 +11,7 @@ class BookPagingSource @Inject constructor(
     private val searchBookUseCase: SearchBookUseCase,
     private val query: String,
     private val type: BookSearchQueryType,
-    private val totalElements: (Long) -> Unit
+    private val totalElements: (Long) -> Unit,
 ) : PagingSource<Int, Book>(){
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Book> {
         return try {

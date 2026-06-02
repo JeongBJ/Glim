@@ -9,20 +9,14 @@ import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.paging.PagingData
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.jeongbj.domain.book.model.Book
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.book.search.SearchAction
 import com.jeongbj.presentation.feature.book.search.SearchState
 import com.jeongbj.presentation.feature.book.search.SearchTab
 import com.jeongbj.presentation.theme.GlimTheme
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun SearchResultSection(

@@ -6,8 +6,6 @@ import androidx.navigation.compose.composable
 import com.jeongbj.presentation.feature.home.viewmodel.HomeViewModel
 import kotlinx.serialization.Serializable
 
-const val HOME_ROUTE = "home"
-
 @Serializable
 data object HomeRoute
 

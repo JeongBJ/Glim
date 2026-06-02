@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -34,6 +36,7 @@ import kotlinx.coroutines.flow.flowOf
 fun SearchContent(
     state: SearchState,
     onAction: (SearchAction) -> Unit,
+    listState: LazyListState,
     books: LazyPagingItems<Book>
 ) {
     BoxWithConstraints(
@@ -42,7 +45,7 @@ fun SearchContent(
             .background(Color.White)
     ) {
         if (maxWidth < 600.dp) {
-            SearchPortrait(state, onAction, books)
+            SearchPortrait(state, onAction, listState, books)
         } else {
             SearchLandscape(state, onAction, books)
         }
@@ -54,69 +57,66 @@ fun SearchContent(
 fun SearchPortrait(
     state: SearchState,
     onAction: (SearchAction) -> Unit,
+    listState: LazyListState,
     books: LazyPagingItems<Book>
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding()
-    ) {
-        item {
-            SearchTopSection(state, onAction)
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+    Column {
+        SearchTopSection(state, onAction)
+        Spacer(modifier = Modifier.height(16.dp))
 
-        if(state.searchMode != SearchMode.RESULT) {
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                ) {
-                    if (state.recentQuery.isNotEmpty()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding(),
+            state = listState
+        ) {
+            if(state.searchMode != SearchMode.RESULT) {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                    ) {
+                        if (state.recentQuery.isNotEmpty()) {
+                            QueryListSection(
+                                title = "최근 검색어",
+                                queries = state.recentQuery,
+                                state = state,
+                                onAction = onAction,
+                            )
+                            Spacer(modifier = Modifier.height(32.dp))
+                        }
                         QueryListSection(
-                            title = "최근 검색어",
-                            queries = state.recentQuery,
+                            title = "검색어 랭킹",
+                            queries = state.popularQuery,
                             state = state,
                             onAction = onAction,
                         )
-                        Spacer(modifier = Modifier.height(32.dp))
                     }
-                    QueryListSection(
-                        title = "검색어 랭킹",
-                        queries = state.popularQuery,
-                        state = state,
-                        onAction = onAction,
-                    )
                 }
-            }
-        } else {
-            item {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
+            } else {
+                item {
                     SearchResultSection(
                         state = state,
                         isPortrait = true,
                         onAction = onAction,
                     )
-
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    if(books.loadState.refresh == LoadState.Loading) {
+                }
+                if(books.loadState.refresh == LoadState.Loading) {
+                    item {
                         LoadingOverlay(backgroundColor = Color.White)
                     }
-                    when (state.selectedTab) {
-                        SearchTab.BOOK -> {
-                            this@LazyColumn.bookResultSection(
-                                books = books,
-                                onAction = onAction
-                            )
-                        }
+                }
+                when (state.selectedTab) {
+                    SearchTab.BOOK -> {
+                        bookResultSection(
+                            books = books,
+                            onAction = onAction
+                        )
+                    }
 
-                        SearchTab.QUOTE -> {
+                    SearchTab.QUOTE -> {
 
-                        }
                     }
                 }
             }
@@ -180,6 +180,7 @@ fun SearchContentPreview() {
                     )
                 )
             }.collectAsLazyPagingItems(),
+            listState = rememberLazyListState(),
             onAction = { }
         )
     }

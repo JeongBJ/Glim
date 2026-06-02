@@ -11,15 +11,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jeongbj.glim.navigation.AppNavGraph
 import com.jeongbj.glim.navigation.GlimBottomBar
 import com.jeongbj.presentation.feature.book.search.SearchRoute
 import com.jeongbj.presentation.feature.home.HomeRoute
-import com.jeongbj.presentation.feature.login.LoginRoute
-import com.jeongbj.presentation.feature.profile.ProfileRoute
 
 @Composable
 fun MainScreen() {

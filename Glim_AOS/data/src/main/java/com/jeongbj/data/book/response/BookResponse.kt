@@ -6,5 +6,6 @@ data class BookResponse(
     val author: String,
     val isbn13: String,
     val description: String?,
-    val pubDate: String
+    val pubDate: String,
+    val publisher: String?
 )

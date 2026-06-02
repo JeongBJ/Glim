@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import com.jeongbj.domain.book.usecase.BookUseCases
 import com.jeongbj.presentation.feature.book.search.SearchAction
 import com.jeongbj.presentation.feature.book.search.SearchMode
+import com.jeongbj.presentation.feature.book.search.SearchSideEffect
 import com.jeongbj.presentation.feature.book.search.SearchState
 import com.jeongbj.presentation.feature.book.search.SearchTab
 import com.jeongbj.presentation.feature.book.search.paging.BookPagingSource
@@ -15,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
@@ -30,6 +32,10 @@ class SearchViewModel @Inject constructor(
     private val _state = MutableStateFlow(SearchState())
     val state = _state.asStateFlow()
 
+    private val _sideEffect = MutableSharedFlow<SearchSideEffect>()
+    val sideEffect = _sideEffect.asSharedFlow()
+    private val _scrollToTop = MutableSharedFlow<Unit>()
+    val scrollToTop = _scrollToTop.asSharedFlow()
 
     fun onAction(action: SearchAction) {
         when (action) {
@@ -62,7 +68,7 @@ class SearchViewModel @Inject constructor(
             .flatMapLatest {
                 val currentState = state.value
                 Pager(
-                    config = PagingConfig(pageSize = 20),
+                    config = PagingConfig(pageSize = 20, initialLoadSize = 20),
                     pagingSourceFactory = {
                         BookPagingSource(
                             searchBookUseCase = bookUseCases.searchBookUseCase,
@@ -98,6 +104,7 @@ class SearchViewModel @Inject constructor(
 
     private fun search() {
         viewModelScope.launch {
+            _sideEffect.emit(SearchSideEffect.ScrollToTop)
             when (state.value.selectedTab) {
                 SearchTab.BOOK -> {
                     bookSearchTrigger.emit(Unit)

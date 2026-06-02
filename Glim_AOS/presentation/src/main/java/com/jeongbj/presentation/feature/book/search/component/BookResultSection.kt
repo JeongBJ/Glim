@@ -33,11 +33,15 @@ import com.jeongbj.presentation.theme.GlimTheme
 
 fun LazyListScope.bookResultSection(
     books: LazyPagingItems<Book>,
-    onAction: (SearchAction) -> Unit
+    onAction: (SearchAction) -> Unit,
 ) {
     items(
         count = books.itemCount,
-        key = books.itemKey { it.isbn13 }
+        key = books.itemKey {
+            it.isbn13.ifBlank {
+                "${it.title}_${it.author}"
+            }
+        }
     ) { index ->
         books[index]?.let { book ->
             BookItem(
@@ -56,7 +60,7 @@ fun LazyListScope.bookResultSection(
 private fun BookItem(
     book: Book,
     onAction: (SearchAction) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier

@@ -33,6 +33,11 @@ sealed interface SearchAction {
 
 }
 
+
+sealed interface SearchSideEffect {
+    data object ScrollToTop: SearchSideEffect
+}
+
 enum class SearchMode {
     POPULAR,
     RECENT,

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -14,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.jeongbj.presentation.R
 import com.jeongbj.presentation.common.preview.Previews
@@ -25,7 +29,12 @@ import com.jeongbj.presentation.feature.book.search.SearchState
 import com.jeongbj.presentation.theme.GlimTheme
 
 @Composable
-fun SearchTopSection(state: SearchState, onAction: (SearchAction) -> Unit) {
+fun SearchTopSection(
+    state: SearchState,
+    onAction: (SearchAction) -> Unit
+) {
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,7 +79,10 @@ fun SearchTopSection(state: SearchState, onAction: (SearchAction) -> Unit) {
             onValueChange = { onAction(SearchAction.OnTextChanged(it)) },
             suffix = {
                 IconButton(
-                    onClick = { onAction(SearchAction.OnSearchClick) }
+                    onClick = {
+                        focusManager.clearFocus()
+                        onAction(SearchAction.OnSearchClick)
+                    }
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_search),
@@ -78,7 +90,13 @@ fun SearchTopSection(state: SearchState, onAction: (SearchAction) -> Unit) {
                     )
                 }
 
+            },
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = {
+                focusManager.clearFocus()
+                onAction(SearchAction.OnSearchClick)
             }
+            )
         )
     }
 }

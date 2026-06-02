@@ -13,7 +13,8 @@ fun BookResponse.toBook(): Book = Book(
     author = author,
     isbn13 = isbn13,
     description = description,
-    pubDate = LocalDate.parse(pubDate)
+    pubDate = LocalDate.parse(pubDate),
+    publisher = publisher
 )
 
 fun BookDetailResponse.toBook(): Book = Book(
@@ -22,7 +23,8 @@ fun BookDetailResponse.toBook(): Book = Book(
     author = author,
     isbn13 = isbn13,
     description = description,
-    pubDate = pubDate
+    pubDate = pubDate,
+    publisher = publisher
 )
 
 fun BookItemListResponse.toBookItemList(): BookItemList = BookItemList(

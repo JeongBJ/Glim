@@ -1,6 +1,5 @@
 package com.jeongbj.presentation.feature.book.search.component
 
-import android.R.attr.mode
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.jeongbj.domain.book.model.BookRank
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.book.search.SearchAction
-import com.jeongbj.presentation.feature.book.search.SearchMode
 import com.jeongbj.presentation.feature.book.search.SearchState
 import com.jeongbj.presentation.theme.GlimTheme
 

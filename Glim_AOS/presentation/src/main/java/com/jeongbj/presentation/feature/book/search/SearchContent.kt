@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -21,10 +25,12 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookRank
 import com.jeongbj.presentation.common.component.LoadingOverlay
 import com.jeongbj.presentation.common.preview.Previews
+import com.jeongbj.presentation.feature.book.search.component.BookItem
 import com.jeongbj.presentation.feature.book.search.component.QueryListSection
 import com.jeongbj.presentation.feature.book.search.component.SearchResultSection
 import com.jeongbj.presentation.feature.book.search.component.SearchTopSection
@@ -37,6 +43,7 @@ fun SearchContent(
     state: SearchState,
     onAction: (SearchAction) -> Unit,
     listState: LazyListState,
+    gridState: LazyGridState,
     books: LazyPagingItems<Book>
 ) {
     BoxWithConstraints(
@@ -47,7 +54,7 @@ fun SearchContent(
         if (maxWidth < 600.dp) {
             SearchPortrait(state, onAction, listState, books)
         } else {
-            SearchLandscape(state, onAction, books)
+            SearchLandscape(state, onAction, gridState, books)
         }
     }
 
@@ -128,8 +135,91 @@ fun SearchPortrait(
 fun SearchLandscape(
     state: SearchState,
     onAction: (SearchAction) -> Unit,
+    gridState: LazyGridState,
     books: LazyPagingItems<Book>
 ) {
+    Column {
+        SearchTopSection(state, onAction)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxSize(),
+            state = gridState
+        ) {
+            if(state.searchMode != SearchMode.RESULT) {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                    ) {
+                        if (state.recentQuery.isNotEmpty()) {
+                            QueryListSection(
+                                title = "최근 검색어",
+                                queries = state.recentQuery,
+                                state = state,
+                                onAction = onAction,
+                            )
+                            Spacer(modifier = Modifier.height(32.dp))
+                        }
+                        QueryListSection(
+                            title = "검색어 랭킹",
+                            queries = state.popularQuery,
+                            state = state,
+                            onAction = onAction,
+                        )
+                    }
+                }
+            } else {
+                item(
+                    span = { GridItemSpan(maxLineSpan) }
+                ) {
+                    SearchResultSection(
+                        state = state,
+                        isPortrait = true,
+                        onAction = onAction,
+                    )
+                }
+                if(books.loadState.refresh == LoadState.Loading) {
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }
+                    ) {
+                        LoadingOverlay(backgroundColor = Color.White)
+                    }
+                }
+                when (state.selectedTab) {
+                    SearchTab.BOOK -> {
+                        items(
+                            count = books.itemCount,
+                            key = books.itemKey {
+                                it.isbn13.ifBlank {
+                                    "${it.title}_${it.author}"
+                                }
+                            }
+                        ) { index ->
+
+                            books[index]?.let { book ->
+                                BookItem(
+                                    modifier = Modifier.padding(8.dp),
+                                    book = book,
+                                    onAction = {
+                                        onAction(
+                                            SearchAction.OnBookClick(book.isbn13)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+
+                    SearchTab.QUOTE -> {
+
+                    }
+                }
+            }
+        }
+    }
 
 }
 

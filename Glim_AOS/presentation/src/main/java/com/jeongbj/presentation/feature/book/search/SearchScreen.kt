@@ -2,6 +2,7 @@ package com.jeongbj.presentation.feature.book.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,12 +25,14 @@ fun SearchScreen(
     ) {
 
         val listState = rememberLazyListState()
+        val gridState = rememberLazyGridState()
 
         LaunchedEffect(Unit) {
             viewModel.sideEffect.collect { effect ->
                 when(effect) {
                     SearchSideEffect.ScrollToTop -> {
                         listState.scrollToItem(0)
+                        gridState.scrollToItem(0)
                     }
                 }
             }
@@ -39,6 +42,7 @@ fun SearchScreen(
             state = uiState,
             books = books,
             listState = listState,
+            gridState = gridState,
             onAction = { viewModel.onAction(it) }
         )
     }

@@ -34,8 +34,6 @@ class SearchViewModel @Inject constructor(
 
     private val _sideEffect = MutableSharedFlow<SearchSideEffect>()
     val sideEffect = _sideEffect.asSharedFlow()
-    private val _scrollToTop = MutableSharedFlow<Unit>()
-    val scrollToTop = _scrollToTop.asSharedFlow()
 
     fun onAction(action: SearchAction) {
         when (action) {

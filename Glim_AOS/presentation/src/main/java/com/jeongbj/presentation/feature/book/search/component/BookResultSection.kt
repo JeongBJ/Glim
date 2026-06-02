@@ -57,7 +57,7 @@ fun LazyListScope.bookResultSection(
 }
 
 @Composable
-private fun BookItem(
+fun BookItem(
     book: Book,
     onAction: (SearchAction) -> Unit,
     modifier: Modifier = Modifier,

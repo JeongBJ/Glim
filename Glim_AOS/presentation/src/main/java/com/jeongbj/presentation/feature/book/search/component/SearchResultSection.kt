@@ -1,7 +1,6 @@
 package com.jeongbj.presentation.feature.book.search.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +20,6 @@ import com.jeongbj.presentation.theme.GlimTheme
 @Composable
 fun SearchResultSection(
     state: SearchState,
-    isPortrait: Boolean,
     onAction: (SearchAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -82,7 +80,6 @@ fun SearchResultSectionPreview() {
     GlimTheme {
         SearchResultSection(
             state = SearchState(),
-            isPortrait = true,
             onAction = { }
         )
     }

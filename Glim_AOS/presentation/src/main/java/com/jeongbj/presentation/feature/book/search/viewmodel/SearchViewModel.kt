@@ -32,7 +32,7 @@ class SearchViewModel @Inject constructor(
     private val _state = MutableStateFlow(SearchState())
     val state = _state.asStateFlow()
 
-    private val _sideEffect = MutableSharedFlow<SearchSideEffect>()
+    private val _sideEffect = MutableSharedFlow<SearchSideEffect>(extraBufferCapacity = 1)
     val sideEffect = _sideEffect.asSharedFlow()
 
     fun onAction(action: SearchAction) {
@@ -60,7 +60,7 @@ class SearchViewModel @Inject constructor(
             is SearchAction.OnRegisterQuoteClick -> TODO()
         }
     }
-    private val bookSearchTrigger = MutableSharedFlow<Unit>()
+    private val bookSearchTrigger = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val searchBookResult =
             bookSearchTrigger
             .flatMapLatest {
@@ -102,13 +102,13 @@ class SearchViewModel @Inject constructor(
 
     private fun search() {
         viewModelScope.launch {
-            _sideEffect.emit(SearchSideEffect.ScrollToTop)
+            _sideEffect.tryEmit(SearchSideEffect.ScrollToTop)
             when (state.value.selectedTab) {
                 SearchTab.BOOK -> {
-                    bookSearchTrigger.emit(Unit)
+                    bookSearchTrigger.tryEmit(Unit)
                 }
                 SearchTab.QUOTE -> {
-                    quoteSearchTrigger.emit(Unit)
+                    quoteSearchTrigger.tryEmit(Unit)
                 }
             }
         }

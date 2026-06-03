@@ -6,7 +6,6 @@ import com.jeongbj.domain.book.model.BookSearchQueryType
 import com.jeongbj.domain.quote.model.Quote
 
 data class SearchState(
-    val book: Book = Book("title", "", author = "author", isbn13 = "isbn"),
     val query: String = "",
     val searchMode: SearchMode = SearchMode.POPULAR,
     val recentQuery: List<BookRank> = listOf(),

@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -105,7 +106,6 @@ fun SearchPortrait(
                 item {
                     SearchResultSection(
                         state = state,
-                        isPortrait = true,
                         onAction = onAction,
                     )
                 }
@@ -177,7 +177,6 @@ fun SearchLandscape(
                 ) {
                     SearchResultSection(
                         state = state,
-                        isPortrait = true,
                         onAction = onAction,
                     )
                 }
@@ -271,6 +270,7 @@ fun SearchContentPreview() {
                 )
             }.collectAsLazyPagingItems(),
             listState = rememberLazyListState(),
+            gridState = rememberLazyGridState(),
             onAction = { }
         )
     }

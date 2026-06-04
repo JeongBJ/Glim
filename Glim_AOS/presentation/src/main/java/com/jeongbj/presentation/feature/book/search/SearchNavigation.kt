@@ -11,10 +11,14 @@ data object SearchRoute
 
 fun NavGraphBuilder.searchNav(
     navigateToQuoteDetail: () -> Unit,
-    navigateToBookDetail: () -> Unit
+    navigateToBookDetail: (String) -> Unit
 ) {
     composable<SearchRoute> {
         val viewModel: SearchViewModel = hiltViewModel()
-        SearchScreen(viewModel)
+        SearchScreen(
+            viewModel = viewModel,
+            navigateToBookDetail = navigateToBookDetail,
+            navigateToQuoteDetail = navigateToQuoteDetail
+        )
     }
 }

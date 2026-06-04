@@ -16,7 +16,7 @@ interface BookApi {
     @POST("book/search")
     suspend fun searchBook(@Body bookSearchRequest: BookSearchRequest): BaseResponse<PagingResult<BookResponse>>
 
-    @POST("book/search/{isbn13}")
+    @GET("book/search/{isbn13}")
     suspend fun searchBookByIsbn13(@Path("isbn13") isbn13: String): BaseResponse<BookDetailResponse>
 
     @GET("book")

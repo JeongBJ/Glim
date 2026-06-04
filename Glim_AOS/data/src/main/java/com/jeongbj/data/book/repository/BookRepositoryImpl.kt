@@ -4,9 +4,11 @@ import com.jeongbj.core.common.PagingResult
 import com.jeongbj.core.common.unwrap
 import com.jeongbj.data.book.datasource.BookRemoteDataSource
 import com.jeongbj.data.book.mapper.toBook
+import com.jeongbj.data.book.mapper.toBookDetail
 import com.jeongbj.data.book.mapper.toBookItemList
 import com.jeongbj.data.book.request.BookSearchRequest
 import com.jeongbj.domain.book.model.Book
+import com.jeongbj.domain.book.model.BookDetail
 import com.jeongbj.domain.book.model.BookItemList
 import com.jeongbj.domain.book.model.BookSearchQueryType
 import com.jeongbj.domain.book.repository.BookRepository
@@ -34,8 +36,8 @@ class BookRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun searchBookByIsbn13(isbn13: String): Book =
-        bookRemoteDataSource.searchBookByIsbn13(isbn13).unwrap().toBook()
+    override suspend fun searchBookByIsbn13(isbn13: String): BookDetail =
+        bookRemoteDataSource.searchBookByIsbn13(isbn13).unwrap().toBookDetail()
 
     override suspend fun getHomeData(): BookItemList =
         bookRemoteDataSource.getHomeData().unwrap().toBookItemList()

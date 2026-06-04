@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +33,7 @@ class SearchViewModel @Inject constructor(
     private val _state = MutableStateFlow(SearchState())
     val state = _state.asStateFlow()
 
-    private val _sideEffect = MutableSharedFlow<SearchSideEffect>(extraBufferCapacity = 1)
+    private val _sideEffect = MutableSharedFlow<SearchSideEffect>()
     val sideEffect = _sideEffect.asSharedFlow()
 
     fun onAction(action: SearchAction) {
@@ -52,14 +53,22 @@ class SearchViewModel @Inject constructor(
                 search()
             }
 
-            is SearchAction.OnBackClick -> TODO()
-            is SearchAction.OnBookClick -> TODO()
-            is SearchAction.OnBuyBookClick -> TODO()
+            is SearchAction.OnBookClick -> {
+                Timber.d("onAction: ${action.isbn13}")
+                navigateToBookDetail(action.isbn13)
+            }
             is SearchAction.OnQueryClick -> TODO()
             is SearchAction.OnQuoteClick -> TODO()
-            is SearchAction.OnRegisterQuoteClick -> TODO()
+            is SearchAction.OnBackClick -> TODO()
         }
     }
+
+    private fun navigateToBookDetail(isbn13: String) {
+        viewModelScope.launch {
+            _sideEffect.emit(SearchSideEffect.NavigateToBookDetail(isbn13))
+        }
+    }
+
     private val bookSearchTrigger = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val searchBookResult =
             bookSearchTrigger

@@ -2,6 +2,7 @@ package com.jeongbj.presentation.feature.book.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -12,32 +13,38 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.jeongbj.presentation.feature.book.search.viewmodel.SearchViewModel
+import timber.log.Timber
 
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = hiltViewModel(),
+    navigateToQuoteDetail: () -> Unit,
+    navigateToBookDetail: (String) -> Unit,
 ) {
     val books = viewModel.searchBookResult.collectAsLazyPagingItems()
     val uiState by viewModel.state.collectAsState()
+    val listState = rememberLazyListState()
+    val gridState = rememberLazyGridState()
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect { effect ->
+            when(effect) {
+                is SearchSideEffect.ScrollToTop -> {
+                    listState.scrollToItem(0)
+                    gridState.scrollToItem(0)
+                }
 
-        val listState = rememberLazyListState()
-        val gridState = rememberLazyGridState()
-
-        LaunchedEffect(Unit) {
-            viewModel.sideEffect.collect { effect ->
-                when(effect) {
-                    SearchSideEffect.ScrollToTop -> {
-                        listState.scrollToItem(0)
-                        gridState.scrollToItem(0)
-                    }
+                is SearchSideEffect.NavigateToBookDetail -> {
+                    Timber.d("SearchScreen: ${effect.isbn13}")
+                    navigateToBookDetail(effect.isbn13)
                 }
             }
         }
-
+    }
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .statusBarsPadding()
+    ) {
         SearchContent(
             state = uiState,
             books = books,

@@ -1,10 +1,14 @@
 package com.jeongbj.presentation.feature.home
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.jeongbj.presentation.common.component.LoadingOverlay
 import com.jeongbj.presentation.common.preview.Previews
@@ -13,10 +17,24 @@ import com.jeongbj.presentation.feature.home.viewmodel.HomeViewModel
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onNavigateBookDetail: () -> Unit,
+    navigateToQuoteDetail: () -> Unit,
+    navigateToBookDetail: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.sideEffect.collect { effect ->
+            when (effect) {
+                is HomeSideEffect.NavigateToBookDetail -> {
+                    navigateToBookDetail(effect.isbn13)
+                }
+            }
+        }
+    }
+
     PullToRefreshBox(
+        modifier = Modifier.fillMaxSize()
+            .statusBarsPadding(),
         isRefreshing = uiState.isRefreshing,
         onRefresh = { viewModel.onAction(HomeAction.OnRefreshing) }
     ) {

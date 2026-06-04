@@ -11,8 +11,6 @@ data object LoginRoute
 data object QuoteDetailRoute {
 }
 
-@Serializable
-data object BookDetailRoute
 fun NavGraphBuilder.loginNav(
     navigateToHome: () -> Unit,
     navigateToProfile: () -> Unit,

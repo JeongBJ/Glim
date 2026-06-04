@@ -1,10 +1,6 @@
 package com.jeongbj.glim.main
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,7 +17,6 @@ import com.jeongbj.presentation.feature.home.HomeRoute
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    AppNavGraph(navController)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -41,13 +36,6 @@ fun MainScreen() {
         } == true
     }
 
-    val isEdgeToEdge =
-        bottomBarRoutes.any { route ->
-            destination?.hierarchy?.any {
-                it.hasRoute(route)
-            } == true
-        }
-
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
@@ -56,21 +44,16 @@ fun MainScreen() {
                     onNavigate = navController::navigate
                 )
             }
-        },
-
-        modifier = if (isEdgeToEdge) {
-            Modifier.fillMaxSize()
-        } else {
-            Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
         }
     ) { paddingValues ->
-        Box(
-            modifier = Modifier.padding(paddingValues)
-        ) {
-            AppNavGraph(navController)
-        }
+        AppNavGraph(
+            navController = navController,
+            modifier = if (showBottomBar) {
+                Modifier
+                    .padding(paddingValues)
+            } else {
+                Modifier
+            }
+        )
     }
 }

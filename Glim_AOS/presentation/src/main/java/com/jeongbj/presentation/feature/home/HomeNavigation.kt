@@ -11,10 +11,14 @@ data object HomeRoute
 
 fun NavGraphBuilder.homeNav(
     navigateToQuoteDetail: () -> Unit,
-    navigateToBookDetail: () -> Unit
+    navigateToBookDetail: (String) -> Unit
 ) {
     composable<HomeRoute> {
         val viewModel: HomeViewModel = hiltViewModel()
-        HomeScreen(viewModel, onNavigateBookDetail = navigateToBookDetail)
+        HomeScreen(
+            viewModel = viewModel,
+            navigateToBookDetail = navigateToBookDetail,
+            navigateToQuoteDetail = navigateToQuoteDetail
+        )
     }
 }

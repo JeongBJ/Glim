@@ -17,3 +17,7 @@ sealed interface HomeAction {
     data class OnBookClick(val isbn13: String): HomeAction
     data object OnRefreshing: HomeAction
 }
+
+sealed interface HomeSideEffect {
+    data class NavigateToBookDetail(val isbn13: String): HomeSideEffect
+}

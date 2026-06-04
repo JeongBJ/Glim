@@ -21,8 +21,6 @@ data class SearchState(
 sealed interface SearchAction {
     data class OnQuoteClick(val quoteSeq: Long): SearchAction
     data class OnBookClick(val isbn13: String): SearchAction
-    data object OnBuyBookClick: SearchAction
-    data class OnRegisterQuoteClick(val book: Book): SearchAction
     data object OnBackClick: SearchAction
     data class OnTextChanged(val query: String): SearchAction
     data object OnSearchClick: SearchAction
@@ -35,6 +33,7 @@ sealed interface SearchAction {
 
 sealed interface SearchSideEffect {
     data object ScrollToTop: SearchSideEffect
+    data class NavigateToBookDetail(val isbn13: String): SearchSideEffect
 }
 
 enum class SearchMode {

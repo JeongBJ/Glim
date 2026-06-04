@@ -2,6 +2,7 @@ package com.jeongbj.core.common
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.time.LocalDate
 
 inline fun <T> flowResult(
     crossinline block: suspend () -> T
@@ -25,4 +26,13 @@ fun BaseResponse<Unit>.unwrap(): Unit {
     if (status != 200) {
         throw ApiException.HttpError(status, message ?: "Unknown error")
     }
+}
+
+fun String?.toLocalDate(): LocalDate? {
+    return this
+        ?.takeIf { it.isNotBlank() }
+        ?.let {
+            runCatching { LocalDate.parse(it) }
+                .getOrNull()
+        }
 }

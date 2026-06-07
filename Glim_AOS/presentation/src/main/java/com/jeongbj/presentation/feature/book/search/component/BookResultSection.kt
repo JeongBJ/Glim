@@ -48,7 +48,7 @@ fun LazyListScope.bookResultSection(
                 modifier = Modifier.padding(16.dp),
                 book = book,
                 onAction = {
-                    onAction(SearchAction.OnBookClick(book.isbn13))
+                    onAction(SearchAction.OnBookClick(book))
                 }
 
             )
@@ -65,7 +65,7 @@ fun BookItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable{ onAction(SearchAction.OnBookClick(book.isbn13)) },
+            .clickable{ onAction(SearchAction.OnBookClick(book)) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(

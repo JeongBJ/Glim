@@ -23,7 +23,8 @@ fun GlimBottomBar(
 ) {
     val bottomNavItems = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Search
+        BottomNavItem.Search,
+        BottomNavItem.Post
     )
 
     NavigationBar(

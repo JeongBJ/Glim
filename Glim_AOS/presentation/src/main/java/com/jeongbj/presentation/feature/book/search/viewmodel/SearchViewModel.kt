@@ -21,7 +21,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,8 +53,7 @@ class SearchViewModel @Inject constructor(
             }
 
             is SearchAction.OnBookClick -> {
-                Timber.d("onAction: ${action.isbn13}")
-                navigateToBookDetail(action.isbn13)
+                navigateToBookDetail(action.book.isbn13)
             }
             is SearchAction.OnQueryClick -> TODO()
             is SearchAction.OnQuoteClick -> TODO()

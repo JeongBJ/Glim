@@ -204,7 +204,7 @@ fun SearchLandscape(
                                     book = book,
                                     onAction = {
                                         onAction(
-                                            SearchAction.OnBookClick(book.isbn13)
+                                            SearchAction.OnBookClick(book)
                                         )
                                     }
                                 )

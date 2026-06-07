@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.jeongbj.presentation.feature.book.search.viewmodel.SearchViewModel
-import timber.log.Timber
 
 @Composable
 fun SearchScreen(
@@ -35,7 +34,6 @@ fun SearchScreen(
                 }
 
                 is SearchSideEffect.NavigateToBookDetail -> {
-                    Timber.d("SearchScreen: ${effect.isbn13}")
                     navigateToBookDetail(effect.isbn13)
                 }
             }

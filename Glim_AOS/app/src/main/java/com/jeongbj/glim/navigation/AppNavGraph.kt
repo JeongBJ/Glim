@@ -14,6 +14,7 @@ import com.jeongbj.presentation.feature.home.homeNav
 import com.jeongbj.presentation.feature.login.LoginRoute
 import com.jeongbj.presentation.feature.login.QuoteDetailRoute
 import com.jeongbj.presentation.feature.login.loginNav
+import com.jeongbj.presentation.feature.post.postNav
 import com.jeongbj.presentation.feature.profile.ProfileRoute
 import com.jeongbj.presentation.feature.profile.profileNav
 
@@ -55,5 +56,7 @@ fun AppNavGraph(
             navigateToQuoteDetail = { },
             navigateBack = { navController.popBackStack() }
         )
+
+        postNav()
     }
 }

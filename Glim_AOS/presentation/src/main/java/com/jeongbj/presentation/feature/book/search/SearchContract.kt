@@ -20,7 +20,7 @@ data class SearchState(
 
 sealed interface SearchAction {
     data class OnQuoteClick(val quoteSeq: Long): SearchAction
-    data class OnBookClick(val isbn13: String): SearchAction
+    data class OnBookClick(val book: Book): SearchAction
     data object OnBackClick: SearchAction
     data class OnTextChanged(val query: String): SearchAction
     data object OnSearchClick: SearchAction

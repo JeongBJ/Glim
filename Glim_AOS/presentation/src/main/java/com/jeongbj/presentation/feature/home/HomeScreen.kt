@@ -13,6 +13,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.jeongbj.presentation.common.component.LoadingOverlay
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.home.viewmodel.HomeViewModel
+import com.jeongbj.presentation.theme.StatusBarStyle
 
 @Composable
 fun HomeScreen(
@@ -32,6 +33,7 @@ fun HomeScreen(
         }
     }
 
+    StatusBarStyle()
     PullToRefreshBox(
         modifier = Modifier.fillMaxSize()
             .statusBarsPadding(),

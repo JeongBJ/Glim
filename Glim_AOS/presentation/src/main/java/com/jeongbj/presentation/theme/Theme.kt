@@ -73,19 +73,28 @@ fun GlimTheme(
 @Composable
 fun DarkThemeScreen(content: @Composable () -> Unit) {
     val view = LocalView.current
-    SideEffect {
-        val window = (view.context as Activity).window
-
-        WindowCompat.getInsetsController(
-            window,
-            view
-        ).isAppearanceLightStatusBars = false
-    }
+    StatusBarStyle(lightStatusBar = false)
     MaterialTheme(
         colorScheme = darkColorScheme(),
     ) {
         CompositionLocalProvider(LocalContentColor provides Color.White) {
             content()
         }
+    }
+}
+
+@Composable
+fun StatusBarStyle(
+    lightStatusBar: Boolean = true,
+) {
+    val view = LocalView.current
+
+    SideEffect {
+        val window = (view.context as Activity).window
+
+        WindowCompat.getInsetsController(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = lightStatusBar
     }
 }

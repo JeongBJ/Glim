@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.jeongbj.presentation.feature.book.search.viewmodel.SearchViewModel
+import com.jeongbj.presentation.theme.StatusBarStyle
 
 @Composable
 fun SearchScreen(
@@ -39,6 +40,8 @@ fun SearchScreen(
             }
         }
     }
+
+    StatusBarStyle()
     Box(
         modifier = Modifier.fillMaxSize()
             .statusBarsPadding()

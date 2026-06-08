@@ -61,7 +61,7 @@ fun PostScreen(
 
                 PostSideEffect.ShowCloseDialog -> { }
                 is PostSideEffect.ShowToast -> {
-                    Toast.makeText(context, effect.msg, Toast.LENGTH_SHORT)
+                    Toast.makeText(context, effect.msg, Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -73,6 +73,7 @@ class PostViewModel @Inject constructor(
                     }
 
                     is ResultType.Error -> {
+                        _state.update { it.copy(isLoading = false) }
                         Timber.e(result.exception, "onImageGenerateClicked: ")
                     }
                     ResultType.Loading -> _state.update { it.copy(isLoading = true) }

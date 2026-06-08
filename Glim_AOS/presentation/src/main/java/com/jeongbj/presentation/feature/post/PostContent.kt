@@ -1,14 +1,19 @@
 package com.jeongbj.presentation.feature.post
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.unit.dp
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.post.component.PostButtons
 import com.jeongbj.presentation.feature.post.component.TextLayer
@@ -20,8 +25,15 @@ fun PostContent(
     state: PostState,
     onAction: (PostAction) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     Box(modifier = Modifier.fillMaxSize()
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .pointerInput(Unit) {
+                detectTapGestures {
+                    focusManager.clearFocus()
+                }
+              },
         contentAlignment = Alignment.Center
     ) {
         Box(
@@ -37,7 +49,8 @@ fun PostContent(
             )
             TextLayer(
                 state = state,
-                onAction = onAction
+                onAction = onAction,
+                modifier = Modifier.padding(40.dp)
             )
         }
 
@@ -62,7 +75,9 @@ fun PostContent(
 fun PostContentPreview() {
     GlimTheme {
         PostContent(
-            state = PostState(),
+            state = PostState(
+                postText = PostText(text = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest")
+            ),
         ) { }
     }
 }

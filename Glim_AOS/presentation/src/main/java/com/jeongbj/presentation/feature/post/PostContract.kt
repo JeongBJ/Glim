@@ -3,8 +3,14 @@ package com.jeongbj.presentation.feature.post
 import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.sp
 import com.jeongbj.presentation.common.camera.CameraTarget
+import com.jeongbj.presentation.theme.glimDefaultFont
 
 data class PostState(
     val backgroundImageUri: Uri? = null,
@@ -29,12 +35,15 @@ sealed interface PostAction {
     data class OnLaunchCameraClicked(val cameraTarget: CameraTarget): PostAction
     data class OnImageTransform(val centroid: Offset, val pan: Offset, val zoom: Float, val viewportSize: IntSize): PostAction
     data class OnTextDragged(val offset: Offset): PostAction
+    data class OnTextFocusChanged(val focus: Boolean): PostAction
+    data class OnTextChanged(val text: String): PostAction
     data class OnViewportSizeChanged(val size: IntSize): PostAction
     data class OnVerticalSliderValueChanged(val value: Float): PostAction
 }
 
 sealed interface PostSideEffect {
     data class OpenCamera(val cameraTarget: CameraTarget): PostSideEffect
+    data object OpenGallery: PostSideEffect
 }
 
 data class ImageTransformState(
@@ -47,4 +56,19 @@ data class PostText(
     val offset: Offset = Offset.Zero,
     val fontSize: Float = 24f,
     val color: Color = Color.White,
+    val isFocused: Boolean = false,
+    val isDragging: Boolean = false,
+    val textStyleState: TextStyleState = TextStyleState()
 )
+
+data class TextStyleState(
+    val fontSize: Float = 16f,
+    val textColor: Color = Color.White,
+    val fontFamily: FontFamily = glimDefaultFont,
+    val isBold: Boolean = false,
+    val isItalic: Boolean = false,
+) {
+    val fontSizeUnit: TextUnit get() = fontSize.sp
+    val fontWeight: FontWeight get() = if (isBold) FontWeight.Bold else FontWeight.Normal
+    val fontStyle: FontStyle get() = if (isItalic) FontStyle.Italic else FontStyle.Normal
+}

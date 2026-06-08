@@ -29,8 +29,14 @@ class QuoteController (
 
     @PostMapping("/generate")
     fun generateImage(@RequestBody request: GenerateImageRequest): ResponseEntity<ByteArray> {
+        val body = runCatching {
+            quoteService.generateImage(request.content)
+        }.onFailure {
+            println(it)
+        }.getOrNull()
+
         return ResponseEntity.ok()
             .contentType(MediaType.IMAGE_JPEG)
-            .body(quoteService.generateImage(request.content))
+            .body(body)
     }
 }

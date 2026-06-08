@@ -27,6 +27,7 @@ class QuoteService(
 
     fun generateImage(content: String): ByteArray {
         val prompt = geminiService.generateText(content)
+        println(prompt)
         return pollinationService.generateImage(prompt)
     }
 

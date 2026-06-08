@@ -18,6 +18,7 @@ import com.jeongbj.presentation.feature.login.util.GoogleLoginLauncher
 import com.jeongbj.presentation.feature.login.util.GoogleLoginResult
 import com.jeongbj.presentation.feature.login.util.KakaoLoginLauncher
 import com.jeongbj.presentation.feature.login.util.KakaoLoginResult
+import com.jeongbj.presentation.theme.DarkThemeScreen
 import kotlinx.coroutines.launch
 
 
@@ -111,10 +112,12 @@ fun LoginScreen(
         }
     }
 
-    LoginContent(
-        isLoading = uiState.isLoading,
-        onEvent = onClickEvent
-    )
+    DarkThemeScreen {
+        LoginContent(
+            isLoading = uiState.isLoading,
+            onEvent = onClickEvent
+        )
+    }
 }
 
 

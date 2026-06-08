@@ -1,13 +1,19 @@
 package com.jeongbj.presentation.feature.post.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.rememberTransformableState
-import androidx.compose.foundation.gestures.transformable
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntSize
 import coil3.compose.AsyncImage
 import com.jeongbj.presentation.R
 import com.jeongbj.presentation.feature.post.PostAction
@@ -17,56 +23,54 @@ import com.jeongbj.presentation.feature.post.PostState
 fun TransformableImage(
     state: PostState,
     onAction: (PostAction) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val transformableState = rememberTransformableState(
-        onTransformation = { centroid, zoomChange, panChange, _ ->
-            val oldScale = state.imageScale
-            val newScale = (oldScale * zoomChange)
-                .coerceIn(0.5f, 5f)
 
-            val scaleFactor = newScale / oldScale
-
-            val newOffset =
-                (state.imageOffset + panChange) +
-                        (centroid - state.imageOffset) * (1 - scaleFactor)
-
-            onAction(
-                PostAction.OnImageTransform(
-                    scale = newScale,
-                    offset = newOffset
-                )
-            )
-        }
-    )
+    var viewportSize by remember {
+        mutableStateOf(IntSize.Zero)
+    }
 
     if(state.backgroundImageUri == null) {
         Image(
             painter = painterResource(R.drawable.ic_image_empty),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize()
+            alpha = state.backgroundImageAlpha,
+            modifier = modifier.fillMaxSize()
                 .graphicsLayer {
-                    scaleX = state.imageScale
-                    scaleY = state.imageScale
+                    scaleX = state.imageTransform.scale
+                    scaleY = state.imageTransform.scale
 
-                    translationX = state.imageOffset.x
-                    translationY = state.imageOffset.y
+                    translationX = state.imageTransform.offset.x
+                    translationY = state.imageTransform.offset.y
                 }
-                .transformable(transformableState)
+                .onSizeChanged { viewportSize = it }
+                .pointerInput(Unit) {
+                    detectTransformGestures(panZoomLock = true) { centroid, pan, zoom, _ ->
+                        onAction(PostAction.OnImageTransform(centroid, pan, zoom, viewportSize))
+                    }
+                }
         )
-    } else
+    }
 
-    AsyncImage(
-        model = state.backgroundImageUri,
-        contentDescription = null,
-        modifier = Modifier
-            .fillMaxSize()
-            .graphicsLayer {
-                scaleX = state.imageScale
-                scaleY = state.imageScale
+    else {
+        AsyncImage(
+            model = state.backgroundImageUri,
+            contentDescription = null,
+            alpha = state.backgroundImageAlpha,
+            modifier = modifier.fillMaxSize()
+                .graphicsLayer {
+                    scaleX = state.imageTransform.scale
+                    scaleY = state.imageTransform.scale
 
-                translationX = state.imageOffset.x
-                translationY = state.imageOffset.y
-            }
-            .transformable(transformableState)
-    )
+                    translationX = state.imageTransform.offset.x
+                    translationY = state.imageTransform.offset.y
+                }
+                .onSizeChanged { viewportSize = it }
+                .pointerInput(Unit) {
+                    detectTransformGestures(panZoomLock = true) { centroid, pan, zoom, _ ->
+                        onAction(PostAction.OnImageTransform(centroid, pan, zoom, viewportSize))
+                    }
+                }
+        )
+    }
 }

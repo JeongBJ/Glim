@@ -1,11 +1,17 @@
 package com.jeongbj.presentation.feature.post
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.layout.onSizeChanged
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.post.component.PostButtons
+import com.jeongbj.presentation.feature.post.component.TextLayer
 import com.jeongbj.presentation.feature.post.component.TransformableImage
 import com.jeongbj.presentation.theme.GlimTheme
 
@@ -14,14 +20,40 @@ fun PostContent(
     state: PostState,
     onAction: (PostAction) -> Unit
 ) {
-    Box(
-        modifier = Modifier.fillMaxSize()
+    Box(modifier = Modifier.fillMaxSize()
+            .statusBarsPadding(),
+        contentAlignment = Alignment.Center
     ) {
-        TransformableImage(state, onAction)
-        PostButtons(
-            state = state,
-            onAction = onAction
-        )
+        Box(
+            modifier = Modifier
+                .aspectRatio(4f / 7f)
+        ) {
+            TransformableImage(
+                state = state,
+                onAction = onAction,
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .clipToBounds()
+            )
+            TextLayer(
+                state = state,
+                onAction = onAction
+            )
+        }
+
+        Box(
+            modifier = Modifier.fillMaxSize()
+                .onSizeChanged { size ->
+                    onAction(
+                        PostAction.OnViewportSizeChanged(size)
+                    )
+                }
+        ) {
+            PostButtons(
+                state = state,
+                onAction = onAction
+            )
+        }
     }
 }
 

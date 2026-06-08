@@ -13,13 +13,13 @@ import com.jeongbj.presentation.common.camera.CameraTarget
 import com.jeongbj.presentation.theme.glimDefaultFont
 
 data class PostState(
-    val backgroundImageUri: Uri? = null,
+    val backgroundImageUri: Any? = null,
     val backgroundImageAlpha: Float = 1f,
     val ocrImageUri: Uri? = null,
     val buttonVisible: Boolean = true,
     val imageTransform: ImageTransformState = ImageTransformState(),
     val postText: PostText = PostText(),
-    val viewportSize: IntSize = IntSize.Zero,
+    val isLoading: Boolean = false
 )
 
 sealed interface PostAction {
@@ -37,13 +37,14 @@ sealed interface PostAction {
     data class OnTextDragged(val offset: Offset): PostAction
     data class OnTextFocusChanged(val focus: Boolean): PostAction
     data class OnTextChanged(val text: String): PostAction
-    data class OnViewportSizeChanged(val size: IntSize): PostAction
     data class OnVerticalSliderValueChanged(val value: Float): PostAction
 }
 
 sealed interface PostSideEffect {
     data class OpenCamera(val cameraTarget: CameraTarget): PostSideEffect
     data object OpenGallery: PostSideEffect
+    data object ShowCloseDialog: PostSideEffect
+    data class ShowToast(val msg: String): PostSideEffect
 }
 
 data class ImageTransformState(

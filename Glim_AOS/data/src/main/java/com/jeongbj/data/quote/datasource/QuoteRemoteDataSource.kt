@@ -6,6 +6,7 @@ import com.jeongbj.data.quote.request.CreateQuoteRequest
 import com.jeongbj.data.quote.request.GenerateImageRequest
 import com.jeongbj.data.quote.response.QuoteResponse
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody
 import javax.inject.Inject
 
 class QuoteRemoteDataSource @Inject constructor(
@@ -16,6 +17,6 @@ class QuoteRemoteDataSource @Inject constructor(
         quoteApi.saveQuote(quoteRequest, image)
 
     suspend fun generateImage(generateImageRequest: GenerateImageRequest)
-    : BaseResponse<ByteArray> =
+    : ResponseBody =
         quoteApi.generateImage(generateImageRequest)
 }

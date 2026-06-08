@@ -62,6 +62,8 @@ dependencies {
     implementation(libs.coil.network)
     implementation(libs.coil.gif)
 
+    implementation(libs.lottie.compose)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)

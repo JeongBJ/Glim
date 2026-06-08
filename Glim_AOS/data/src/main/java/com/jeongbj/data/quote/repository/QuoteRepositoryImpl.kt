@@ -23,6 +23,6 @@ class QuoteRepositoryImpl @Inject constructor(
             .unwrap().toDomain()
 
     override suspend fun generateImage(content: String): ByteArray =
-        quoteRemoteDataSource.generateImage(GenerateImageRequest(content))
-            .unwrap()
+        quoteRemoteDataSource.generateImage(GenerateImageRequest(content)).bytes()
+
 }

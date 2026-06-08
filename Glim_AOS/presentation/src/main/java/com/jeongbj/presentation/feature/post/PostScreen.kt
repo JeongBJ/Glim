@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.jeongbj.presentation.common.camera.CameraTarget
 import com.jeongbj.presentation.common.camera.rememberCameraHandler
+import com.jeongbj.presentation.common.component.AnimationLoadingOverlay
 import com.jeongbj.presentation.feature.post.viewmodel.PostViewModel
 import com.jeongbj.presentation.theme.DarkThemeScreen
 
@@ -31,12 +32,6 @@ fun PostScreen(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         uri?.let { viewModel.onAction(PostAction.OnBackgroundImageSelected(uri)) }
-    }
-
-    val textImageLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { uri ->
-        uri?.let { viewModel.onAction(PostAction.OnTextImageSelected(uri)) }
     }
 
     val cameraLauncher = rememberCameraHandler(
@@ -63,6 +58,11 @@ fun PostScreen(
                 PostSideEffect.OpenGallery -> {
                     backgroundImageLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 }
+
+                PostSideEffect.ShowCloseDialog -> { }
+                is PostSideEffect.ShowToast -> {
+                    Toast.makeText(context, effect.msg, Toast.LENGTH_SHORT)
+                }
             }
         }
     }
@@ -77,6 +77,10 @@ fun PostScreen(
                 state = state,
                 onAction = { viewModel.onAction(it) }
             )
+
+            if (state.isLoading) {
+                AnimationLoadingOverlay()
+            }
         }
     }
     

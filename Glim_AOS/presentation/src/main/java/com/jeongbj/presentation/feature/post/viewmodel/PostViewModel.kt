@@ -4,6 +4,8 @@ import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.quote.usecase.QuoteUseCases
 import com.jeongbj.presentation.common.camera.CameraTarget
 import com.jeongbj.presentation.common.util.transform
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,50 +36,59 @@ class PostViewModel @Inject constructor(
 
     fun onAction(action: PostAction) {
         when (action) {
-            PostAction.OnBackgroundImageClicked -> {
-                onBackgroundImageClicked()
-            }
-            is PostAction.OnBackgroundImageSelected -> {
-                onBackgroundImageSelected(action.uri)
-            }
-            PostAction.OnCloseClicked -> TODO()
+            PostAction.OnBackgroundImageClicked -> onBackgroundImageClicked()
+            is PostAction.OnBackgroundImageSelected -> onBackgroundImageSelected(action.uri)
+            PostAction.OnCloseClicked -> onCloseClicked()
             PostAction.OnCompleteClicked -> TODO()
-            is PostAction.OnCreateTextClicked -> {
-                onCreateText()
-            }
-            PostAction.OnImageGenerateClicked -> TODO()
-            is PostAction.OnImageTransform -> {
-                onImageTransform(action.centroid, action.pan, action.zoom, action.viewportSize)
-            }
-            is PostAction.OnLaunchCameraClicked -> {
-                onLaunchCameraClicked(action.cameraTarget)
-            }
-            is PostAction.OnTextImageSelected -> TODO()
-            PostAction.OnTextRecognitionClicked -> TODO()
-            PostAction.ToggleButtonVisible -> {
-                toggleButtonVisible()
-            }
-            is PostAction.OnTextDragged -> {
-                onTextDragged(action.offset)
-            }
-            is PostAction.OnViewportSizeChanged -> {
-                Timber.d("onAction: viewport ${action.size}")
-                onViewportSizeChanged(action.size)
-            }
+            is PostAction.OnCreateTextClicked -> onCreateText()
+            PostAction.OnImageGenerateClicked -> onImageGenerateClicked()
+            is PostAction.OnImageTransform -> onImageTransform(action.centroid, action.pan, action.zoom, action.viewportSize)
+            is PostAction.OnLaunchCameraClicked -> onLaunchCameraClicked(action.cameraTarget)
+            is PostAction.OnTextImageSelected -> onTextImageSelected(action.uri)
+            PostAction.OnTextRecognitionClicked -> onTextRecognitionClicked()
+            PostAction.ToggleButtonVisible -> toggleButtonVisible()
+            is PostAction.OnTextDragged -> onTextDragged(action.offset)
+            is PostAction.OnVerticalSliderValueChanged -> onVerticalSliderValueChanged(action.value)
+            is PostAction.OnTextFocusChanged -> onTextFocusChanged(action.focus)
+            is PostAction.OnTextChanged -> onTextChanged(action.text)
 
-            is PostAction.OnVerticalSliderValueChanged -> {
-                onVerticalSliderValueChanged(action.value)
-            }
+        }
+    }
 
-            is PostAction.OnTextFocusChanged -> {
-                onTextFocusChanged(action.focus)
-            }
+    private fun onImageGenerateClicked() {
+        val content = _state.value.postText.text
+        if (content.isBlank()) {
+            _sideEffect.tryEmit(PostSideEffect.ShowToast("텍스트를 입력해주세요."))
+            return
+        }
 
-            is PostAction.OnTextChanged -> {
-                onTextChanged(action.text)
+        viewModelScope.launch {
+            quoteUseCases.generateImageUseCase(content).collect { result ->
+                when (result) {
+                    is ResultType.Success -> {
+                        _state.update { it.copy(
+                            backgroundImageUri = result.data,
+                            isLoading = false
+                        ) }
+                    }
+
+                    is ResultType.Error -> {
+                        Timber.e(result.exception, "onImageGenerateClicked: ")
+                    }
+                    ResultType.Loading -> _state.update { it.copy(isLoading = true) }
+                }
             }
         }
     }
+
+    private fun onTextRecognitionClicked() =
+        _sideEffect.tryEmit(PostSideEffect.OpenCamera(CameraTarget.OCR))
+
+    private fun onTextImageSelected(uri: Uri) =
+        _state.update { it.copy(ocrImageUri = uri) }
+
+    private fun onCloseClicked() =
+        _sideEffect.tryEmit(PostSideEffect.ShowCloseDialog)
 
     private fun onBackgroundImageSelected(uri: Uri) =
         _state.update { it.copy(backgroundImageUri = uri) }
@@ -107,9 +119,6 @@ class PostViewModel @Inject constructor(
 
     private fun toggleButtonVisible() =
         _state.update { it.copy(buttonVisible = !it.buttonVisible) }
-
-    private fun onViewportSizeChanged(size: IntSize) =
-        _state.update { it.copy(viewportSize = size) }
 
     private fun onCreateText() {
         if (state.value.postText.text.isNotEmpty()) return

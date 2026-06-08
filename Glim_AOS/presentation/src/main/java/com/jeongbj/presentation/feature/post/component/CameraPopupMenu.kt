@@ -42,6 +42,17 @@ fun CameraPopupMenu(
                     expanded = false
                 },
             )
+
+            DropdownMenuItem(
+                text = { Text("텍스트 인식") },
+                leadingIcon = {
+                    Icon(painter = painterResource(R.drawable.ic_text), contentDescription = null)
+                },
+                onClick = {
+                    launchCamera(CameraTarget.OCR)
+                    expanded = false
+                },
+            )
         }
     }
 

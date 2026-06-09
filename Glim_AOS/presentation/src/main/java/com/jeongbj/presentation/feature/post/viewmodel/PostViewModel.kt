@@ -2,6 +2,8 @@ package com.jeongbj.presentation.feature.post.viewmodel
 
 import android.net.Uri
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -51,9 +53,67 @@ class PostViewModel @Inject constructor(
             is PostAction.OnVerticalSliderValueChanged -> onVerticalSliderValueChanged(action.value)
             is PostAction.OnTextFocusChanged -> onTextFocusChanged(action.focus)
             is PostAction.OnTextChanged -> onTextChanged(action.text)
-
+            is PostAction.OnFontFamilySelected -> onFontFamilySelected(action.fontFamily)
+            is PostAction.OnTextColorSelected -> onTextColorSelected(action.color)
+            PostAction.OnDecreaseFontSize -> onDecreaseFontSize()
+            PostAction.OnIncreaseFontSize -> onIncreaseFontSize()
+            PostAction.OnToggleBold -> onToggleBold()
+            PostAction.OnToggleItalic -> onToggleItalic()
         }
     }
+
+    private fun onToggleItalic() {
+        val currentStyle = state.value.postText.textStyleState
+        _state.update { it.copy(postText = it.postText.copy(
+            textStyleState = currentStyle.copy(
+                isItalic = !currentStyle.isItalic
+            )
+        )) }
+    }
+
+    private fun onToggleBold() {
+        val currentStyle = state.value.postText.textStyleState
+        _state.update { it.copy(postText = it.postText.copy(
+            textStyleState = currentStyle.copy(
+                isBold = !currentStyle.isBold
+            )
+        )) }
+    }
+
+    private fun onIncreaseFontSize() {
+        val currentStyle = state.value.postText.textStyleState
+        if (currentStyle.fontSize >= 32f) return
+        _state.update { it.copy(postText = it.postText.copy(
+            textStyleState = currentStyle.copy(
+                fontSize = currentStyle.fontSize + 2f
+            )
+        )) }
+    }
+
+    private fun onDecreaseFontSize() {
+        val currentStyle = state.value.postText.textStyleState
+        if (currentStyle.fontSize <= 12f) return
+        _state.update { it.copy(postText = it.postText.copy(
+            textStyleState = currentStyle.copy(
+                fontSize = currentStyle.fontSize - 2f
+            )
+        )) }
+    }
+
+
+    private fun onTextColorSelected(color: Color) =
+        _state.update { it.copy(postText = it.postText.copy(
+            textStyleState = it.postText.textStyleState.copy(
+                textColor = color
+            )
+        )) }
+
+    private fun onFontFamilySelected(fontFamily: FontFamily) =
+        _state.update { it.copy(postText = it.postText.copy(
+            textStyleState = it.postText.textStyleState.copy(
+                fontFamily = fontFamily
+            )
+        )) }
 
     private fun onImageGenerateClicked() {
         val content = _state.value.postText.text

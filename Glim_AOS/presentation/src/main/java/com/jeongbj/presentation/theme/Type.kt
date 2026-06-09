@@ -12,6 +12,33 @@ val glimDefaultFont = FontFamily(
     Font(R.font.ridi_batang, FontWeight.Normal),
 )
 
+val dohyeonFont =
+    FontFamily(
+        Font(R.font.dohyeon_regular, FontWeight.Normal),
+    )
+
+val yeonsungFont =
+    FontFamily(
+        Font(R.font.yeonsung_regular, FontWeight.Normal),
+    )
+
+val nanumBrushScriptFont =
+    FontFamily(
+        Font(R.font.nanum_brush_script_regular, FontWeight.Normal)
+    )
+
+val caveatFont =
+    FontFamily(
+        Font(R.font.caveat_variable, FontWeight.Normal)
+    )
+
+enum class GlimFonts(val fontName: String, val fontFamily: FontFamily) {
+    RIDI_BATING("default", glimDefaultFont),
+    DOHYEON("dohyeon", dohyeonFont),
+    YEONSUNG("yeonsung", yeonsungFont),
+    NANUM_BRUSH_SCRIPT("nanum_brush_script", nanumBrushScriptFont)
+}
+
 val Typography = Typography(
     displayLarge = TextStyle(
         fontFamily = glimDefaultFont,

@@ -97,7 +97,8 @@ fun TextLayer(
                 fontSize = textStyle.fontSizeUnit,
                 fontWeight = textStyle.fontWeight,
                 fontFamily = textStyle.fontFamily,
-                color = textStyle.textColor
+                color = textStyle.textColor,
+                fontStyle = textStyle.fontStyle
             ),
             readOnly = postText.isDragging,
             cursorBrush = SolidColor(Color.White),

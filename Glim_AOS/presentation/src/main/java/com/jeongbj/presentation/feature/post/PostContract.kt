@@ -38,6 +38,12 @@ sealed interface PostAction {
     data class OnTextFocusChanged(val focus: Boolean): PostAction
     data class OnTextChanged(val text: String): PostAction
     data class OnVerticalSliderValueChanged(val value: Float): PostAction
+    data class OnTextColorSelected(val color: Color): PostAction
+    data class OnFontFamilySelected(val fontFamily: FontFamily): PostAction
+    data object OnToggleBold: PostAction
+    data object OnToggleItalic: PostAction
+    data object OnIncreaseFontSize: PostAction
+    data object OnDecreaseFontSize: PostAction
 }
 
 sealed interface PostSideEffect {
@@ -55,8 +61,6 @@ data class ImageTransformState(
 data class PostText(
     val text: String = "",
     val offset: Offset = Offset.Zero,
-    val fontSize: Float = 24f,
-    val color: Color = Color.White,
     val isFocused: Boolean = false,
     val isDragging: Boolean = false,
     val textStyleState: TextStyleState = TextStyleState()

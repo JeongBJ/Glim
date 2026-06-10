@@ -43,5 +43,6 @@ fun Book.toQuoteResponse(): QuoteBookResponse =
         bookSeq = bookSeq,
         title = title,
         coverUrl = coverUrl,
-        author = author
+        author = author,
+        isbn13 = isbn13
     )

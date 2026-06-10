@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.usecase.BookUseCases
 import com.jeongbj.presentation.feature.book.search.SearchAction
 import com.jeongbj.presentation.feature.book.search.SearchMode
@@ -53,7 +54,7 @@ class SearchViewModel @Inject constructor(
             }
 
             is SearchAction.OnBookClick -> {
-                navigateToBookDetail(action.book.isbn13)
+                navigateToBookDetail(action.book)
             }
             is SearchAction.OnQueryClick -> TODO()
             is SearchAction.OnQuoteClick -> TODO()
@@ -61,9 +62,9 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun navigateToBookDetail(isbn13: String) {
+    private fun navigateToBookDetail(book: Book) {
         viewModelScope.launch {
-            _sideEffect.emit(SearchSideEffect.NavigateToBookDetail(isbn13))
+            _sideEffect.emit(SearchSideEffect.NavigateToBookDetail(book))
         }
     }
 

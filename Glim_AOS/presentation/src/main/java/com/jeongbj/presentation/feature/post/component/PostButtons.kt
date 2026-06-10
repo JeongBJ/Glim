@@ -43,6 +43,7 @@ import com.jeongbj.presentation.theme.GlimTheme
 fun BoxScope.PostButtons(
     state: PostState,
     onAction: (PostAction) -> Unit,
+    onCompleteClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -93,7 +94,7 @@ fun BoxScope.PostButtons(
                 modifier = Modifier.visible(state.buttonVisible)
             ) {
                 TextButton(
-                    onClick = { onAction(PostAction.OnCompleteClicked) }
+                    onClick = onCompleteClicked
                 ) {
                     Text("완료", color = Color.White, fontWeight = FontWeight.Bold)
                 }
@@ -182,14 +183,11 @@ fun DarkGrayRoundedSurface(
 @Composable
 fun PostButtonsPreview() {
     GlimTheme {
-        Box(
-
-        ) {
+        Box{
             PostButtons(
-                state = PostState(
-
-                ),
-                onAction = { }
+                state = PostState(),
+                onAction = { },
+                onCompleteClicked = { },
             )
         }
 

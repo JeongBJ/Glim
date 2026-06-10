@@ -82,7 +82,6 @@ fun TextLayer(
                     state.postText.offset.y.roundToInt()
                 )
             }
-            .background(Color.Gray)
             .pointerInput(Unit) {
                 detectDragGestures { _, dragAmount ->
                     onAction(PostAction.OnTextDragged(dragAmount))

@@ -3,6 +3,7 @@ package com.jeongbj.core.common
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 inline fun <T> flowResult(
     crossinline block: suspend () -> T
@@ -36,3 +37,9 @@ fun String?.toLocalDate(): LocalDate? {
                 .getOrNull()
         }
 }
+
+fun ByteArray.toMultipartImage(): MultipartImage = MultipartImage(
+    bytes = this,
+    fileName = "image.jpg",
+    mimeType = "image/jpeg",
+)

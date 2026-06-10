@@ -9,6 +9,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.jeongbj.domain.book.model.Book
+import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.presentation.common.camera.CameraTarget
 import com.jeongbj.presentation.theme.glimDefaultFont
 
@@ -19,7 +21,10 @@ data class PostState(
     val buttonVisible: Boolean = true,
     val imageTransform: ImageTransformState = ImageTransformState(),
     val postText: PostText = PostText(),
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val selectedBook: Book? = null,
+    val uploadedQuote: Quote? = null,
+    val showBottomSheet: Boolean = false
 )
 
 sealed interface PostAction {
@@ -44,6 +49,8 @@ sealed interface PostAction {
     data object OnToggleItalic: PostAction
     data object OnIncreaseFontSize: PostAction
     data object OnDecreaseFontSize: PostAction
+    data class OnBookSelected(val book: Book?): PostAction
+    data object OnAddBookInfoClicked: PostAction
 }
 
 sealed interface PostSideEffect {

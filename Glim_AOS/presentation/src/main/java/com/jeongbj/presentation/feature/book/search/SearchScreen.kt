@@ -1,5 +1,6 @@
 package com.jeongbj.presentation.feature.book.search
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -11,7 +12,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.jeongbj.domain.book.model.Book
 import com.jeongbj.presentation.feature.book.search.viewmodel.SearchViewModel
 import com.jeongbj.presentation.theme.StatusBarStyle
 
@@ -19,12 +22,15 @@ import com.jeongbj.presentation.theme.StatusBarStyle
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
     navigateToQuoteDetail: () -> Unit,
+    popBackStack: (() -> Unit)? = null,
     navigateToBookDetail: (String) -> Unit,
+    onQuoteBookSelected: ((Book) -> Unit)? = null
 ) {
     val books = viewModel.searchBookResult.collectAsLazyPagingItems()
     val uiState by viewModel.state.collectAsState()
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
+
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
@@ -35,7 +41,8 @@ fun SearchScreen(
                 }
 
                 is SearchSideEffect.NavigateToBookDetail -> {
-                    navigateToBookDetail(effect.isbn13)
+                    if (onQuoteBookSelected == null) navigateToBookDetail(effect.book.isbn13)
+                    else onQuoteBookSelected(effect.book)
                 }
             }
         }

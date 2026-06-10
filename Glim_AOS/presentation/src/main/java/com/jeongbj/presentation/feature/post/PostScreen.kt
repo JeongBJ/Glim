@@ -75,7 +75,8 @@ fun PostScreen(
         ) {
             PostContent(
                 state = state,
-                onAction = { viewModel.onAction(it) }
+                onAction = { viewModel.onAction(it) },
+                onCapture = { viewModel.onCaptured(it)}
             )
 
             if (state.isLoading) {
@@ -83,5 +84,5 @@ fun PostScreen(
             }
         }
     }
-    
+
 }

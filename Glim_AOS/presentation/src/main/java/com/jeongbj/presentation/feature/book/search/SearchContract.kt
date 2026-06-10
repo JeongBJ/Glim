@@ -33,7 +33,7 @@ sealed interface SearchAction {
 
 sealed interface SearchSideEffect {
     data object ScrollToTop: SearchSideEffect
-    data class NavigateToBookDetail(val isbn13: String): SearchSideEffect
+    data class NavigateToBookDetail(val book: Book): SearchSideEffect
 }
 
 enum class SearchMode {

@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.jeongbj.android.extentions.findActivity
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -72,10 +73,9 @@ fun GlimTheme(
 
 @Composable
 fun DarkThemeScreen(content: @Composable () -> Unit) {
-    val view = LocalView.current
     StatusBarStyle(lightStatusBar = false)
     MaterialTheme(
-        colorScheme = darkColorScheme(),
+        colorScheme = LightColorScheme,
     ) {
         CompositionLocalProvider(LocalContentColor provides Color.White) {
             content()
@@ -90,11 +90,11 @@ fun StatusBarStyle(
     val view = LocalView.current
 
     SideEffect {
-        val window = (view.context as Activity).window
+        val activity = view.context.findActivity() ?: return@SideEffect
 
         WindowCompat.getInsetsController(
-            window,
-            window.decorView
+            activity.window,
+            activity.window.decorView
         ).isAppearanceLightStatusBars = lightStatusBar
     }
 }

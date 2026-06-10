@@ -1,6 +1,7 @@
 package com.jeongbj.presentation.feature.post.viewmodel
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
@@ -8,6 +9,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeongbj.core.common.ResultType
+import com.jeongbj.core.common.toMultipartImage
+import com.jeongbj.domain.book.model.Book
+import com.jeongbj.domain.quote.model.CreateQuote
 import com.jeongbj.domain.quote.usecase.QuoteUseCases
 import com.jeongbj.presentation.common.camera.CameraTarget
 import com.jeongbj.presentation.common.util.transform
@@ -59,6 +63,53 @@ class PostViewModel @Inject constructor(
             PostAction.OnIncreaseFontSize -> onIncreaseFontSize()
             PostAction.OnToggleBold -> onToggleBold()
             PostAction.OnToggleItalic -> onToggleItalic()
+            is PostAction.OnBookSelected -> onBookSelected(action.book)
+            PostAction.OnAddBookInfoClicked -> onAddBookInfoClicked()
+        }
+    }
+
+    private fun onAddBookInfoClicked() =
+        _state.update { it.copy(showBottomSheet = true) }
+
+    private fun onBookSelected(book: Book?) =
+        _state.update { it.copy(
+            showBottomSheet = false,
+            selectedBook = book
+        ) }
+
+
+    fun onCaptured(bytes: ByteArray) {
+        val content = state.value.postText.text
+        Log.d("PostViewModel", "onCaptured: $content")
+        if (content.isBlank()) {
+            _sideEffect.tryEmit(PostSideEffect.ShowToast("텍스트를 입력해주세요"))
+            return
+        }
+
+        val book = state.value.selectedBook ?: run {
+            _sideEffect.tryEmit(PostSideEffect.ShowToast("책 정보를 입력해주세요"))
+            return
+        }
+
+        viewModelScope.launch {
+            quoteUseCases.saveQuoteUseCase(
+                createQuote = CreateQuote(book.isbn13, content),
+                image = bytes.toMultipartImage()
+            ).collect { result ->
+                when (result) {
+                    is ResultType.Success -> {
+                        _state.update { it.copy(
+                            isLoading = false,
+                            uploadedQuote = result.data
+                        ) }
+                    }
+                    ResultType.Loading -> { _state.update { it.copy(isLoading = true) } }
+                    is ResultType.Error -> {
+                        _state.update { it.copy(isLoading = false)
+                        }
+                    }
+                }
+            }
         }
     }
 

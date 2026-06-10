@@ -18,7 +18,7 @@ interface QuoteApi {
     @POST("quote")
     suspend fun saveQuote(
         @Part("request") quoteRequest: CreateQuoteRequest,
-        @Part("image") image: MultipartBody.Part)
+        @Part image: MultipartBody.Part)
     : BaseResponse<QuoteResponse>
 
     @POST("quote/generate")

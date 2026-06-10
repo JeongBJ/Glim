@@ -49,7 +49,8 @@ fun AppNavGraph(
 
         searchNav(
             navigateToBookDetail = { navController.navigate(BookDetailRoute(isbn13 = it)) },
-            navigateToQuoteDetail = { }
+            navigateToQuoteDetail = { },
+            popBackStack = { navController.popBackStack() }
         )
 
         bookDetailNav(

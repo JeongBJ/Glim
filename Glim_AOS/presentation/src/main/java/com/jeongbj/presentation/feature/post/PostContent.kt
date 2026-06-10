@@ -1,6 +1,5 @@
 package com.jeongbj.presentation.feature.post
 
-import android.util.Log
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -32,7 +31,6 @@ import com.jeongbj.presentation.feature.post.component.TransformableImage
 import com.jeongbj.presentation.theme.GlimTheme
 import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 fun PostContent(

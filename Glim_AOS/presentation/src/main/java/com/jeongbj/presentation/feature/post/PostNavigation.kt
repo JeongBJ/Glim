@@ -10,12 +10,13 @@ import kotlinx.serialization.Serializable
 data object PostRoute
 
 fun NavGraphBuilder.postNav(
-
+    navigateBack: () -> Unit
 ) {
     composable<PostRoute> {
         val viewModel: PostViewModel = hiltViewModel()
         PostScreen(
-            viewModel = viewModel
+            viewModel = viewModel,
+            navigateBack = navigateBack
         )
     }
 }

@@ -23,7 +23,8 @@ import com.jeongbj.presentation.theme.DarkThemeScreen
 
 @Composable
 fun PostScreen(
-    viewModel: PostViewModel = hiltViewModel()
+    viewModel: PostViewModel = hiltViewModel(),
+    navigateBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
@@ -63,6 +64,7 @@ fun PostScreen(
                 is PostSideEffect.ShowToast -> {
                     Toast.makeText(context, effect.msg, Toast.LENGTH_SHORT).show()
                 }
+                PostSideEffect.NavigateBack -> navigateBack()
             }
         }
     }

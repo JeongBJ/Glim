@@ -58,6 +58,8 @@ fun AppNavGraph(
             navigateBack = { navController.popBackStack() }
         )
 
-        postNav()
+        postNav(
+            navigateBack = { navController.popBackStack() }
+        )
     }
 }

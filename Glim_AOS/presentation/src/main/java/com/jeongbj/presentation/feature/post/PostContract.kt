@@ -58,6 +58,7 @@ sealed interface PostSideEffect {
     data object OpenGallery: PostSideEffect
     data object ShowCloseDialog: PostSideEffect
     data class ShowToast(val msg: String): PostSideEffect
+    data object NavigateBack: PostSideEffect
 }
 
 data class ImageTransformState(

@@ -80,7 +80,6 @@ class PostViewModel @Inject constructor(
 
     fun onCaptured(bytes: ByteArray) {
         val content = state.value.postText.text
-        Log.d("PostViewModel", "onCaptured: $content")
         if (content.isBlank()) {
             _sideEffect.tryEmit(PostSideEffect.ShowToast("텍스트를 입력해주세요"))
             return
@@ -102,12 +101,11 @@ class PostViewModel @Inject constructor(
                             isLoading = false,
                             uploadedQuote = result.data
                         ) }
+                        _sideEffect.emit(PostSideEffect.ShowToast("글림이 성공적으로 업로드 되었습니다."))
+                        _sideEffect.emit(PostSideEffect.NavigateBack)
                     }
                     ResultType.Loading -> { _state.update { it.copy(isLoading = true) } }
-                    is ResultType.Error -> {
-                        _state.update { it.copy(isLoading = false)
-                        }
-                    }
+                    is ResultType.Error -> { _state.update { it.copy(isLoading = false) } }
                 }
             }
         }

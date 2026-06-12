@@ -16,6 +16,7 @@ import com.jeongbj.glim.external.aladin.service.AladinService
 import com.jeongbj.glim.external.aladin.type.ItemListQueryType
 import com.jeongbj.glim.external.aladin.type.ItemSearchQueryType
 import com.jeongbj.glim.like.repository.LikeRepository
+import com.jeongbj.glim.quote.repository.QuoteRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -26,6 +27,7 @@ class BookService(
     private val bookRepository: BookRepository,
     private val searchCacheRepository: SearchCacheRepository,
     private val likeRepository: LikeRepository,
+    val quoteRepository: QuoteRepository,
     private val itemListCacheRepository: ItemListCacheRepository,
     private val aladinService: AladinService
 ) {
@@ -64,7 +66,9 @@ class BookService(
         val likeQuoteSet = likeRepository.findLikedQuoteIds(userSeq, book.bookSeq)
             .toSet()
 
-        return book.toDetailResponse(likeQuoteSet)
+        val quotes = quoteRepository.findByBookBookSeqOrderByNumLikesDescNumViewsDesc(book.bookSeq)
+
+        return book.toDetailResponse(likeQuoteSet, quotes)
     }
 
     private fun saveNewBooks(books: List<Book>): List<Book> {

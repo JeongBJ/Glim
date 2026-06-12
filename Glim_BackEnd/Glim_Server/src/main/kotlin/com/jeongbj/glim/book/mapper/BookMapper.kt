@@ -5,6 +5,7 @@ import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.entity.Book
 import com.jeongbj.glim.external.aladin.dto.response.AladinItemResponse
 import com.jeongbj.glim.quote.dto.QuoteBookResponse
+import com.jeongbj.glim.quote.entity.Quote
 import com.jeongbj.glim.quote.mapper.toSummaryResponse
 import java.time.LocalDate
 
@@ -49,7 +50,7 @@ fun Book.toQuoteResponse(): QuoteBookResponse =
         isbn13 = isbn13
     )
 
-fun Book.toDetailResponse(likeQuoteSet: Set<Long>): BookDetailResponse = BookDetailResponse(
+fun Book.toDetailResponse(likeQuoteSet: Set<Long>, quotes: List<Quote>): BookDetailResponse = BookDetailResponse(
     title = title,
     coverUrl = coverUrl,
     linkUrl = linkUrl,

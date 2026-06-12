@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface QuoteRepository: JpaRepository<Quote, Long> {
-
+    fun findByBookBookSeqOrderByNumLikesDescNumViewsDesc(bookSeq: Long): List<Quote>
 }

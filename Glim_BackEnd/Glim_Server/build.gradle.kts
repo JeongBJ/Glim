@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "4.0.6"
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "2.2.21"
+    kotlin("kapt") version "2.2.21"
 }
 val springCloudVersion by extra("2025.1.1")
 
@@ -53,6 +54,12 @@ dependencies {
     implementation("com.oracle.oci.sdk:oci-java-sdk-common-httpclient-jersey3:3.86.2")
 
     implementation("io.github.oshai:kotlin-logging-jvm:8.0.03")
+
+    implementation("com.querydsl:querydsl-jpa:5.1.0:jakarta")
+
+    kapt("com.querydsl:querydsl-apt:5.1.0:jakarta")
+    kapt("jakarta.annotation:jakarta.annotation-api")
+    kapt("jakarta.persistence:jakarta.persistence-api")
 
 }
 

@@ -1,8 +1,10 @@
 package com.jeongbj.glim.book.service
 
+import com.jeongbj.glim.book.dto.BookDetailResponse
 import com.jeongbj.glim.book.dto.BookItemListResponse
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.entity.Book
+import com.jeongbj.glim.book.mapper.toDetailResponse
 import com.jeongbj.glim.book.mapper.toEntity
 import com.jeongbj.glim.book.mapper.toResponse
 import com.jeongbj.glim.book.repository.BookRepository
@@ -13,19 +15,21 @@ import com.jeongbj.glim.common.response.PagingResult
 import com.jeongbj.glim.external.aladin.service.AladinService
 import com.jeongbj.glim.external.aladin.type.ItemListQueryType
 import com.jeongbj.glim.external.aladin.type.ItemSearchQueryType
+import com.jeongbj.glim.like.repository.LikeRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class BookService(
     private val bookRepository: BookRepository,
     private val searchCacheRepository: SearchCacheRepository,
+    private val likeRepository: LikeRepository,
     private val itemListCacheRepository: ItemListCacheRepository,
     private val aladinService: AladinService
 ) {
 
-    @Transactional
     fun searchBook(query: String, queryType: ItemSearchQueryType, pageable: Pageable)
     : PagingResult<BookResponse> {
         searchCacheRepository.get(query, queryType)?.let { cached ->
@@ -52,13 +56,15 @@ class BookService(
         )
     }
 
-    fun searchBookByIsbn13(isbn13: String): BookResponse? {
-        val book = bookRepository.findByIsbn13(isbn13)
-        if(book != null) return book.toResponse()
+    fun searchBookByIsbn13(isbn13: String, userSeq: Long): BookDetailResponse? {
+        val book = bookRepository.findByIsbn13(isbn13)?: run {
+            val newBook = aladinService.getAladinItemLookUp(isbn13)?: return null
+            bookRepository.save(newBook.toEntity())
+        }
+        val likeQuoteSet = likeRepository.findLikedQuoteIds(userSeq, book.bookSeq)
+            .toSet()
 
-        val newBook = aladinService.getAladinItemLookUp(isbn13) ?: return null
-
-        return bookRepository.save(newBook.toEntity()).toResponse()
+        return book.toDetailResponse(likeQuoteSet)
     }
 
     private fun saveNewBooks(books: List<Book>): List<Book> {

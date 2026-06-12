@@ -1,9 +1,11 @@
 package com.jeongbj.glim.book.mapper
 
+import com.jeongbj.glim.book.dto.BookDetailResponse
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.entity.Book
 import com.jeongbj.glim.external.aladin.dto.response.AladinItemResponse
 import com.jeongbj.glim.quote.dto.QuoteBookResponse
+import com.jeongbj.glim.quote.mapper.toSummaryResponse
 import java.time.LocalDate
 
 fun Book.toResponse(): BookResponse {
@@ -46,3 +48,19 @@ fun Book.toQuoteResponse(): QuoteBookResponse =
         author = author,
         isbn13 = isbn13
     )
+
+fun Book.toDetailResponse(likeQuoteSet: Set<Long>): BookDetailResponse = BookDetailResponse(
+    title = title,
+    coverUrl = coverUrl,
+    linkUrl = linkUrl,
+    author = author,
+    translator = translator,
+    isbn13 = isbn13,
+    description = description,
+    pubDate = pubDate,
+    priceSales = priceSales,
+    publisher = publisher,
+    quotes = quotes.map {
+        it.toSummaryResponse(liked = it.quoteSeq in likeQuoteSet)
+    }
+)

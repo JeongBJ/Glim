@@ -1,5 +1,6 @@
 package com.jeongbj.glim.book.controller
 
+import com.jeongbj.glim.book.dto.BookDetailResponse
 import com.jeongbj.glim.book.dto.BookItemListResponse
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.dto.BookSearchRequest
@@ -7,8 +8,8 @@ import com.jeongbj.glim.book.service.BookService
 import com.jeongbj.glim.common.response.BaseResponse
 import com.jeongbj.glim.common.response.PagingResult
 import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -29,9 +30,9 @@ class BookController(
     }
 
     @GetMapping("/search/{isbn13}")
-    fun searchBookByIsbn13(@PathVariable isbn13: String)
-    : ResponseEntity<BaseResponse<BookResponse?>> {
-        val data = bookService.searchBookByIsbn13(isbn13)
+    fun searchBookByIsbn13(@AuthenticationPrincipal userSeq: Long, @PathVariable isbn13: String)
+    : ResponseEntity<BaseResponse<BookDetailResponse?>> {
+        val data = bookService.searchBookByIsbn13(isbn13, userSeq)
         return ResponseEntity.ok(BaseResponse.success(data, "성공"))
     }
 

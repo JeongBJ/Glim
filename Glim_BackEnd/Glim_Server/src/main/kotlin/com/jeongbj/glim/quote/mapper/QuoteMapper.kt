@@ -1,15 +1,13 @@
 package com.jeongbj.glim.quote.mapper
 
-import com.jeongbj.glim.quote.dto.QuoteBookResponse
-import com.jeongbj.glim.quote.dto.QuoteResponse
-import com.jeongbj.glim.quote.dto.QuoteSummaryResponse
-import com.jeongbj.glim.quote.dto.QuoteUserResponse
+import com.jeongbj.glim.quote.dto.*
 import com.jeongbj.glim.quote.entity.Quote
 
 fun Quote.toResponse(liked: Boolean, user: QuoteUserResponse, book: QuoteBookResponse): QuoteResponse = QuoteResponse(
     quoteSeq = quoteSeq,
     imageUrl = imageUrl,
     content = content,
+    numViews = numViews,
     numLikes = numLikes,
     liked = liked,
     user = user,
@@ -27,3 +25,24 @@ fun Quote.toSummaryResponse(
         liked = liked
     )
 }
+
+fun QuoteProjection.toQuoteResponse(): QuoteResponse = QuoteResponse(
+    quoteSeq = quoteSeq,
+    imageUrl = imageUrl,
+    content = content,
+    numViews = numViews,
+    numLikes = numLikes,
+    liked = liked,
+    user = QuoteUserResponse(
+        userSeq = userSeq,
+        nickname = nickname,
+        imageUrl = profileImageUrl
+    ),
+    book = QuoteBookResponse(
+        bookSeq = bookSeq,
+        title = title,
+        coverUrl = coverUrl,
+        author = author,
+        isbn13 = isbn13
+    )
+)

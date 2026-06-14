@@ -1,7 +1,9 @@
 package com.jeongbj.glim.quote.controller
 
+import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.common.response.BaseResponse
 import com.jeongbj.glim.quote.dto.GenerateImageRequest
+import com.jeongbj.glim.quote.dto.QuoteCursor
 import com.jeongbj.glim.quote.dto.QuoteRequest
 import com.jeongbj.glim.quote.dto.QuoteResponse
 import com.jeongbj.glim.quote.service.QuoteService
@@ -38,5 +40,28 @@ class QuoteController (
         return ResponseEntity.ok()
             .contentType(MediaType.IMAGE_JPEG)
             .body(body)
+    }
+    
+    @GetMapping
+    fun getQuotes(
+        @AuthenticationPrincipal userSeq: Long,
+        @RequestParam(required = false) seed: Long?,
+        @RequestParam(required = false) size: Long?,
+        @RequestParam(required = false) score: Long?,
+        @RequestParam(required = false) quoteSeq: Long?,
+        ): ResponseEntity<BaseResponse<CursorPage<QuoteResponse, QuoteCursor>>> {
+        val cursor =
+            if (score != null && quoteSeq != null)
+                QuoteCursor(score, quoteSeq)
+            else null
+
+
+        val data = quoteService.getQuotes(
+            seed = seed,
+            cursor = cursor,
+            size = size ?: 20,
+            userSeq = userSeq
+        )
+        return ResponseEntity.ok(BaseResponse.success(data, "글림 조회 성공"))
     }
 }

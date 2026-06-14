@@ -2,22 +2,27 @@ package com.jeongbj.glim.quote.service
 
 import com.jeongbj.glim.book.mapper.toQuoteResponse
 import com.jeongbj.glim.book.repository.BookRepository
+import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.external.ai.gemini.service.GeminiService
 import com.jeongbj.glim.external.ai.pollination.service.PollinationService
 import com.jeongbj.glim.infra.bucket.BucketService
+import com.jeongbj.glim.quote.dto.QuoteCursor
 import com.jeongbj.glim.quote.dto.QuoteRequest
 import com.jeongbj.glim.quote.dto.QuoteResponse
 import com.jeongbj.glim.quote.entity.Quote
 import com.jeongbj.glim.quote.mapper.toResponse
+import com.jeongbj.glim.quote.repository.QuoteQueryRepository
 import com.jeongbj.glim.quote.repository.QuoteRepository
 import com.jeongbj.glim.user.mapper.toQuoteResponse
 import com.jeongbj.glim.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import kotlin.random.Random
 
 @Service
 class QuoteService(
     private val quoteRepository: QuoteRepository,
+    private val quoteQueryRepository: QuoteQueryRepository,
     private val bookRepository: BookRepository,
     private val bucketService: BucketService,
     private val userRepository: UserRepository,
@@ -48,6 +53,22 @@ class QuoteService(
             user = user.toQuoteResponse(),
             book = book.toQuoteResponse()
         )
+    }
+    
+    fun getQuotes(seed: Long?, cursor: QuoteCursor?, size: Long, userSeq: Long)
+    : CursorPage<QuoteResponse, QuoteCursor> {
+        val nowSeed = seed ?: Random.nextLong(Long.MAX_VALUE)
+        val quotes = runCatching {
+            quoteQueryRepository.getQuotes(
+                seed = nowSeed,
+                cursor = cursor,
+                size = size,
+                userSeq = userSeq
+            )
+        }.onFailure { exception ->
+            println(exception)
+        }.getOrThrow()
+        return quotes
     }
 
 }

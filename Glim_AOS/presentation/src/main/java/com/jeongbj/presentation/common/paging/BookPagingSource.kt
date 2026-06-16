@@ -1,4 +1,4 @@
-package com.jeongbj.presentation.feature.book.search.paging
+package com.jeongbj.presentation.common.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

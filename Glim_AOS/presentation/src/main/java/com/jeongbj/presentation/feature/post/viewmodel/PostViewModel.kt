@@ -1,7 +1,6 @@
 package com.jeongbj.presentation.feature.post.viewmodel
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily

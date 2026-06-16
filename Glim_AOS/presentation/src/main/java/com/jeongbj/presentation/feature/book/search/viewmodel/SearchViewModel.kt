@@ -7,12 +7,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.usecase.BookUseCases
+import com.jeongbj.presentation.common.paging.BookPagingSource
 import com.jeongbj.presentation.feature.book.search.SearchAction
 import com.jeongbj.presentation.feature.book.search.SearchMode
 import com.jeongbj.presentation.feature.book.search.SearchSideEffect
 import com.jeongbj.presentation.feature.book.search.SearchState
 import com.jeongbj.presentation.feature.book.search.SearchTab
-import com.jeongbj.presentation.feature.book.search.paging.BookPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow

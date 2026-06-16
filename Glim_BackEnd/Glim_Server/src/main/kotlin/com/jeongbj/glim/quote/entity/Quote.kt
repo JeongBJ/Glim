@@ -50,4 +50,6 @@ class Quote (
 
     fun decreaseLikes() = this.numLikes--
 
+    fun increaseView() = this.numViews++
+
 }

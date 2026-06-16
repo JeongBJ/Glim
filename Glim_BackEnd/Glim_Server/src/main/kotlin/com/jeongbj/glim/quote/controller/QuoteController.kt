@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-
 @RestController
 @RequestMapping("/quote")
 class QuoteController (
@@ -41,7 +40,7 @@ class QuoteController (
             .contentType(MediaType.IMAGE_JPEG)
             .body(body)
     }
-    
+
     @GetMapping
     fun getQuotes(
         @AuthenticationPrincipal userSeq: Long,
@@ -64,4 +63,18 @@ class QuoteController (
         )
         return ResponseEntity.ok(BaseResponse.success(data, "글림 조회 성공"))
     }
+
+    @GetMapping("/view/{quoteSeq}")
+    fun increaseView(@PathVariable quoteSeq: Long): ResponseEntity<BaseResponse<Unit>> {
+        quoteService.increaseView(quoteSeq)
+        return ResponseEntity.ok(BaseResponse.success(Unit, "조회수 증가됨"))
+    }
+
+    @GetMapping("/{quoteSeq}")
+    fun getQuote(@PathVariable quoteSeq: Long, @AuthenticationPrincipal userSeq: Long)
+    : ResponseEntity<BaseResponse<QuoteResponse>> {
+        val quote = quoteService.getQuote(quoteSeq, userSeq)
+        return ResponseEntity.ok(BaseResponse.success(quote, "글림 조회 성공"))
+    }
 }
+

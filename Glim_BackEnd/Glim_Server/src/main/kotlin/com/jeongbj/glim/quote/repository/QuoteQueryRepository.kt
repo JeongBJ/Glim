@@ -4,6 +4,7 @@ import com.jeongbj.glim.book.entity.QBook
 import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.like.entity.QLike
 import com.jeongbj.glim.quote.dto.QuoteCursor
+import com.jeongbj.glim.quote.dto.QuoteDetailProjection
 import com.jeongbj.glim.quote.dto.QuoteProjection
 import com.jeongbj.glim.quote.dto.QuoteResponse
 import com.jeongbj.glim.quote.entity.QQuote
@@ -137,6 +138,54 @@ class QuoteQueryRepository(
         )
     }
 
+
+    fun getQuote(quoteSeq: Long, userSeq: Long): QuoteResponse? {
+        val quote = QQuote.quote
+        val user = QUser.user
+        val book = QBook.book
+        val like = QLike.like
+
+        val likeExpression = JPAExpressions
+            .selectOne()
+            .from(like)
+            .where(
+                like.user.userSeq.eq(userSeq),
+                like.quote.quoteSeq.eq(quote.quoteSeq)
+            )
+            .exists()
+
+        val result = queryFactory
+            .select(
+                Projections.constructor(
+                    QuoteDetailProjection::class.java,
+                    quote.quoteSeq,
+                    quote.imageUrl,
+                    quote.content,
+                    quote.numViews,
+                    quote.numLikes,
+                    likeExpression,
+
+                    user.userSeq,
+                    user.nickname,
+                    user.imageUrl,
+
+                    book.bookSeq,
+                    book.title,
+                    book.coverUrl,
+                    book.author,
+                    book.isbn13,
+                )
+            )
+            .from(quote)
+            .join(quote.user, user)
+            .join(quote.book, book)
+            .where(
+                quote.quoteSeq.eq(quoteSeq)
+            )
+            .fetchOne()
+
+        return result?.toQuoteResponse()
+    }
 
 
 }

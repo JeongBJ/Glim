@@ -15,10 +15,12 @@ import com.jeongbj.glim.quote.repository.QuoteQueryRepository
 import com.jeongbj.glim.quote.repository.QuoteRepository
 import com.jeongbj.glim.user.mapper.toQuoteResponse
 import com.jeongbj.glim.user.repository.UserRepository
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import kotlin.random.Random
 
+@Transactional
 @Service
 class QuoteService(
     private val quoteRepository: QuoteRepository,
@@ -71,4 +73,14 @@ class QuoteService(
         return quotes
     }
 
+    fun getQuote(quoteSeq: Long, userSeq: Long): QuoteResponse {
+        val quote = quoteQueryRepository.getQuote(quoteSeq, userSeq) ?: throw IllegalArgumentException("Quote Not Found")
+        increaseView(quoteSeq)
+        return quote
+    }
+
+    fun increaseView(quoteSeq: Long) {
+        val quote = quoteRepository.findById(quoteSeq).orElseThrow()
+        quote.increaseView()
+    }
 }

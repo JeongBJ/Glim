@@ -46,3 +46,24 @@ fun QuoteProjection.toQuoteResponse(): QuoteResponse = QuoteResponse(
         isbn13 = isbn13
     )
 )
+
+fun QuoteDetailProjection.toQuoteResponse(): QuoteResponse = QuoteResponse(
+    quoteSeq = quoteSeq,
+    imageUrl = imageUrl,
+    content = content,
+    numViews = numViews,
+    numLikes = numLikes,
+    liked = liked,
+    user = QuoteUserResponse(
+        userSeq = userSeq,
+        nickname = nickname,
+        imageUrl = profileImageUrl
+    ),
+    book = QuoteBookResponse(
+        bookSeq = bookSeq,
+        title = title,
+        coverUrl = coverUrl,
+        author = author,
+        isbn13 = isbn13
+    )
+)

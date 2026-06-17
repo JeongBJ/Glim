@@ -9,10 +9,11 @@ import com.jeongbj.glim.R
 import com.jeongbj.presentation.feature.book.detail.BookDetailRoute
 import com.jeongbj.presentation.feature.book.detail.bookDetailNav
 import com.jeongbj.presentation.feature.book.search.searchNav
+import com.jeongbj.presentation.feature.glim.GlimRoute
+import com.jeongbj.presentation.feature.glim.glimNav
 import com.jeongbj.presentation.feature.home.HomeRoute
 import com.jeongbj.presentation.feature.home.homeNav
 import com.jeongbj.presentation.feature.login.LoginRoute
-import com.jeongbj.presentation.feature.login.QuoteDetailRoute
 import com.jeongbj.presentation.feature.login.loginNav
 import com.jeongbj.presentation.feature.post.postNav
 import com.jeongbj.presentation.feature.profile.ProfileRoute
@@ -25,6 +26,7 @@ fun AppNavGraph(
 ) {
     val googleClientId = stringResource(R.string.default_web_client_id)
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = LoginRoute
     ) {
@@ -44,7 +46,7 @@ fun AppNavGraph(
 
         homeNav(
             navigateToBookDetail = { navController.navigate(BookDetailRoute(isbn13 = it)) },
-            navigateToQuoteDetail = { navController.navigate(QuoteDetailRoute) }
+            navigateToQuoteDetail = {  }
         )
 
         searchNav(
@@ -54,12 +56,14 @@ fun AppNavGraph(
         )
 
         bookDetailNav(
-            navigateToQuoteDetail = { },
+            navigateToQuoteDetail = { navController.navigate(GlimRoute(quoteSeq = it)) },
             navigateBack = { navController.popBackStack() }
         )
 
         postNav(
             navigateBack = { navController.popBackStack() }
         )
+
+        glimNav()
     }
 }

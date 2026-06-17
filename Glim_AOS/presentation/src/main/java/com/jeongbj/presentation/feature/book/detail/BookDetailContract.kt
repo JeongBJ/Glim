@@ -31,4 +31,5 @@ sealed interface BookDetailAction {
 sealed interface BookDetailSideEffect {
     data class OpenUrl(val url: String): BookDetailSideEffect
     data object NavigateBack: BookDetailSideEffect
+    data class ShowGlimItem(val quoteSeq: Long): BookDetailSideEffect
 }

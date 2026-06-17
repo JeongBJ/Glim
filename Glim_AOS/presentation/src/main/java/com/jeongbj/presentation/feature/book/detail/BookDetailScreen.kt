@@ -19,7 +19,7 @@ import com.jeongbj.presentation.theme.GlimTheme
 @Composable
 fun BookDetailScreen(
     viewModel: BookDetailViewModel = hiltViewModel(),
-    navigateToQuoteDetail: () -> Unit,
+    navigateToQuoteDetail: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
@@ -35,6 +35,10 @@ fun BookDetailScreen(
 
                 is BookDetailSideEffect.NavigateBack -> {
                     navigateBack()
+                }
+
+                is BookDetailSideEffect.ShowGlimItem -> {
+                    navigateToQuoteDetail(effect.quoteSeq)
                 }
             }
         }

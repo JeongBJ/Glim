@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jeongbj.glim.navigation.AppNavGraph
 import com.jeongbj.glim.navigation.GlimBottomBar
 import com.jeongbj.presentation.feature.book.search.SearchRoute
+import com.jeongbj.presentation.feature.glim.GlimRoute
 import com.jeongbj.presentation.feature.home.HomeRoute
 
 @Composable
@@ -20,13 +21,10 @@ fun MainScreen() {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val currentRoute = navBackStackEntry
-        ?.destination
-        ?.route
-
     val bottomBarRoutes = setOf(
         HomeRoute::class,
-        SearchRoute::class
+        SearchRoute::class,
+        GlimRoute::class
     )
 
     val destination = navBackStackEntry?.destination
@@ -36,12 +34,17 @@ fun MainScreen() {
         } == true
     }
 
+    val isGlimRoute = destination?.hierarchy?.any {
+        it.hasRoute(GlimRoute::class)
+    } == true
+
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
                 GlimBottomBar(
-                    currentRoute = currentRoute,
-                    onNavigate = navController::navigate
+                    destination = destination,
+                    onNavigate = navController::navigate,
+                    isDarkMode = isGlimRoute
                 )
             }
         }
@@ -50,7 +53,7 @@ fun MainScreen() {
             navController = navController,
             modifier = if (showBottomBar) {
                 Modifier
-                    .padding(paddingValues)
+                    .padding(bottom = paddingValues.calculateBottomPadding())
             } else {
                 Modifier
             }

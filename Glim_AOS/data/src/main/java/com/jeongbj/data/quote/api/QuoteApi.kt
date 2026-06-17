@@ -20,7 +20,7 @@ import retrofit2.http.Streaming
 interface QuoteApi {
 
     @Multipart
-    @POST("quote")
+    @POST("quote/insert")
     suspend fun saveQuote(
         @Part("request") quoteRequest: CreateQuoteRequest,
         @Part image: MultipartBody.Part)

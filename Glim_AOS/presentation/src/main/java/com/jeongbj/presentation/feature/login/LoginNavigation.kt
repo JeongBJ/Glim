@@ -7,9 +7,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data object LoginRoute
-@Serializable
-data object QuoteDetailRoute {
-}
 
 fun NavGraphBuilder.loginNav(
     navigateToHome: () -> Unit,

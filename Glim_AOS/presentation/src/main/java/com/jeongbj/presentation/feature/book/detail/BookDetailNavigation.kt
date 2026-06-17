@@ -12,7 +12,7 @@ data class BookDetailRoute(
 )
 
 fun NavGraphBuilder.bookDetailNav(
-    navigateToQuoteDetail: () -> Unit,
+    navigateToQuoteDetail: (Long) -> Unit,
     navigateBack: () -> Unit
 ) {
     composable<BookDetailRoute> {

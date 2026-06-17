@@ -45,12 +45,16 @@ class BookDetailViewModel @Inject constructor(
             is BookDetailAction.OnBuyBookClick -> {
                 onBuyBookClick(action.linkUrl)
             }
-            is BookDetailAction.OnClickQuote -> TODO()
+            is BookDetailAction.OnClickQuote -> onQuoteClicked(action.quoteSeq)
             is BookDetailAction.OnRegisterQuoteClick -> TODO()
             BookDetailAction.ToggleBookDescriptionExpanded -> {
                 toggleBookDescriptionExpanded()
             }
         }
+    }
+
+    private fun onQuoteClicked(quoteSeq: Long) {
+        _sideEffect.tryEmit(BookDetailSideEffect.ShowGlimItem(quoteSeq))
     }
 
     private fun getBookDetail(isbn13: String) {

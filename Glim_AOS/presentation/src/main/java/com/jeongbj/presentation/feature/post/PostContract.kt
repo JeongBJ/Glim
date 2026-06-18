@@ -6,12 +6,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.presentation.common.camera.CameraTarget
+import com.jeongbj.presentation.feature.post.component.ImageTransformState
 import com.jeongbj.presentation.theme.glimDefaultFont
 
 data class PostState(
@@ -29,7 +29,7 @@ data class PostState(
 
 sealed interface PostAction {
     data class OnBackgroundImageSelected(val uri: Uri): PostAction
-    data class OnTextImageSelected(val uri: Uri): PostAction
+    data class OnTextImageSelected(val uri: Uri?): PostAction
     data object OnCloseClicked: PostAction
     data object ToggleButtonVisible: PostAction
     data object OnCompleteClicked: PostAction
@@ -38,7 +38,6 @@ sealed interface PostAction {
     data object OnBackgroundImageClicked: PostAction
     data object OnCreateTextClicked: PostAction
     data class OnLaunchCameraClicked(val cameraTarget: CameraTarget): PostAction
-    data class OnImageTransform(val centroid: Offset, val pan: Offset, val zoom: Float, val viewportSize: IntSize): PostAction
     data class OnTextDragged(val offset: Offset): PostAction
     data class OnTextFocusChanged(val focus: Boolean): PostAction
     data class OnTextChanged(val text: String): PostAction
@@ -51,6 +50,7 @@ sealed interface PostAction {
     data object OnDecreaseFontSize: PostAction
     data class OnBookSelected(val book: Book?): PostAction
     data object OnAddBookInfoClicked: PostAction
+    data class OnTextRecognized(val text: String): PostAction
 }
 
 sealed interface PostSideEffect {
@@ -60,11 +60,6 @@ sealed interface PostSideEffect {
     data class ShowToast(val msg: String): PostSideEffect
     data object NavigateBack: PostSideEffect
 }
-
-data class ImageTransformState(
-    val scale: Float = 1f,
-    val offset: Offset = Offset.Zero,
-)
 
 data class PostText(
     val text: String = "",

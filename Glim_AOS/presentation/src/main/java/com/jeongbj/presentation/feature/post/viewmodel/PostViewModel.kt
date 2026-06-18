@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeongbj.core.common.ResultType
@@ -13,7 +12,6 @@ import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.quote.model.CreateQuote
 import com.jeongbj.domain.quote.usecase.QuoteUseCases
 import com.jeongbj.presentation.common.camera.CameraTarget
-import com.jeongbj.presentation.common.util.transform
 import com.jeongbj.presentation.feature.post.PostAction
 import com.jeongbj.presentation.feature.post.PostSideEffect
 import com.jeongbj.presentation.feature.post.PostState
@@ -47,7 +45,6 @@ class PostViewModel @Inject constructor(
             PostAction.OnCompleteClicked -> TODO()
             is PostAction.OnCreateTextClicked -> onCreateText()
             PostAction.OnImageGenerateClicked -> onImageGenerateClicked()
-            is PostAction.OnImageTransform -> onImageTransform(action.centroid, action.pan, action.zoom, action.viewportSize)
             is PostAction.OnLaunchCameraClicked -> onLaunchCameraClicked(action.cameraTarget)
             is PostAction.OnTextImageSelected -> onTextImageSelected(action.uri)
             PostAction.OnTextRecognitionClicked -> onTextRecognitionClicked()
@@ -64,6 +61,7 @@ class PostViewModel @Inject constructor(
             PostAction.OnToggleItalic -> onToggleItalic()
             is PostAction.OnBookSelected -> onBookSelected(action.book)
             PostAction.OnAddBookInfoClicked -> onAddBookInfoClicked()
+            is PostAction.OnTextRecognized -> TODO()
         }
     }
 
@@ -193,7 +191,7 @@ class PostViewModel @Inject constructor(
     private fun onTextRecognitionClicked() =
         _sideEffect.tryEmit(PostSideEffect.OpenCamera(CameraTarget.OCR))
 
-    private fun onTextImageSelected(uri: Uri) =
+    private fun onTextImageSelected(uri: Uri?) =
         _state.update { it.copy(ocrImageUri = uri) }
 
     private fun onCloseClicked() =
@@ -243,19 +241,4 @@ class PostViewModel @Inject constructor(
             offset = it.postText.offset + offset
         ))
     }
-
-
-    private fun onImageTransform(centroid: Offset, pan: Offset, zoom: Float, viewportSize: IntSize) =
-        _state.update { state ->
-            state.copy(
-                imageTransform = state.imageTransform.transform(
-                    centroid = centroid,
-                    pan = pan,
-                    zoom = zoom,
-                    viewportSize = viewportSize
-                )
-            )
-        }
-
-
 }

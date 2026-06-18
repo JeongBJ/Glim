@@ -63,11 +63,11 @@ fun PostContent(
                 }
         ) {
             TransformableImage(
-                state = state,
-                onAction = onAction,
                 modifier = Modifier
                     .statusBarsPadding()
-                    .clipToBounds()
+                    .clipToBounds(),
+                imageUri = state.backgroundImageUri,
+                imageAlpha = state.backgroundImageAlpha,
             )
             TextLayer(
                 state = state,

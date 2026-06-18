@@ -64,6 +64,9 @@ dependencies {
 
     implementation(libs.lottie.compose)
 
+    implementation(libs.mlkit)
+    implementation(libs.mlkit.korean)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)

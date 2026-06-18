@@ -61,9 +61,18 @@ class PostViewModel @Inject constructor(
             PostAction.OnToggleItalic -> onToggleItalic()
             is PostAction.OnBookSelected -> onBookSelected(action.book)
             PostAction.OnAddBookInfoClicked -> onAddBookInfoClicked()
-            is PostAction.OnTextRecognized -> TODO()
+            is PostAction.OnTextRecognized -> onTextRecognized(action.text)
         }
     }
+
+    private fun onTextRecognized(text: String) =
+        _state.update { it.copy(
+            postText = it.postText.copy(
+                text = text,
+                isFocused = true
+            ),
+            ocrImageUri = null
+        ) }
 
     private fun onAddBookInfoClicked() =
         _state.update { it.copy(showBottomSheet = true) }

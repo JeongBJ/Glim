@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.jeongbj.presentation.common.camera.CameraTarget
@@ -97,7 +98,11 @@ fun PostScreen(
             message = "작업 중인 내용은 저장되지 않습니다.\n종료하시겠습니까?",
             onConfirm = {
                 showCloseDialog = false
-                navigateBack()
+                if (state.ocrImageUri == null) {
+                    navigateBack()
+                } else {
+                    viewModel.onAction(PostAction.OnTextImageSelected(null))
+                }
             },
             onDismiss = { showCloseDialog = false }
         )

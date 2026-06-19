@@ -42,7 +42,6 @@ class PostViewModel @Inject constructor(
             PostAction.OnBackgroundImageClicked -> onBackgroundImageClicked()
             is PostAction.OnBackgroundImageSelected -> onBackgroundImageSelected(action.uri)
             PostAction.OnCloseClicked -> onCloseClicked()
-            PostAction.OnCompleteClicked -> TODO()
             is PostAction.OnCreateTextClicked -> onCreateText()
             PostAction.OnImageGenerateClicked -> onImageGenerateClicked()
             is PostAction.OnLaunchCameraClicked -> onLaunchCameraClicked(action.cameraTarget)

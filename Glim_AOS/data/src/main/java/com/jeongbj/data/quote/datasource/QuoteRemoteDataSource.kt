@@ -32,4 +32,7 @@ class QuoteRemoteDataSource @Inject constructor(
 
     suspend fun increaseView(quoteSeq: Long): BaseResponse<Unit> =
         quoteApi.increaseView(quoteSeq)
+
+    suspend fun likeQuote(quoteSeq: Long): BaseResponse<Unit> =
+        quoteApi.likeQuote(quoteSeq)
 }

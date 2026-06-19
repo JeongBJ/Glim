@@ -39,4 +39,7 @@ interface QuoteApi {
 
     @GET("quote/view/{quoteSeq}")
     suspend fun increaseView(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
+
+    @GET("like/{quoteSeq}")
+    suspend fun likeQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
 }

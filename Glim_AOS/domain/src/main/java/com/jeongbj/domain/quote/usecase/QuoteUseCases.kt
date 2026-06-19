@@ -7,5 +7,6 @@ data class QuoteUseCases @Inject constructor(
     val generateImageUseCase: GenerateImageUseCase,
     val getQuotesUseCase: GetQuotesUseCase,
     val getQuoteUseCase: GetQuoteUseCase,
-    val increaseViewUseCase: IncreaseViewUseCase
+    val increaseViewUseCase: IncreaseViewUseCase,
+    val likeQuoteUseCase: LikeQuoteUseCase
 )

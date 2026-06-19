@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.sp
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.presentation.common.camera.CameraTarget
-import com.jeongbj.presentation.feature.post.component.ImageTransformState
 import com.jeongbj.presentation.theme.glimDefaultFont
 
 data class PostState(
@@ -19,7 +18,6 @@ data class PostState(
     val backgroundImageAlpha: Float = 1f,
     val ocrImageUri: Uri? = null,
     val buttonVisible: Boolean = true,
-    val imageTransform: ImageTransformState = ImageTransformState(),
     val postText: PostText = PostText(),
     val isLoading: Boolean = false,
     val selectedBook: Book? = null,
@@ -32,7 +30,6 @@ sealed interface PostAction {
     data class OnTextImageSelected(val uri: Uri?): PostAction
     data object OnCloseClicked: PostAction
     data object ToggleButtonVisible: PostAction
-    data object OnCompleteClicked: PostAction
     data object OnImageGenerateClicked: PostAction
     data object OnTextRecognitionClicked: PostAction
     data object OnBackgroundImageClicked: PostAction

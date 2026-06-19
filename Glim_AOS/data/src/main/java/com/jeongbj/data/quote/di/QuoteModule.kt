@@ -5,12 +5,14 @@ import com.jeongbj.data.quote.usecase.GenerateImageUseCaseImpl
 import com.jeongbj.data.quote.usecase.GetQuoteUseCaseImpl
 import com.jeongbj.data.quote.usecase.GetQuotesUseCaseImpl
 import com.jeongbj.data.quote.usecase.IncreaseViewUseCaseImpl
+import com.jeongbj.data.quote.usecase.LikeQuoteUseCaseImpl
 import com.jeongbj.data.quote.usecase.SaveQuoteUseCaseImpl
 import com.jeongbj.domain.quote.repository.QuoteRepository
 import com.jeongbj.domain.quote.usecase.GenerateImageUseCase
 import com.jeongbj.domain.quote.usecase.GetQuoteUseCase
 import com.jeongbj.domain.quote.usecase.GetQuotesUseCase
 import com.jeongbj.domain.quote.usecase.IncreaseViewUseCase
+import com.jeongbj.domain.quote.usecase.LikeQuoteUseCase
 import com.jeongbj.domain.quote.usecase.SaveQuoteUseCase
 import dagger.Binds
 import dagger.Module
@@ -40,4 +42,7 @@ abstract class QuoteModule {
 
     @Binds
     abstract fun bindIncreaseViewUseCase(impl: IncreaseViewUseCaseImpl): IncreaseViewUseCase
+
+    @Binds
+    abstract fun likeQuoteUseCase(impl: LikeQuoteUseCaseImpl): LikeQuoteUseCase
 }

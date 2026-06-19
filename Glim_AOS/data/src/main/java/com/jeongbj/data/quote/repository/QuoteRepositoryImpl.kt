@@ -53,4 +53,7 @@ class QuoteRepositoryImpl @Inject constructor(
 
     override suspend fun increaseView(quoteSeq: Long) =
         quoteRemoteDataSource.increaseView(quoteSeq).unwrap()
+
+    override suspend fun likeQuote(quoteSeq: Long) =
+        quoteRemoteDataSource.likeQuote(quoteSeq).unwrap()
 }

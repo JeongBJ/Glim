@@ -16,4 +16,6 @@ interface QuoteRepository {
     suspend fun getQuote(quoteSeq: Long): Quote
 
     suspend fun increaseView(quoteSeq: Long)
+
+    suspend fun likeQuote(quoteSeq: Long)
 }

@@ -27,3 +27,7 @@ interface GetQuoteUseCase {
 interface IncreaseViewUseCase {
     operator fun invoke(quoteSeq: Long): Flow<ResultType<Unit>>
 }
+
+interface LikeQuoteUseCase {
+    operator fun invoke(quoteSeq: Long): Flow<ResultType<Unit>>
+}

@@ -139,20 +139,24 @@ class QuoteQueryRepository(
     }
 
 
-    fun getQuote(quoteSeq: Long, userSeq: Long): QuoteResponse? {
+    fun getQuote(quoteSeq: Long, userSeq: Long?): QuoteResponse? {
         val quote = QQuote.quote
         val user = QUser.user
         val book = QBook.book
         val like = QLike.like
 
-        val likeExpression = JPAExpressions
-            .selectOne()
-            .from(like)
-            .where(
-                like.user.userSeq.eq(userSeq),
-                like.quote.quoteSeq.eq(quote.quoteSeq)
-            )
-            .exists()
+        val likeExpression = if (userSeq == null) {
+            Expressions.FALSE
+        } else {
+            JPAExpressions
+                .selectOne()
+                .from(like)
+                .where(
+                    like.user.userSeq.eq(userSeq),
+                    like.quote.quoteSeq.eq(quote.quoteSeq)
+                )
+                .exists()
+        }
 
         val result = queryFactory
             .select(

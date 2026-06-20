@@ -73,7 +73,7 @@ class QuoteService(
         return quotes
     }
 
-    fun getQuote(quoteSeq: Long, userSeq: Long): QuoteResponse {
+    fun getQuote(quoteSeq: Long, userSeq: Long?): QuoteResponse {
         val quote = quoteQueryRepository.getQuote(quoteSeq, userSeq) ?: throw IllegalArgumentException("Quote Not Found")
         increaseView(quoteSeq)
         return quote

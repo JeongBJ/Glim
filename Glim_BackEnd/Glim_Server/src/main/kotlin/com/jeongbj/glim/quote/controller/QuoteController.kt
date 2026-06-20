@@ -65,7 +65,7 @@ class QuoteController (
     }
 
     @GetMapping("/{quoteSeq}")
-    fun getQuote(@PathVariable quoteSeq: Long, @AuthenticationPrincipal userSeq: Long)
+    fun getQuote(@PathVariable quoteSeq: Long, @AuthenticationPrincipal userSeq: Long?)
     : ResponseEntity<BaseResponse<QuoteResponse>> {
         val quote = quoteService.getQuote(quoteSeq, userSeq)
         return ResponseEntity.ok(BaseResponse.success(quote, "글림 조회 성공"))

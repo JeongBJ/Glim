@@ -3,6 +3,7 @@ package com.jeongbj.glim.common.config
 import com.jeongbj.glim.security.filter.JwtFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
@@ -23,7 +24,7 @@ class SecurityConfig(
                 it.requestMatchers("/auth/**").permitAll()
                 it.requestMatchers("/login/**").permitAll()
                 it.requestMatchers("/.well-known/**").permitAll()
-                it.requestMatchers("/share/**").permitAll()
+                it.requestMatchers(HttpMethod.GET, "/quote/**").permitAll()
                 it.anyRequest().authenticated()
             }
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)

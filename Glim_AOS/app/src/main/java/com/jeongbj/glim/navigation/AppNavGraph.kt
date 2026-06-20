@@ -64,6 +64,8 @@ fun AppNavGraph(
             navigateBack = { navController.popBackStack() }
         )
 
-        glimNav()
+        glimNav(
+            navigateToBookDetail = { navController.navigate(BookDetailRoute(it)) }
+        )
     }
 }

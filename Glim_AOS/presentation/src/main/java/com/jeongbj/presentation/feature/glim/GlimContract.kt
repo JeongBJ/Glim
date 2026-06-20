@@ -10,8 +10,10 @@ sealed interface GlimAction {
     data class OnLikeClicked(val quote: Quote): GlimAction
     data class OnShareClicked(val quote: Quote): GlimAction
     data class OnBookInfoClicked(val isbn13: String): GlimAction
+    data class OnSaveClicked(val imageUrl: String): GlimAction
 }
 
 sealed interface GlimSideEffect {
     data class NavigateToBookDetail(val isbn13: String): GlimSideEffect
+    data class ShowToast(val msg: String): GlimSideEffect
 }

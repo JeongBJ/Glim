@@ -12,11 +12,13 @@ data class GlimRoute(
 )
 
 fun NavGraphBuilder.glimNav(
+    navigateToBookDetail: (String) -> Unit
 ) {
     composable<GlimRoute> {
         val viewModel: GlimViewModel = hiltViewModel()
         GlimScreen(
-            viewModel = viewModel
+            viewModel = viewModel,
+            navigateToBookDetail = { navigateToBookDetail(it) }
         )
     }
 }

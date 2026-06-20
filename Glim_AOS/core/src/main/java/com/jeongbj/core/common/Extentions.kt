@@ -1,10 +1,15 @@
 package com.jeongbj.core.common
 
+import jdk.jfr.internal.OldObjectSample.emit
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import java.time.LocalDate
 
 inline fun <T> flowResult(
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
     crossinline block: suspend () -> T
 ): Flow<ResultType<T>> = flow {
     emit(ResultType.Loading)
@@ -13,7 +18,7 @@ inline fun <T> flowResult(
     } catch (e: Exception) {
         emit(ResultType.Error(e))
     }
-}
+}.flowOn(dispatcher)
 
 fun <T> BaseResponse<T>.unwrap(): T {
     if (status != 200) {

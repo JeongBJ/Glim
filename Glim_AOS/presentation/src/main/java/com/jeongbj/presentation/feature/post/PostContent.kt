@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.jeongbj.android.extentions.toJpegByteArray
+import com.jeongbj.android.image.toJpegByteArray
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.post.component.BookInfoSection
 import com.jeongbj.presentation.feature.post.component.BookSearchBottomSheet

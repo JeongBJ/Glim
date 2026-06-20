@@ -12,7 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import com.jeongbj.android.extentions.createImageUri
+import com.jeongbj.android.image.createImageUri
 import com.jeongbj.android.extentions.hasCameraPermission
 
 @Stable

@@ -33,15 +33,15 @@ fun GlimItem(
     quote: Quote,
     onLikeClicked: () -> Unit = {},
     onShareClicked: () -> Unit = {},
-    onBookInfoClicked: (String) -> Unit = {}
+    onBookInfoClicked: (String) -> Unit = {},
+    onSaveClicked: (String) -> Unit = {}
 ) {
-    val saveToGallery = { }
     Box(
         modifier = modifier
     ) {
         GlimAsyncImage(
             modifier = Modifier
-                .aspectRatio(4/7f)
+                .aspectRatio(4 / 7f)
                 .align(Alignment.Center),
             imageUrl = quote.imageUrl
         )
@@ -55,7 +55,7 @@ fun GlimItem(
         ) {
             ActionButton(
                 modifier = Modifier.padding(top = 24.dp),
-                onClick = saveToGallery,
+                onClick = { onSaveClicked(quote.imageUrl) },
                 painter = painterResource(R.drawable.ic_download)
             )
 

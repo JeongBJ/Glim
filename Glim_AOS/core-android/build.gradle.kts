@@ -27,12 +27,18 @@ android {
     }
 
     val baseUrl = System.getenv("GLIM_BASE_URL") ?: "https://default"
+
     defaultConfig {
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
     }
+}
 
-
-
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add(
+            "-Xannotation-default-target=param-property"
+        )
+    }
 }
 
 dependencies {

@@ -25,7 +25,8 @@ fun GlimContent(
             quote = quote,
             onLikeClicked = { onAction(GlimAction.OnLikeClicked(quote))},
             onShareClicked = { onAction(GlimAction.OnShareClicked(quote)) },
-            onBookInfoClicked = { onAction(GlimAction.OnBookInfoClicked(it)) }
+            onBookInfoClicked = { onAction(GlimAction.OnBookInfoClicked(it)) },
+            onSaveClicked = { onAction(GlimAction.OnSaveClicked(it)) }
         )
     }
 }

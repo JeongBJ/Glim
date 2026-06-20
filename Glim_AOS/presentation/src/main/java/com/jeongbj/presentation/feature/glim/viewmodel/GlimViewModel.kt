@@ -1,5 +1,6 @@
 package com.jeongbj.presentation.feature.glim.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import coil3.util.CoilUtils.result
+import com.jeongbj.android.image.ImageSaver
 import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.domain.quote.usecase.QuoteUseCases
@@ -21,6 +24,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -34,6 +38,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GlimViewModel @Inject constructor(
     private val quoteUseCases: QuoteUseCases,
+    private val imageSaver: ImageSaver,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -43,6 +48,7 @@ class GlimViewModel @Inject constructor(
     private val quoteTrigger = MutableStateFlow<QuoteRequest>(QuoteRequest.List)
 
     private val _sideEffect = MutableSharedFlow<GlimSideEffect>(extraBufferCapacity = 1)
+    val sideEffect = _sideEffect.asSharedFlow()
 
 
     private val localLikes = MutableStateFlow<Map<Long, Boolean>>(emptyMap())
@@ -99,6 +105,26 @@ class GlimViewModel @Inject constructor(
             is GlimAction.OnBookInfoClicked -> onBookInfoClicked(action.isbn13)
             is GlimAction.OnLikeClicked -> onLikeClicked(action.quote)
             is GlimAction.OnShareClicked -> TODO()
+            is GlimAction.OnSaveClicked -> onSaveClicked(action.imageUrl)
+        }
+    }
+
+    private fun onSaveClicked(imageUrl: String) {
+        Timber.d("onSaveClicked: ${imageUrl}")
+        viewModelScope.launch {
+            imageSaver.saveImageToGallery(imageUrl).collect { result ->
+                when (result) {
+                    is ResultType.Success -> {
+                        _state.update { it.copy(isLoading = false) }
+                        _sideEffect.emit(GlimSideEffect.ShowToast("저장이 완료되었습니다."))
+                    }
+                    is ResultType.Error -> {
+                        Timber.d("onSaveClicked: ${result.exception}")
+                        _state.update { it.copy(isLoading = false) }
+                    }
+                    ResultType.Loading -> _state.update { it.copy(isLoading = true) }
+                }
+            }
         }
     }
 

@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.jeongbj.glim",
+      "sha256_cert_fingerprints": [
+        "18:A0:EC:AD:37:4D:3C:C8:6F:AB:0B:3C:14:87:8E:22:8F:94:1F:67:23:3F:DA:28:A6:15:80:D6:6D:A6:42:C8"
+      ]
+    }
+  }
+]

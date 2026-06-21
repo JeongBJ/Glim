@@ -56,11 +56,23 @@ class SearchViewModel @Inject constructor(
             is SearchAction.OnBookClick -> {
                 navigateToBookDetail(action.book)
             }
-            is SearchAction.OnQueryClick -> TODO()
-            is SearchAction.OnQuoteClick -> TODO()
-            is SearchAction.OnBackClick -> TODO()
+            is SearchAction.OnQueryClick -> onQueryClicked(action.query, action.mode)
+            is SearchAction.OnQuoteClick -> onQuoteClicked(action.quoteSeq)
+            is SearchAction.OnBackClick -> onBackClicked()
         }
     }
+
+    private fun onQueryClicked(query: String, mode: SearchMode) =
+        _state.update { it.copy(
+            query = query,
+            searchMode = mode
+        ) }
+
+
+    private fun onBackClicked() =
+        _sideEffect.tryEmit(SearchSideEffect.NavigateBack)
+    private fun onQuoteClicked(quoteSeq: Long) =
+        _sideEffect.tryEmit(SearchSideEffect.NavigateToQuoteDetail(quoteSeq))
 
     private fun navigateToBookDetail(book: Book) {
         viewModelScope.launch {

@@ -112,7 +112,7 @@ fun PostContent(
             if(state.showBottomSheet) {
                 BookSearchBottomSheet(
                     onDismiss = { onAction(PostAction.OnBookSelected(null)) },
-                    onBookSelected = { onAction(PostAction.OnBookSelected(it)) }
+                    onBookSelected = { onAction(PostAction.OnBookSelected(it)) },
                 )
             }
         }

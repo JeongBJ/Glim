@@ -15,7 +15,7 @@ import com.jeongbj.presentation.feature.book.search.SearchScreen
 @Composable
 fun BookSearchBottomSheet(
     onDismiss: () -> Unit,
-    onBookSelected: (Book) -> Unit
+    onBookSelected: (Book) -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
 
@@ -30,9 +30,7 @@ fun BookSearchBottomSheet(
     ) {
         SearchScreen(
             popBackStack = onDismiss,
-            onQuoteBookSelected = onBookSelected,
-            navigateToQuoteDetail = { },
-            navigateToBookDetail = { }
+            onQuoteBookSelected = onBookSelected
         )
     }
 }

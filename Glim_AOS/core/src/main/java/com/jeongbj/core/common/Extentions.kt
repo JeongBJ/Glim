@@ -1,6 +1,5 @@
 package com.jeongbj.core.common
 
-import jdk.jfr.internal.OldObjectSample.emit
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

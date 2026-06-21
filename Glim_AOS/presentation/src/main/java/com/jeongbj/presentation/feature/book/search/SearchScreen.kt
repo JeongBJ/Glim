@@ -19,9 +19,9 @@ import com.jeongbj.presentation.theme.StatusBarStyle
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
-    navigateToQuoteDetail: () -> Unit,
+    navigateToQuoteDetail: ((Long) -> Unit)? = null,
     popBackStack: (() -> Unit)? = null,
-    navigateToBookDetail: (String) -> Unit,
+    navigateToBookDetail: ((String) -> Unit)? = null,
     onQuoteBookSelected: ((Book) -> Unit)? = null
 ) {
     val books = viewModel.searchBookResult.collectAsLazyPagingItems()
@@ -39,9 +39,12 @@ fun SearchScreen(
                 }
 
                 is SearchSideEffect.NavigateToBookDetail -> {
-                    if (onQuoteBookSelected == null) navigateToBookDetail(effect.book.isbn13)
+                    if (onQuoteBookSelected == null) navigateToBookDetail?.invoke(effect.book.isbn13)
                     else onQuoteBookSelected(effect.book)
                 }
+
+                SearchSideEffect.NavigateBack -> popBackStack?.invoke() ?: { }
+                is SearchSideEffect.NavigateToQuoteDetail -> navigateToQuoteDetail?.invoke(effect.quoteSeq)
             }
         }
     }

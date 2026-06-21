@@ -15,6 +15,7 @@ import com.jeongbj.presentation.feature.home.HomeRoute
 import com.jeongbj.presentation.feature.home.homeNav
 import com.jeongbj.presentation.feature.login.LoginRoute
 import com.jeongbj.presentation.feature.login.loginNav
+import com.jeongbj.presentation.feature.post.PostRoute
 import com.jeongbj.presentation.feature.post.postNav
 import com.jeongbj.presentation.feature.profile.ProfileRoute
 import com.jeongbj.presentation.feature.profile.profileNav
@@ -51,17 +52,18 @@ fun AppNavGraph(
 
         searchNav(
             navigateToBookDetail = { navController.navigate(BookDetailRoute(isbn13 = it)) },
-            navigateToQuoteDetail = { },
+            navigateToQuoteDetail = { navController.navigate(GlimRoute(it)) },
             popBackStack = { navController.popBackStack() }
         )
 
         bookDetailNav(
             navigateToQuoteDetail = { navController.navigate(GlimRoute(quoteSeq = it)) },
-            navigateBack = { navController.popBackStack() }
+            navigateBack = { navController.popBackStack() },
+            navigateToPost = { navController.navigate(PostRoute) }
         )
 
         postNav(
-            navigateBack = { navController.popBackStack() }
+            navigateBack = { navController.popBackStack() },
         )
 
         glimNav(

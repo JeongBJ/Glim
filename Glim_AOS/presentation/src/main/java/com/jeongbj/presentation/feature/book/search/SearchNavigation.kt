@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data object SearchRoute
 
 fun NavGraphBuilder.searchNav(
-    navigateToQuoteDetail: () -> Unit,
+    navigateToQuoteDetail: (Long) -> Unit,
     navigateToBookDetail: (String) -> Unit,
     popBackStack: () -> Unit
 ) {
@@ -19,7 +19,7 @@ fun NavGraphBuilder.searchNav(
         SearchScreen(
             viewModel = viewModel,
             navigateToBookDetail = navigateToBookDetail,
-            navigateToQuoteDetail = navigateToQuoteDetail,
+            navigateToQuoteDetail = { navigateToQuoteDetail(it) },
             popBackStack = popBackStack
         )
     }

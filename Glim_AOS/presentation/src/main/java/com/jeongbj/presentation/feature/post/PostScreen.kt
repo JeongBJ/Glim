@@ -1,6 +1,5 @@
 package com.jeongbj.presentation.feature.post
 
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -20,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.jeongbj.android.extentions.showToast
 import com.jeongbj.presentation.common.camera.CameraTarget
 import com.jeongbj.presentation.common.camera.rememberCameraHandler
 import com.jeongbj.presentation.common.component.AnimationLoadingOverlay
@@ -57,7 +57,7 @@ fun PostScreen(
             }
         },
         onPermissionDenied = {
-            Toast.makeText(context, "카메라 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+            context.showToast("카메라 권한이 필요합니다.")
         }
     )
 
@@ -83,7 +83,7 @@ fun PostScreen(
                 }
 
                 is PostSideEffect.ShowToast -> {
-                    Toast.makeText(context, effect.msg, Toast.LENGTH_SHORT).show()
+                    context.showToast(effect.msg)
                 }
 
                 PostSideEffect.NavigateBack -> navigateBack()

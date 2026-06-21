@@ -13,13 +13,15 @@ data class BookDetailRoute(
 
 fun NavGraphBuilder.bookDetailNav(
     navigateToQuoteDetail: (Long) -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToPost: () -> Unit
 ) {
     composable<BookDetailRoute> {
         val viewModel: BookDetailViewModel = hiltViewModel()
         BookDetailScreen(
             viewModel = viewModel,
             navigateToQuoteDetail = navigateToQuoteDetail,
+            navigateToPost = navigateToPost,
             navigateBack = navigateBack
         )
     }

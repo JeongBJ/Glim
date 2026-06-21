@@ -34,6 +34,8 @@ sealed interface SearchAction {
 sealed interface SearchSideEffect {
     data object ScrollToTop: SearchSideEffect
     data class NavigateToBookDetail(val book: Book): SearchSideEffect
+    data class NavigateToQuoteDetail(val quoteSeq: Long): SearchSideEffect
+    data object NavigateBack: SearchSideEffect
 }
 
 enum class SearchMode {

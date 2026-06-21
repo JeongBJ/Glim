@@ -82,7 +82,8 @@
     <script>
         setTimeout(() => {
             location.href =
-                "https://jeongbj.kro.kr/glim/share/[[${quoteSeq}]]";
+                "intent://jeongbj.kro.kr/glim/share/" + [[${quoteSeq}]]
+                + "#Intent;scheme=https;package=com.jeongbj.glim;end";
         }, 3000);
     </script>
 </head>
@@ -105,10 +106,8 @@
             명언 내용
         </div>
 
-        <a
-                class="button"
-                th:href="'https://jeongbj.kro.kr/glim/share/' + ${quoteSeq}">
-            앱에서 보기
+        <a th:href="|intent://jeongbj.kro.kr/glim/share/${quoteSeq}#Intent;scheme=https;package=com.jeongbj.glim;end|">
+            앱에서 열기
         </a>
 
         <div class="loading">

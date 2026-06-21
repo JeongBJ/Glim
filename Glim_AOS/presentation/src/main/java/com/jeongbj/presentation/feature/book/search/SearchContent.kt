@@ -29,6 +29,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookRank
+import com.jeongbj.domain.book.model.QueryType
 import com.jeongbj.presentation.common.component.LoadingOverlay
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.book.search.component.BookItem
@@ -115,14 +116,14 @@ fun SearchPortrait(
                     }
                 }
                 when (state.selectedTab) {
-                    SearchTab.BOOK -> {
+                    QueryType.BOOK -> {
                         bookResultSection(
                             books = books,
                             onAction = onAction
                         )
                     }
 
-                    SearchTab.QUOTE -> {
+                    QueryType.QUOTE -> {
 
                     }
                 }
@@ -188,7 +189,7 @@ fun SearchLandscape(
                     }
                 }
                 when (state.selectedTab) {
-                    SearchTab.BOOK -> {
+                    QueryType.BOOK -> {
                         items(
                             count = books.itemCount,
                             key = books.itemKey {
@@ -212,7 +213,7 @@ fun SearchLandscape(
                         }
                     }
 
-                    SearchTab.QUOTE -> {
+                    QueryType.QUOTE -> {
 
                     }
                 }

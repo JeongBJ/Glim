@@ -2,5 +2,6 @@ package com.jeongbj.domain.book.model
 
 data class BookRank(
     val rank: Int = 0,
-    val title: String
+    val title: String,
+    val queryType: QueryType = QueryType.BOOK
 )

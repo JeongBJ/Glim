@@ -5,7 +5,9 @@ import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookDetail
 import com.jeongbj.domain.book.model.BookItemList
+import com.jeongbj.domain.book.model.BookRank
 import com.jeongbj.domain.book.model.BookSearchQueryType
+import com.jeongbj.domain.book.model.QueryType
 import kotlinx.coroutines.flow.Flow
 
 interface SearchBookUseCase {
@@ -19,4 +21,16 @@ interface SearchBookByIsbn13UseCase {
 
 interface GetHomeDataUseCase {
     operator fun invoke(): Flow<ResultType<BookItemList>>
+}
+
+interface GetRecentQueryUseCase {
+    suspend operator fun invoke(): Flow<List<BookRank>>
+}
+
+interface SaveRecentQueryUseCase {
+    suspend operator fun invoke(query: String, queryType: QueryType)
+}
+
+interface ClearRecentQueryUseCase {
+    suspend operator fun invoke()
 }

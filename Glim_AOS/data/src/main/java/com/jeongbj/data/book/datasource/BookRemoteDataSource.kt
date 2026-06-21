@@ -3,10 +3,13 @@ package com.jeongbj.data.book.datasource
 import com.jeongbj.core.common.BaseResponse
 import com.jeongbj.core.common.PagingResult
 import com.jeongbj.data.book.api.BookApi
+import com.jeongbj.data.book.request.BookRankRequest
 import com.jeongbj.data.book.request.BookSearchRequest
 import com.jeongbj.data.book.response.BookDetailResponse
 import com.jeongbj.data.book.response.BookItemListResponse
+import com.jeongbj.data.book.response.BookRankResponse
 import com.jeongbj.data.book.response.BookResponse
+import com.jeongbj.domain.book.model.QueryType
 import javax.inject.Inject
 
 class BookRemoteDataSource @Inject constructor(
@@ -21,4 +24,7 @@ class BookRemoteDataSource @Inject constructor(
 
     suspend fun getHomeData(): BaseResponse<BookItemListResponse> =
         bookApi.getHomeData()
+
+    suspend fun getQueryRanking(request: BookRankRequest): BaseResponse<List<BookRankResponse>> =
+        bookApi.getQueryRanking(request)
 }

@@ -3,6 +3,7 @@ package com.jeongbj.presentation.feature.book.search
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookRank
 import com.jeongbj.domain.book.model.BookSearchQueryType
+import com.jeongbj.domain.book.model.QueryType
 import com.jeongbj.domain.quote.model.Quote
 
 data class SearchState(
@@ -10,7 +11,7 @@ data class SearchState(
     val searchMode: SearchMode = SearchMode.POPULAR,
     val recentQuery: List<BookRank> = listOf(),
     val popularQuery: List<BookRank> = listOf(),
-    val selectedTab: SearchTab = SearchTab.BOOK,
+    val selectedTab: QueryType = QueryType.BOOK,
     val searchResultBook: List<Book> = listOf(),
     val searchResultQuote: List<Quote> = listOf(),
     val searchFilter: SearchFilter = SearchFilter.ALL,
@@ -25,7 +26,7 @@ sealed interface SearchAction {
     data class OnTextChanged(val query: String): SearchAction
     data object OnSearchClick: SearchAction
     data class OnQueryClick(val query: String, val mode: SearchMode): SearchAction
-    data class OnSelectedTabChanged(val selectedTab: SearchTab): SearchAction
+    data class OnSelectedTabChanged(val selectedTab: QueryType): SearchAction
     data class OnFilterSelected(val filter: SearchFilter): SearchAction
 
 }
@@ -42,11 +43,6 @@ enum class SearchMode {
     POPULAR,
     RECENT,
     RESULT
-}
-
-enum class SearchTab(val displayName: String) {
-    BOOK("도서"),
-    QUOTE("글림"),
 }
 
 enum class SearchFilter(val displayName: String, val type: BookSearchQueryType) {

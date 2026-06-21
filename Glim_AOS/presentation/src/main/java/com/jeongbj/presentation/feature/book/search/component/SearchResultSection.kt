@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.jeongbj.domain.book.model.QueryType
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.book.search.SearchAction
 import com.jeongbj.presentation.feature.book.search.SearchState
-import com.jeongbj.presentation.feature.book.search.SearchTab
 import com.jeongbj.presentation.theme.GlimTheme
 
 @Composable
@@ -30,7 +30,7 @@ fun SearchResultSection(
         SecondaryTabRow(
             selectedTabIndex = state.selectedTab.ordinal,
         ) {
-            SearchTab.entries.forEach { tab ->
+            QueryType.entries.forEach { tab ->
                 Tab(
                     selected = state.selectedTab == tab,
                     onClick = { onAction(SearchAction.OnSelectedTabChanged(tab)) },
@@ -44,7 +44,7 @@ fun SearchResultSection(
             }
         }
 
-        if(state.selectedTab == SearchTab.BOOK) {
+        if(state.selectedTab == QueryType.BOOK) {
             SearchFilterChip(
                 modifier = modifier.padding(vertical = 16.dp),
                 state = state,
@@ -59,7 +59,7 @@ fun SearchResultSection(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
         ) {
-            val counts = if(state.selectedTab == SearchTab.BOOK)
+            val counts = if(state.selectedTab == QueryType.BOOK)
                 state.totalBookElements
             else
                 state.totalQuoteElements

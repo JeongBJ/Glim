@@ -3,19 +3,26 @@ package com.jeongbj.data.book.repository
 import com.jeongbj.core.common.PagingResult
 import com.jeongbj.core.common.unwrap
 import com.jeongbj.data.book.datasource.BookRemoteDataSource
+import com.jeongbj.data.book.datasource.RecentQueryLocalDataSource
 import com.jeongbj.data.book.mapper.toBook
 import com.jeongbj.data.book.mapper.toBookDetail
 import com.jeongbj.data.book.mapper.toBookItemList
+import com.jeongbj.data.book.mapper.toDomain
+import com.jeongbj.data.book.request.BookRankRequest
 import com.jeongbj.data.book.request.BookSearchRequest
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookDetail
 import com.jeongbj.domain.book.model.BookItemList
+import com.jeongbj.domain.book.model.BookRank
 import com.jeongbj.domain.book.model.BookSearchQueryType
+import com.jeongbj.domain.book.model.QueryType
 import com.jeongbj.domain.book.repository.BookRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class BookRepositoryImpl @Inject constructor(
     private val bookRemoteDataSource: BookRemoteDataSource,
+    private val recentQueryLocalDataSource: RecentQueryLocalDataSource
 ): BookRepository {
     override suspend fun searchBook(
         query: String,
@@ -41,4 +48,18 @@ class BookRepositoryImpl @Inject constructor(
 
     override suspend fun getHomeData(): BookItemList =
         bookRemoteDataSource.getHomeData().unwrap().toBookItemList()
+
+    override suspend fun getQueryRanking(queryType: QueryType): List<BookRank> =
+        bookRemoteDataSource.getQueryRanking(BookRankRequest(
+            queryType = queryType.displayName
+        )).unwrap().map { it.toDomain() }
+
+    override suspend fun getRecentQuery(): Flow<List<BookRank>> =
+        recentQueryLocalDataSource.get()
+
+    override suspend fun saveRecentQuery(query: String, queryType: QueryType) =
+        recentQueryLocalDataSource.save(query, queryType)
+
+    override suspend fun clearRecentQuery() =
+        recentQueryLocalDataSource.clear()
 }

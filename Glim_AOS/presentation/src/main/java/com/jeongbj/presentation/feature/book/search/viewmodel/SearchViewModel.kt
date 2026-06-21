@@ -6,13 +6,13 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.jeongbj.domain.book.model.Book
+import com.jeongbj.domain.book.model.QueryType
 import com.jeongbj.domain.book.usecase.BookUseCases
 import com.jeongbj.presentation.common.paging.BookPagingSource
 import com.jeongbj.presentation.feature.book.search.SearchAction
 import com.jeongbj.presentation.feature.book.search.SearchMode
 import com.jeongbj.presentation.feature.book.search.SearchSideEffect
 import com.jeongbj.presentation.feature.book.search.SearchState
-import com.jeongbj.presentation.feature.book.search.SearchTab
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,6 +35,11 @@ class SearchViewModel @Inject constructor(
 
     private val _sideEffect = MutableSharedFlow<SearchSideEffect>()
     val sideEffect = _sideEffect.asSharedFlow()
+
+    init {
+        getQueryRanking()
+        getRecentQuery()
+    }
 
     fun onAction(action: SearchAction) {
         when (action) {
@@ -62,11 +67,26 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    private fun onQueryClicked(query: String, mode: SearchMode) =
-        _state.update { it.copy(
-            query = query,
-            searchMode = mode
-        ) }
+    private fun getRecentQuery() {
+
+    }
+
+    private fun getQueryRanking() {
+        viewModelScope.launch {
+            
+        }
+    }
+
+    private fun onQueryClicked(query: String, mode: SearchMode) {
+        _state.update {
+            it.copy(
+                query = query,
+                searchMode = mode
+            )
+        }
+
+        search()
+    }
 
 
     private fun onBackClicked() =
@@ -124,10 +144,10 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _sideEffect.tryEmit(SearchSideEffect.ScrollToTop)
             when (state.value.selectedTab) {
-                SearchTab.BOOK -> {
+                QueryType.BOOK -> {
                     bookSearchTrigger.tryEmit(Unit)
                 }
-                SearchTab.QUOTE -> {
+                QueryType.QUOTE -> {
                     quoteSearchTrigger.tryEmit(Unit)
                 }
             }

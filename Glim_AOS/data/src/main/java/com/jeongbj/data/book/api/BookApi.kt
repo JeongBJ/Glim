@@ -2,10 +2,13 @@ package com.jeongbj.data.book.api
 
 import com.jeongbj.core.common.BaseResponse
 import com.jeongbj.core.common.PagingResult
+import com.jeongbj.data.book.request.BookRankRequest
 import com.jeongbj.data.book.request.BookSearchRequest
 import com.jeongbj.data.book.response.BookDetailResponse
 import com.jeongbj.data.book.response.BookItemListResponse
+import com.jeongbj.data.book.response.BookRankResponse
 import com.jeongbj.data.book.response.BookResponse
+import com.jeongbj.domain.book.model.QueryType
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -21,4 +24,7 @@ interface BookApi {
 
     @GET("book")
     suspend fun getHomeData(): BaseResponse<BookItemListResponse>
+
+    @GET("book/rank")
+    suspend fun getQueryRanking(request: BookRankRequest): BaseResponse<List<BookRankResponse>>
 }

@@ -16,4 +16,5 @@ sealed interface GlimAction {
 sealed interface GlimSideEffect {
     data class NavigateToBookDetail(val isbn13: String): GlimSideEffect
     data class ShowToast(val msg: String): GlimSideEffect
+    data class ShareGlim(val link: String): GlimSideEffect
 }

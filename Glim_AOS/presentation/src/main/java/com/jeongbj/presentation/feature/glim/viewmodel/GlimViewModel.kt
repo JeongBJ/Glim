@@ -1,6 +1,5 @@
 package com.jeongbj.presentation.feature.glim.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +9,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import coil3.util.CoilUtils.result
 import com.jeongbj.android.image.ImageSaver
 import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.quote.model.Quote
@@ -104,9 +102,15 @@ class GlimViewModel @Inject constructor(
         when (action) {
             is GlimAction.OnBookInfoClicked -> onBookInfoClicked(action.isbn13)
             is GlimAction.OnLikeClicked -> onLikeClicked(action.quote)
-            is GlimAction.OnShareClicked -> TODO()
+            is GlimAction.OnShareClicked -> onShareClicked(action.quote)
             is GlimAction.OnSaveClicked -> onSaveClicked(action.imageUrl)
         }
+    }
+
+    private fun onShareClicked(quote: Quote) {
+        _sideEffect.tryEmit(GlimSideEffect.ShareGlim(
+            "[글:림]\n${quote.content}\nhttp://jeongbj.kro.kr/glim/share/${quote.quoteSeq}"
+        ))
     }
 
     private fun onSaveClicked(imageUrl: String) {

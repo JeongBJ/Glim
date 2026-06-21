@@ -32,6 +32,10 @@ class TokenManager @Inject constructor(
         return accessTokenLocalDataSource.getAccessToken() != null
     }
 
+    fun requireLogin() =
+        _sessionEvent.tryEmit(SessionEvent.LoginRequired)
+
+
     fun getAccessToken(): String? = accessTokenLocalDataSource.getAccessToken()
 
     fun getRefreshToken(): String? = refreshTokenLocalDataSource.get()
@@ -46,4 +50,5 @@ class TokenManager @Inject constructor(
 
 sealed class SessionEvent {
     data object Expired : SessionEvent()
+    data object LoginRequired: SessionEvent()
 }

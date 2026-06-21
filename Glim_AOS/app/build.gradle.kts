@@ -63,6 +63,8 @@ dependencies {
 
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
+
     implementation(libs.timber)
     implementation(platform(libs.androidx.compose.bom))
 

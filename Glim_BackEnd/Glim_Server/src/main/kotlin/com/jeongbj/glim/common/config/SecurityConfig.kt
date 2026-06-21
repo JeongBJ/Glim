@@ -24,6 +24,7 @@ class SecurityConfig(
                 it.requestMatchers("/auth/**").permitAll()
                 it.requestMatchers("/login/**").permitAll()
                 it.requestMatchers("/.well-known/**").permitAll()
+                it.requestMatchers("/share/**").permitAll()
                 it.requestMatchers(HttpMethod.GET, "/quote/**").permitAll()
                 it.anyRequest().authenticated()
             }

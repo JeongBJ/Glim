@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.jeongbj.data.book.mapper.toDomain
-import com.jeongbj.data.book.request.BookRankRequest
 import com.jeongbj.data.book.response.BookRankResponse
 import com.jeongbj.domain.book.model.BookRank
 import com.jeongbj.domain.book.model.QueryType
@@ -31,12 +30,13 @@ class RecentQueryLocalDataSource @Inject constructor(
             val current = preferences[PREF_KEY]?.let(::decodeRecentQuery)
                 .orEmpty()
             val updated = buildList {
-                add(BookRankRequest(
+                add(BookRankResponse(
+                    rank = current.size + 1,
                     title = query,
-                    queryType = queryType.displayName
+                    queryType = queryType.name
                 ))
                 addAll(current.filterNot {
-                    it.title == query && it.queryType == queryType.displayName
+                    it.title == query && it.queryType == queryType.name
                 })
             }.take(MAX_COUNT)
 
@@ -52,7 +52,10 @@ class RecentQueryLocalDataSource @Inject constructor(
 
     private fun decodeRecentQuery(json: String): List<BookRankResponse> {
         return runCatching {
-            Json.decodeFromString<List<BookRankResponse>>(json)
+            Json.decodeFromString<MutableList<BookRankResponse>>(json)
+                .mapIndexed { index, item ->
+                    item.copy(rank = index + 1)
+                }
         }.getOrDefault(emptyList())
     }
 

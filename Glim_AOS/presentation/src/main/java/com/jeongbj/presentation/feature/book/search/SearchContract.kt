@@ -25,9 +25,10 @@ sealed interface SearchAction {
     data object OnBackClick: SearchAction
     data class OnTextChanged(val query: String): SearchAction
     data object OnSearchClick: SearchAction
-    data class OnQueryClick(val query: String, val mode: SearchMode): SearchAction
+    data class OnQueryClick(val query: String): SearchAction
     data class OnSelectedTabChanged(val selectedTab: QueryType): SearchAction
     data class OnFilterSelected(val filter: SearchFilter): SearchAction
+    data object OnClearHistoryClicked: SearchAction
 
 }
 

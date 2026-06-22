@@ -13,9 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.jeongbj.domain.book.model.BookRank
+import com.jeongbj.presentation.R
+import com.jeongbj.presentation.common.component.ActionButton
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.book.search.SearchAction
 import com.jeongbj.presentation.feature.book.search.SearchState
@@ -33,7 +36,18 @@ fun QueryListSection(
         modifier = modifier,
         horizontalAlignment = Alignment.Start
     ){
-        Text(text = title)
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = title)
+            if(title == "최근 검색어") {
+                Spacer(modifier = Modifier.width(40.dp))
+                ActionButton(
+                    painter = painterResource(R.drawable.ic_delete),
+                    onClick = { onAction(SearchAction.OnClearHistoryClicked) }
+                )
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
         queries.forEach {
             QueryListItem(it, state, onAction)
@@ -45,7 +59,7 @@ fun QueryListSection(
 private fun QueryListItem(item: BookRank, state: SearchState, onAction: (SearchAction) -> Unit) {
     Row(
         modifier = Modifier
-            .clickable { onAction(SearchAction.OnQueryClick(item.title, state.searchMode)) }
+            .clickable { onAction(SearchAction.OnQueryClick(item.title)) }
             .padding(vertical = 8.dp),
 
         verticalAlignment = Alignment.CenterVertically
@@ -78,7 +92,7 @@ private fun QueryListItem(item: BookRank, state: SearchState, onAction: (SearchA
 private fun QueryListItemPreview() {
     GlimTheme {
         QueryListSection(
-            "검색어 순위",
+            "최근 검색어",
             SearchState(),
             listOf(
                 BookRank(1, "title 영역"),

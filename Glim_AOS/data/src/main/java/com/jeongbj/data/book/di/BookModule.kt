@@ -3,6 +3,7 @@ package com.jeongbj.data.book.di
 import com.jeongbj.data.book.repository.BookRepositoryImpl
 import com.jeongbj.data.book.usecase.ClearRecentQueryUseCaseImpl
 import com.jeongbj.data.book.usecase.GetHomeDataUseCaseImpl
+import com.jeongbj.data.book.usecase.GetQueryRankUseCaseImpl
 import com.jeongbj.data.book.usecase.GetRecentQueryUseCaseImpl
 import com.jeongbj.data.book.usecase.SaveRecentQueryUseCaseImpl
 import com.jeongbj.data.book.usecase.SearchBookByIsbn13UseCaseImpl
@@ -10,6 +11,7 @@ import com.jeongbj.data.book.usecase.SearchBookUseCaseImpl
 import com.jeongbj.domain.book.repository.BookRepository
 import com.jeongbj.domain.book.usecase.ClearRecentQueryUseCase
 import com.jeongbj.domain.book.usecase.GetHomeDataUseCase
+import com.jeongbj.domain.book.usecase.GetQueryRankUseCase
 import com.jeongbj.domain.book.usecase.GetRecentQueryUseCase
 import com.jeongbj.domain.book.usecase.SaveRecentQueryUseCase
 import com.jeongbj.domain.book.usecase.SearchBookByIsbn13UseCase
@@ -45,5 +47,8 @@ abstract class BookModule {
 
     @Binds
     abstract fun bindClearRecentQueryUseCase(impl: ClearRecentQueryUseCaseImpl): ClearRecentQueryUseCase
+
+    @Binds
+    abstract fun bindGetQueryRankUseCase(impl: GetQueryRankUseCaseImpl): GetQueryRankUseCase
 
 }

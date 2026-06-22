@@ -9,7 +9,6 @@ import com.jeongbj.data.book.response.BookDetailResponse
 import com.jeongbj.data.book.response.BookItemListResponse
 import com.jeongbj.data.book.response.BookRankResponse
 import com.jeongbj.data.book.response.BookResponse
-import com.jeongbj.domain.book.model.QueryType
 import javax.inject.Inject
 
 class BookRemoteDataSource @Inject constructor(

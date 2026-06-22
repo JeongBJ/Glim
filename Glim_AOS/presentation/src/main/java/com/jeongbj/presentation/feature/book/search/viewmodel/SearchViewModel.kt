@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.QueryType
 import com.jeongbj.domain.book.usecase.BookUseCases
@@ -61,30 +62,47 @@ class SearchViewModel @Inject constructor(
             is SearchAction.OnBookClick -> {
                 navigateToBookDetail(action.book)
             }
-            is SearchAction.OnQueryClick -> onQueryClicked(action.query, action.mode)
+            is SearchAction.OnQueryClick -> onQueryClicked(action.query)
             is SearchAction.OnQuoteClick -> onQuoteClicked(action.quoteSeq)
             is SearchAction.OnBackClick -> onBackClicked()
+            SearchAction.OnClearHistoryClicked -> onClearHistoryClicked()
+        }
+    }
+
+    private fun onClearHistoryClicked() {
+        viewModelScope.launch {
+            bookUseCases.clearRecentQueryUseCase()
+            _state.update { it.copy(recentQuery = listOf()) }
         }
     }
 
     private fun getRecentQuery() {
-
+        viewModelScope.launch {
+            bookUseCases.getRecentQueryUseCase().collect { result ->
+                _state.update { it.copy(recentQuery = result) }
+            }
+        }
     }
 
     private fun getQueryRanking() {
         viewModelScope.launch {
-            
+            val queryType = _state.value.selectedTab
+            bookUseCases.getQueryRankUseCase(queryType).collect { result ->
+                if (result is ResultType.Success) {
+                    _state.update { it.copy(popularQuery = result.data) }
+                }
+            }
         }
     }
 
-    private fun onQueryClicked(query: String, mode: SearchMode) {
+    private fun onQueryClicked(query: String) {
         _state.update {
             it.copy(
                 query = query,
-                searchMode = mode
+                searchMode = SearchMode.RESULT,
+                selectedTab = QueryType.BOOK
             )
         }
-
         search()
     }
 
@@ -151,6 +169,14 @@ class SearchViewModel @Inject constructor(
                     quoteSearchTrigger.tryEmit(Unit)
                 }
             }
+            saveRecentQuery()
         }
+    }
+    
+    private suspend fun saveRecentQuery() {
+        bookUseCases.saveRecentQueryUseCase(
+            query = _state.value.query,
+            queryType = _state.value.selectedTab
+        )
     }
 }

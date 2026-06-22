@@ -8,5 +8,6 @@ data class BookUseCases @Inject constructor(
     val getHomeDataUseCase: GetHomeDataUseCase,
     val getRecentQueryUseCase: GetRecentQueryUseCase,
     val saveRecentQueryUseCase: SaveRecentQueryUseCase,
-    val clearRecentQueryUseCase: ClearRecentQueryUseCase
+    val clearRecentQueryUseCase: ClearRecentQueryUseCase,
+    val getQueryRankUseCase: GetQueryRankUseCase
 )

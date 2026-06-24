@@ -16,7 +16,7 @@ interface BookRepository {
 
     suspend fun getHomeData(): BookItemList
 
-    suspend fun getQueryRanking(queryType: QueryType): List<BookRank>
+    suspend fun getQueryRanking(): List<BookRank>
 
     suspend fun getRecentQuery(): Flow<List<BookRank>>
 

@@ -8,7 +8,6 @@ import com.jeongbj.data.book.mapper.toBook
 import com.jeongbj.data.book.mapper.toBookDetail
 import com.jeongbj.data.book.mapper.toBookItemList
 import com.jeongbj.data.book.mapper.toDomain
-import com.jeongbj.data.book.request.BookRankRequest
 import com.jeongbj.data.book.request.BookSearchRequest
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookDetail
@@ -49,10 +48,8 @@ class BookRepositoryImpl @Inject constructor(
     override suspend fun getHomeData(): BookItemList =
         bookRemoteDataSource.getHomeData().unwrap().toBookItemList()
 
-    override suspend fun getQueryRanking(queryType: QueryType): List<BookRank> =
-        bookRemoteDataSource.getQueryRanking(BookRankRequest(
-            queryType = queryType.displayName
-        )).unwrap().map { it.toDomain() }
+    override suspend fun getQueryRanking(): List<BookRank> =
+        bookRemoteDataSource.getQueryRanking().unwrap().map { it.toDomain() }
 
     override suspend fun getRecentQuery(): Flow<List<BookRank>> =
         recentQueryLocalDataSource.get()

@@ -2,7 +2,6 @@ package com.jeongbj.data.book.api
 
 import com.jeongbj.core.common.BaseResponse
 import com.jeongbj.core.common.PagingResult
-import com.jeongbj.data.book.request.BookRankRequest
 import com.jeongbj.data.book.request.BookSearchRequest
 import com.jeongbj.data.book.response.BookDetailResponse
 import com.jeongbj.data.book.response.BookItemListResponse
@@ -25,5 +24,5 @@ interface BookApi {
     suspend fun getHomeData(): BaseResponse<BookItemListResponse>
 
     @GET("book/rank")
-    suspend fun getQueryRanking(request: BookRankRequest): BaseResponse<List<BookRankResponse>>
+    suspend fun getQueryRanking(): BaseResponse<List<BookRankResponse>>
 }

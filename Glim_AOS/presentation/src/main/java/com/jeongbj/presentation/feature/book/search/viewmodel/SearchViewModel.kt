@@ -86,8 +86,7 @@ class SearchViewModel @Inject constructor(
 
     private fun getQueryRanking() {
         viewModelScope.launch {
-            val queryType = _state.value.selectedTab
-            bookUseCases.getQueryRankUseCase(queryType).collect { result ->
+            bookUseCases.getQueryRankUseCase().collect { result ->
                 if (result is ResultType.Success) {
                     _state.update { it.copy(popularQuery = result.data) }
                 }

@@ -28,7 +28,7 @@ interface GetRecentQueryUseCase {
 }
 
 interface GetQueryRankUseCase {
-    suspend operator fun invoke(queryType: QueryType): Flow<ResultType<List<BookRank>>>
+    suspend operator fun invoke(): Flow<ResultType<List<BookRank>>>
 }
 
 interface SaveRecentQueryUseCase {

@@ -64,5 +64,5 @@ fun BookRank.toRequest() = BookRankRequest(
 fun BookRankResponse.toDomain() = BookRank(
     rank = rank,
     title = title,
-    queryType = QueryType.valueOf(queryType)
+    queryType = QueryType.from(queryType)
 )

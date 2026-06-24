@@ -2,6 +2,7 @@ package com.jeongbj.glim.book.service
 
 import com.jeongbj.glim.book.dto.BookDetailResponse
 import com.jeongbj.glim.book.dto.BookItemListResponse
+import com.jeongbj.glim.book.dto.BookRankResponse
 import com.jeongbj.glim.book.dto.BookResponse
 import com.jeongbj.glim.book.entity.Book
 import com.jeongbj.glim.book.mapper.toDetailResponse
@@ -10,6 +11,7 @@ import com.jeongbj.glim.book.mapper.toResponse
 import com.jeongbj.glim.book.repository.BookRepository
 import com.jeongbj.glim.book.repository.ItemListCacheRepository
 import com.jeongbj.glim.book.repository.SearchCacheRepository
+import com.jeongbj.glim.book.repository.SearchRankRepository
 import com.jeongbj.glim.common.extention.toPagingResult
 import com.jeongbj.glim.common.response.PagingResult
 import com.jeongbj.glim.external.aladin.service.AladinService
@@ -27,14 +29,16 @@ class BookService(
     private val bookRepository: BookRepository,
     private val searchCacheRepository: SearchCacheRepository,
     private val likeRepository: LikeRepository,
+    private val searchRankRepository: SearchRankRepository,
     val quoteRepository: QuoteRepository,
     private val itemListCacheRepository: ItemListCacheRepository,
-    private val aladinService: AladinService
+    private val aladinService: AladinService,
 ) {
 
     fun searchBook(query: String, queryType: ItemSearchQueryType, pageable: Pageable)
     : PagingResult<BookResponse> {
         searchCacheRepository.get(query, queryType)?.let { cached ->
+            increaseRank(query)
             return cached.toPagingResult(pageable)
         }
 
@@ -43,6 +47,7 @@ class BookService(
         saveNewBooks(aladinBooks)
         val response = aladinBooks.map { it.toResponse() }
         searchCacheRepository.save(query, queryType, response)
+        increaseRank(query)
         return response.toPagingResult(pageable)
     }
 
@@ -67,8 +72,12 @@ class BookService(
             .toSet()
 
         val quotes = quoteRepository.findByBookBookSeqOrderByNumLikesDescNumViewsDesc(book.bookSeq)
-
+        increaseRank(book.title)
         return book.toDetailResponse(likeQuoteSet, quotes)
+    }
+
+    fun getSearchRankTop10(): List<BookRankResponse> {
+        return searchRankRepository.getTop10()
     }
 
     private fun saveNewBooks(books: List<Book>): List<Book> {
@@ -77,6 +86,10 @@ class BookService(
         val newBooks = books.distinctBy { it.isbn13 }.filter { it.isbn13 !in existingIsbn13s }
         if (newBooks.isNotEmpty()) bookRepository.saveAll(newBooks)
         return books
+    }
+
+    private fun increaseRank(query: String) {
+        searchRankRepository.increase(query)
     }
 
     private fun getItemList(type: ItemListQueryType): List<BookResponse> {

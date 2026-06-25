@@ -70,12 +70,12 @@ class JwtProvider(
     fun getUserId(token: String): Long =
         getClaims(token).subject.toLong()
 
-    private fun getClaims(token: String): Claims = runCatching {
-        Jwts.parser().verifyWith(key).build()
-            .parseSignedClaims(token).payload
-    }.getOrElse { e ->
-        if (e is ExpiredJwtException) e.claims
-        else throw e
+    fun getClaims(token: String): Claims {
+        return Jwts.parser()
+            .verifyWith(key)
+            .build()
+            .parseSignedClaims(token)
+            .payload
     }
 
     enum class TokenType {

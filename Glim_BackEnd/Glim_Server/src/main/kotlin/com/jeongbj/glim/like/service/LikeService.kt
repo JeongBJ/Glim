@@ -2,6 +2,7 @@ package com.jeongbj.glim.like.service
 
 import com.jeongbj.glim.like.entity.Like
 import com.jeongbj.glim.like.repository.LikeRepository
+import com.jeongbj.glim.quote.repository.QuoteRankingRepository
 import com.jeongbj.glim.quote.repository.QuoteRepository
 import com.jeongbj.glim.user.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -12,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 class LikeService(
     private val quoteRepository: QuoteRepository,
     private val likeRepository: LikeRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val quoteRankingRepository: QuoteRankingRepository
 ) {
 
     fun toggleLikeQuote(userSeq: Long, quoteSeq: Long): Boolean {
@@ -22,12 +24,14 @@ class LikeService(
         if(like != null) {
             likeRepository.delete(like)
             quote.decreaseLikes()
+            quoteRankingRepository.decreaseLike(quoteSeq)
             return false
         }
 
         val user = userRepository.getReferenceById(userSeq)
         likeRepository.save(Like(user = user, quote = quote))
         quote.increaseLikes()
+        quoteRankingRepository.increaseLike(quoteSeq)
         return true
     }
 }

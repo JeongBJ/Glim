@@ -10,6 +10,6 @@ class BookScheduler(
 ){
     @Scheduled(cron = "0 0 6 * * *")
     fun refreshItemListCache() {
-        bookService.getAladinItemList()
+        bookService.getHomeItemList()
     }
 }

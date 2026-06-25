@@ -1,10 +1,6 @@
 package com.jeongbj.glim.book.controller
 
-import com.jeongbj.glim.book.dto.BookDetailResponse
-import com.jeongbj.glim.book.dto.BookItemListResponse
-import com.jeongbj.glim.book.dto.BookRankResponse
-import com.jeongbj.glim.book.dto.BookResponse
-import com.jeongbj.glim.book.dto.BookSearchRequest
+import com.jeongbj.glim.book.dto.*
 import com.jeongbj.glim.book.service.BookService
 import com.jeongbj.glim.common.response.BaseResponse
 import com.jeongbj.glim.common.response.PagingResult
@@ -40,7 +36,7 @@ class BookController(
     @GetMapping
     fun getHomeScreenData()
     :  ResponseEntity<BaseResponse<BookItemListResponse>> {
-        val data = bookService.getAladinItemList()
+        val data = bookService.getHomeItemList()
         return ResponseEntity.ok(BaseResponse.success(data, "홈 화면 데이터 조회 성공"))
     }
 

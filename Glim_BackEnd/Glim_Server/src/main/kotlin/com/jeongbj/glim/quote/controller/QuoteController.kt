@@ -2,17 +2,14 @@ package com.jeongbj.glim.quote.controller
 
 import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.common.response.BaseResponse
-import com.jeongbj.glim.quote.dto.GenerateImageRequest
-import com.jeongbj.glim.quote.dto.QuoteCursor
-import com.jeongbj.glim.quote.dto.QuotePageRequest
-import com.jeongbj.glim.quote.dto.QuoteRequest
-import com.jeongbj.glim.quote.dto.QuoteResponse
+import com.jeongbj.glim.quote.dto.*
 import com.jeongbj.glim.quote.service.QuoteService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+
 @RestController
 @RequestMapping("/quote")
 class QuoteController (

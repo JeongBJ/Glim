@@ -67,3 +67,10 @@ fun QuoteDetailProjection.toQuoteResponse(): QuoteResponse = QuoteResponse(
         isbn13 = isbn13
     )
 )
+
+fun Quote.toQuoteRankResponse(): QuoteRankResponse = QuoteRankResponse(
+    quoteSeq = quoteSeq,
+    imageUrl = imageUrl,
+    title = book.title,
+    author = book.author,
+)

@@ -18,6 +18,8 @@ import com.jeongbj.glim.external.aladin.service.AladinService
 import com.jeongbj.glim.external.aladin.type.ItemListQueryType
 import com.jeongbj.glim.external.aladin.type.ItemSearchQueryType
 import com.jeongbj.glim.like.repository.LikeRepository
+import com.jeongbj.glim.quote.mapper.toQuoteRankResponse
+import com.jeongbj.glim.quote.repository.QuoteRankingRepository
 import com.jeongbj.glim.quote.repository.QuoteRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -30,7 +32,8 @@ class BookService(
     private val searchCacheRepository: SearchCacheRepository,
     private val likeRepository: LikeRepository,
     private val searchRankRepository: SearchRankRepository,
-    val quoteRepository: QuoteRepository,
+    private val quoteRepository: QuoteRepository,
+    private val quoteRankingRepository: QuoteRankingRepository,
     private val itemListCacheRepository: ItemListCacheRepository,
     private val aladinService: AladinService,
 ) {
@@ -51,15 +54,20 @@ class BookService(
         return response.toPagingResult(pageable)
     }
 
-    fun getAladinItemList(): BookItemListResponse {
+    fun getHomeItemList(): BookItemListResponse {
         val bestSeller = getItemList(ItemListQueryType.BEST_SELLER)
         val editorChoice = getItemList(ItemListQueryType.EDITOR_CHOICE)
         val newSpecial = getItemList(ItemListQueryType.NEW_SPECIAL)
+        val quotesSeq = quoteRankingRepository.getTop20()
+        val quotes = quoteRepository.findAllById(quotesSeq).map {
+            it.toQuoteRankResponse()
+        }
 
         return BookItemListResponse(
             bestSeller = bestSeller,
             editorChoice = editorChoice,
-            newSpecial = newSpecial
+            newSpecial = newSpecial,
+            todayQuotes = quotes,
         )
     }
 

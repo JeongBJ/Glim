@@ -12,6 +12,7 @@ import com.jeongbj.glim.quote.dto.QuoteResponse
 import com.jeongbj.glim.quote.entity.Quote
 import com.jeongbj.glim.quote.mapper.toResponse
 import com.jeongbj.glim.quote.repository.QuoteQueryRepository
+import com.jeongbj.glim.quote.repository.QuoteRankingRepository
 import com.jeongbj.glim.quote.repository.QuoteRepository
 import com.jeongbj.glim.user.mapper.toQuoteResponse
 import com.jeongbj.glim.user.repository.UserRepository
@@ -25,6 +26,7 @@ import kotlin.random.Random
 class QuoteService(
     private val quoteRepository: QuoteRepository,
     private val quoteQueryRepository: QuoteQueryRepository,
+    private val quoteRankingRepository: QuoteRankingRepository,
     private val bookRepository: BookRepository,
     private val bucketService: BucketService,
     private val userRepository: UserRepository,
@@ -82,5 +84,6 @@ class QuoteService(
     fun increaseView(quoteSeq: Long) {
         val quote = quoteRepository.findById(quoteSeq).orElseThrow()
         quote.increaseView()
+        quoteRankingRepository.increaseView(quoteSeq)
     }
 }

@@ -1,10 +1,10 @@
 package com.jeongbj.presentation.feature.home
 
 import com.jeongbj.domain.book.model.Book
-import com.jeongbj.domain.quote.model.Quote
+import com.jeongbj.domain.quote.model.QuoteRank
 
 data class HomeState(
-    val quotes: List<Quote> = listOf(),
+    val quotes: List<QuoteRank> = listOf(),
     val bestSeller: List<Book> = listOf(),
     val editorChoice: List<Book> = listOf(),
     val newSpecial: List<Book> = listOf(),
@@ -20,4 +20,5 @@ sealed interface HomeAction {
 
 sealed interface HomeSideEffect {
     data class NavigateToBookDetail(val isbn13: String): HomeSideEffect
+    data class NavigateToQuoteDetail(val quoteSeq: Long): HomeSideEffect
 }

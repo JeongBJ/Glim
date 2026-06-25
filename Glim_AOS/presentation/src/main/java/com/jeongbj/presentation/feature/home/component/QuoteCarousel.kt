@@ -13,17 +13,23 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.jeongbj.domain.quote.model.Quote
+import com.jeongbj.domain.quote.model.QuoteRank
 import com.jeongbj.presentation.common.component.GlimAsyncImage
+import com.jeongbj.presentation.common.preview.Previews
+import com.jeongbj.presentation.theme.GlimTheme
 
 @Composable
 fun QuoteCarousel(
-    quotes: List<Quote>,
+    quotes: List<QuoteRank>,
     onQuoteClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
     itemSize: DpSize = DpSize(width = 240.dp, height = 360.dp),
@@ -51,9 +57,43 @@ fun QuoteCarousel(
                     GlimAsyncImage(quote.imageUrl)
                 }
 
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = quote.title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
                 Spacer(modifier = Modifier.height(8.dp))
 
+                Text(
+                    text = quote.author,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
         }
+    }
+}
+
+@Previews
+@Composable
+fun QuoteCarouselPreview() {
+    GlimTheme {
+        QuoteCarousel(
+            listOf(
+                QuoteRank(
+                    quoteSeq = 0,
+                    imageUrl = "",
+                    title = "title",
+                    author = "author"
+                )
+            ),
+            onQuoteClick = { },
+        )
     }
 }

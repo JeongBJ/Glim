@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.jeongbj.domain.book.model.Book
-import com.jeongbj.domain.quote.model.Quote
-import com.jeongbj.domain.user.model.User
+import com.jeongbj.domain.quote.model.QuoteRank
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.home.component.BookCarousel
 import com.jeongbj.presentation.feature.home.component.HomeItemSection
@@ -99,7 +98,7 @@ fun HomeLandscape(state: HomeState, onAction: (HomeAction) -> Unit) {
         }
 
         item {
-            HomeItemSection("오늘의 글귀") {
+            HomeItemSection("오늘의 글림") {
                 QuoteCarousel(
                     quotes = state.quotes,
                     onQuoteClick = { onAction(HomeAction.OnQuoteClick(it)) },
@@ -143,32 +142,23 @@ fun HomeContentPreview() {
         HomeContent(
             state = HomeState(
                 quotes = listOf(
-                    Quote(
+                    QuoteRank(
                         0,
                         "",
                         "content",
-                        10,
-                        false,
-                        User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "13")
+                        "author",
                     ),
-                    Quote(
+                    QuoteRank(
                         1,
                         "",
                         "content",
-                        10,
-                        false,
-                        User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "24")
+                        "author",
                     ),
-                    Quote(
+                    QuoteRank(
                         2,
                         "",
                         "content",
-                        10,
-                        false,
-                        User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "23")
+                        "author",
                     ),
                 ),
                 bestSeller = listOf(

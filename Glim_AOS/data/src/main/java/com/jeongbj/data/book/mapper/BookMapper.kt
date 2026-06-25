@@ -6,11 +6,13 @@ import com.jeongbj.data.book.response.BookDetailResponse
 import com.jeongbj.data.book.response.BookItemListResponse
 import com.jeongbj.data.book.response.BookRankResponse
 import com.jeongbj.data.book.response.BookResponse
+import com.jeongbj.data.book.response.QuoteRankResponse
 import com.jeongbj.domain.book.model.Book
 import com.jeongbj.domain.book.model.BookDetail
 import com.jeongbj.domain.book.model.BookItemList
 import com.jeongbj.domain.book.model.BookRank
 import com.jeongbj.domain.book.model.QueryType
+import com.jeongbj.domain.quote.model.QuoteRank
 import java.time.LocalDate
 
 fun BookResponse.toBook(): Book = Book(
@@ -50,6 +52,7 @@ fun BookDetailResponse.toBookDetail(): BookDetail = BookDetail(
 
 
 fun BookItemListResponse.toBookItemList(): BookItemList = BookItemList(
+    quotes = todayQuotes.map { it.toDomain() },
     bestSeller = bestSeller.map { it.toBook() },
     editorChoice = editorChoice.map { it.toBook() },
     newSpecial = newSpecial.map { it.toBook() }
@@ -65,4 +68,11 @@ fun BookRankResponse.toDomain() = BookRank(
     rank = rank,
     title = title,
     queryType = QueryType.from(queryType)
+)
+
+fun QuoteRankResponse.toDomain() = QuoteRank(
+    quoteSeq = quoteSeq,
+    imageUrl = imageUrl,
+    title = title,
+    author = author
 )

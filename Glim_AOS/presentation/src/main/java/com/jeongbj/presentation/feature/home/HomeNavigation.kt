@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data object HomeRoute
 
 fun NavGraphBuilder.homeNav(
-    navigateToQuoteDetail: () -> Unit,
+    navigateToQuoteDetail: (Long) -> Unit,
     navigateToBookDetail: (String) -> Unit
 ) {
     composable<HomeRoute> {

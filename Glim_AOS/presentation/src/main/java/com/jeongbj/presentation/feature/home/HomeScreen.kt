@@ -18,7 +18,7 @@ import com.jeongbj.presentation.theme.StatusBarStyle
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    navigateToQuoteDetail: () -> Unit,
+    navigateToQuoteDetail: (Long) -> Unit,
     navigateToBookDetail: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -26,9 +26,8 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is HomeSideEffect.NavigateToBookDetail -> {
-                    navigateToBookDetail(effect.isbn13)
-                }
+                is HomeSideEffect.NavigateToBookDetail -> navigateToBookDetail(effect.isbn13)
+                is HomeSideEffect.NavigateToQuoteDetail -> navigateToQuoteDetail(effect.quoteSeq)
             }
         }
     }

@@ -47,7 +47,7 @@ fun AppNavGraph(
 
         homeNav(
             navigateToBookDetail = { navController.navigate(BookDetailRoute(isbn13 = it)) },
-            navigateToQuoteDetail = {  }
+            navigateToQuoteDetail = { navController.navigate(GlimRoute(quoteSeq = it)) }
         )
 
         searchNav(

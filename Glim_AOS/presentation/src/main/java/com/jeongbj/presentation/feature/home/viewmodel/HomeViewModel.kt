@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
 
-    private val _sideEffect = MutableSharedFlow<HomeSideEffect>()
+    private val _sideEffect = MutableSharedFlow<HomeSideEffect>(extraBufferCapacity = 1)
     val sideEffect = _sideEffect.asSharedFlow()
 
     init {
@@ -42,16 +42,15 @@ class HomeViewModel @Inject constructor(
                 navigateToBookDetail(action.isbn13)
             }
 
-            is HomeAction.OnQuoteClick -> {
-
-            }
+            is HomeAction.OnQuoteClick -> onQuoteClicked(action.quoteSeq)
         }
     }
 
+    private fun onQuoteClicked(quoteSeq: Long) =
+        _sideEffect.tryEmit(HomeSideEffect.NavigateToQuoteDetail(quoteSeq))
+
     private fun navigateToBookDetail(isbn13: String) {
-        viewModelScope.launch {
-            _sideEffect.emit(HomeSideEffect.NavigateToBookDetail(isbn13))
-        }
+        _sideEffect.tryEmit(HomeSideEffect.NavigateToBookDetail(isbn13))
     }
 
     private fun getHomeData() {
@@ -63,6 +62,7 @@ class HomeViewModel @Inject constructor(
                             val data = result.data
                             _uiState.update {
                                 it.copy(
+                                    quotes = data.quotes,
                                     bestSeller = data.bestSeller,
                                     editorChoice = data.editorChoice,
                                     newSpecial = data.newSpecial,
@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
                         }
 
                         is ResultType.Error -> {
-
+                            Timber.d("getHomeData: ${result.exception}")
                         }
                     }
                 }

@@ -7,9 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.jeongbj.domain.book.model.Book
-import com.jeongbj.domain.quote.model.Quote
-import com.jeongbj.domain.user.model.User
+import com.jeongbj.domain.quote.model.QuoteRank
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.theme.GlimTheme
 
@@ -37,35 +35,27 @@ fun HomeItemSectionPreview() {
     GlimTheme {
         HomeItemSection("title", {
             QuoteCarousel(
-                listOf(
-                    Quote(
+                quotes = listOf(
+                    QuoteRank(
                         0,
                         "",
-                        "",
-                        12,
-                        false,
-                        User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "3")
+                        "content",
+                        "author",
                     ),
-                    Quote(
+                    QuoteRank(
                         1,
                         "",
-                        "",
-                        12,
-                        false,
-                        User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "2")
+                        "content",
+                        "author",
                     ),
-                    Quote(
+                    QuoteRank(
                         2,
                         "",
-                        "",
-                        12,
-                        false,
-                        User("nickname"),
-                        Book("title", "", author = "author", isbn13 = "1")
-                    )
-                ), { })
+                        "content",
+                        "author",
+                    ),
+                ),
+                { })
         })
     }
 }

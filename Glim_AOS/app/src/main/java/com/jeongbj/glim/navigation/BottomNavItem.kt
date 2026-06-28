@@ -5,6 +5,7 @@ import com.jeongbj.presentation.R
 import com.jeongbj.presentation.feature.book.search.SearchRoute
 import com.jeongbj.presentation.feature.glim.GlimRoute
 import com.jeongbj.presentation.feature.home.HomeRoute
+import com.jeongbj.presentation.feature.info.InfoRoute
 import com.jeongbj.presentation.feature.post.PostRoute
 
 sealed class BottomNavItem(
@@ -33,6 +34,12 @@ sealed class BottomNavItem(
     data object Glim: BottomNavItem(
         route = GlimRoute(),
         label = "글:림",
+        icon = R.drawable.ic_book_ribbon
+    )
+
+    data object Info: BottomNavItem(
+        route = InfoRoute,
+        label = "내정보",
         icon = R.drawable.ic_book_ribbon
     )
 }

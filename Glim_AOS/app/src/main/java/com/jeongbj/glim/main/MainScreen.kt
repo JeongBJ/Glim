@@ -17,6 +17,7 @@ import com.jeongbj.glim.navigation.GlimBottomBar
 import com.jeongbj.presentation.feature.book.search.SearchRoute
 import com.jeongbj.presentation.feature.glim.GlimRoute
 import com.jeongbj.presentation.feature.home.HomeRoute
+import com.jeongbj.presentation.feature.info.InfoRoute
 import com.jeongbj.presentation.feature.login.LoginRoute
 
 @Composable
@@ -30,7 +31,8 @@ fun MainScreen(
     val bottomBarRoutes = setOf(
         HomeRoute::class,
         SearchRoute::class,
-        GlimRoute::class
+        GlimRoute::class,
+        InfoRoute::class
     )
 
     val destination = navBackStackEntry?.destination

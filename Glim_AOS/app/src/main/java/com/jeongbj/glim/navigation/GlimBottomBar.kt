@@ -33,7 +33,8 @@ fun GlimBottomBar(
         BottomNavItem.Home,
         BottomNavItem.Search,
         BottomNavItem.Post,
-        BottomNavItem.Glim
+        BottomNavItem.Glim,
+        BottomNavItem.Info
     )
 
     val (backgroundColor, iconTint) =

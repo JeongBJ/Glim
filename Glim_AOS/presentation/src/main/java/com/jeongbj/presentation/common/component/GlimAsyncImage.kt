@@ -17,7 +17,7 @@ import com.jeongbj.presentation.R
 
 @Composable
 fun GlimAsyncImage(
-    imageUrl: String,
+    imageUrl: String?,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
     contentScale: ContentScale = ContentScale.Crop,

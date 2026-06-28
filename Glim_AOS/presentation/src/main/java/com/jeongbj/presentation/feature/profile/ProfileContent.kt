@@ -53,7 +53,7 @@ private fun ProfileSetupPortrait(
         Spacer(modifier = Modifier.height(40.dp))
 
         ProfileImageSection(
-            imageUri = state.imageUri,
+            imageModel = state.imageUri,
             onImageClick = { onAction(ProfileAction.OnImageClick) }
         )
 
@@ -88,7 +88,7 @@ private fun ProfileSetupLandscape(
             contentAlignment = Alignment.Center
         ) {
             ProfileImageSection(
-                imageUri = state.imageUri,
+                imageModel = state.imageUri,
                 onImageClick = { onAction(ProfileAction.OnImageClick) }
             )
         }

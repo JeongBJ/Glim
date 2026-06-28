@@ -1,6 +1,5 @@
 package com.jeongbj.presentation.feature.profile.component
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,7 +22,7 @@ import com.jeongbj.presentation.R
 
 @Composable
 fun ProfileImageSection(
-    imageUri: Uri?,
+    imageModel: Any?,
     onImageClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -33,7 +32,7 @@ fun ProfileImageSection(
             .clickable { onImageClick() }
     ) {
         AsyncImage(
-            model = imageUri ?: R.drawable.img_empty_profile,
+            model = imageModel ?: R.drawable.img_empty_profile,
             contentDescription = "프로필 이미지",
             modifier = Modifier
                 .fillMaxSize()

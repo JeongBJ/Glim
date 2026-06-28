@@ -2,6 +2,7 @@ package com.jeongbj.glim.quote.repository
 
 import com.jeongbj.glim.book.entity.QBook
 import com.jeongbj.glim.common.dto.CursorPage
+import com.jeongbj.glim.info.dto.QuoteThumbnailResponse
 import com.jeongbj.glim.like.entity.QLike
 import com.jeongbj.glim.quote.dto.QuoteCursor
 import com.jeongbj.glim.quote.dto.QuoteDetailProjection
@@ -20,6 +21,10 @@ import org.springframework.stereotype.Repository
 class QuoteQueryRepository(
     private val queryFactory: JPAQueryFactory,
 ){
+    private val quote = QQuote.quote
+    private val user = QUser.user
+    private val book = QBook.book
+    private val like = QLike.like
 
     fun getQuotes(
         seed: Long,
@@ -27,10 +32,6 @@ class QuoteQueryRepository(
         size: Long,
         userSeq: Long
     ): CursorPage<QuoteResponse, QuoteCursor> {
-        val quote = QQuote.quote
-        val user = QUser.user
-        val book = QBook.book
-        val like = QLike.like
 
         val randomScore = Expressions.numberTemplate(
             Long::class.java,
@@ -140,10 +141,6 @@ class QuoteQueryRepository(
 
 
     fun getQuote(quoteSeq: Long, userSeq: Long?): QuoteResponse? {
-        val quote = QQuote.quote
-        val user = QUser.user
-        val book = QBook.book
-        val like = QLike.like
 
         val likeExpression = if (userSeq == null) {
             Expressions.FALSE
@@ -191,5 +188,72 @@ class QuoteQueryRepository(
         return result?.toQuoteResponse()
     }
 
+    fun getLikedQuotes(
+        userSeq: Long,
+        cursor: Long?,
+        size: Int
+    )
+    : CursorPage<QuoteThumbnailResponse, Long> {
+
+        val result = queryFactory
+            .select(
+                Projections.constructor(
+                    QuoteThumbnailResponse::class.java,
+                    quote.quoteSeq,
+                    quote.imageUrl
+                )
+            )
+            .from(like)
+            .join(like.quote, quote)
+            .where(
+                like.user.userSeq.eq(userSeq),
+                cursor?.let { like.likeSeq.lt(it) }
+            )
+            .orderBy(like.likeSeq.desc())
+            .limit(size.toLong() + 1)
+            .fetch()
+
+        val hasNext = result.size > size
+        val items = if (hasNext) result.dropLast(1) else result
+
+        return CursorPage(
+            items = items,
+            hasNext = hasNext,
+            nextCursor = items.lastOrNull()?.quoteSeq
+        )
+    }
+
+    fun getUserQuotes(
+        userSeq: Long,
+        cursor: Long?,
+        size: Int
+    ): CursorPage<QuoteThumbnailResponse, Long> {
+
+        val result = queryFactory
+            .select(
+                Projections.constructor(
+                    QuoteThumbnailResponse::class.java,
+                    quote.quoteSeq,
+                    quote.imageUrl
+                )
+            )
+            .from(quote)
+            .where(
+                quote.user.userSeq.eq(userSeq),
+                cursor?.let { quote.quoteSeq.lt(it) }
+            )
+            .orderBy(quote.quoteSeq.desc())
+            .limit(size.toLong() + 1)
+            .fetch()
+
+        val hasNext = result.size > size
+        val items = if (hasNext) result.dropLast(1) else result
+
+        return CursorPage(
+            items = items,
+            hasNext = hasNext,
+            nextCursor = items.lastOrNull()?.quoteSeq
+        )
+    }
 
 }

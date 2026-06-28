@@ -40,7 +40,7 @@ sealed class BottomNavItem(
     data object Info: BottomNavItem(
         route = InfoRoute,
         label = "내정보",
-        icon = R.drawable.ic_book_ribbon
+        icon = R.drawable.ic_person
     )
 }
 

@@ -2,11 +2,13 @@ package com.jeongbj.data.user.di
 
 import com.jeongbj.data.user.repository.LoginRepositoryImpl
 import com.jeongbj.data.user.repository.UserRepositoryImpl
+import com.jeongbj.data.user.usecase.GetInfoUseCaseImpl
 import com.jeongbj.data.user.usecase.GoogleLoginUseCaseImpl
 import com.jeongbj.data.user.usecase.KakaoLoginUseCaseImpl
 import com.jeongbj.data.user.usecase.UpdateProfileUseCaseImpl
 import com.jeongbj.domain.user.repository.LoginRepository
 import com.jeongbj.domain.user.repository.UserRepository
+import com.jeongbj.domain.user.usecase.GetUserInfoUseCase
 import com.jeongbj.domain.user.usecase.GoogleLoginUseCase
 import com.jeongbj.domain.user.usecase.KakaoLoginUseCase
 import com.jeongbj.domain.user.usecase.UpdateProfileUseCase
@@ -18,7 +20,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class LoginModule {
+abstract class UserModule {
 
     @Binds
     @Singleton
@@ -36,4 +38,7 @@ abstract class LoginModule {
 
     @Binds
     abstract fun bindUpdateProfileUseCase(impl: UpdateProfileUseCaseImpl): UpdateProfileUseCase
+
+    @Binds
+    abstract fun bindGetInfoUseCase(impl: GetInfoUseCaseImpl): GetUserInfoUseCase
 }

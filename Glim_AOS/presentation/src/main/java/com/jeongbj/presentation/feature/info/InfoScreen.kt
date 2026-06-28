@@ -27,8 +27,8 @@ fun InfoScreen(
     val quotes = remember {
         flowOf(
             PagingData.from(
-                listOf(
-                    QuoteThumbnail(0, "")
+                listOf<QuoteThumbnail>(
+//                    QuoteThumbnail(0, "")
                 )
             )
         )

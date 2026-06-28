@@ -48,7 +48,7 @@ fun InfoContent(
             InfoHeaderSection(
                 onProfileImageClicked = { onAction(InfoAction.OnProfileImageClicked) },
                 modifier = modifier,
-                user = state.user
+                user = state.userInfo?.user
             )
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -70,10 +70,16 @@ fun InfoContent(
                 selectedTabIndex = state.selectedTab.ordinal
             ) {
                 GlimType.entries.forEach { tab ->
+                    val text = when (tab) {
+                        GlimType.OWN -> state.userInfo?.numQuotes ?: 0
+                        GlimType.LIKED -> state.userInfo?.numLikes ?: 0
+                    }
                     Tab(
                         selected = state.selectedTab == tab,
                         onClick = { onAction(InfoAction.OnTabSelected(tab)) },
-                        icon = { Icon(painter = painterResource(tab.resId), contentDescription = null) }
+                        icon = { Icon(painter = painterResource(tab.resId), contentDescription = null) },
+                        text = { Text(text = text.toString(), style = MaterialTheme.typography.bodySmall) }
+
                     )
                 }
             }

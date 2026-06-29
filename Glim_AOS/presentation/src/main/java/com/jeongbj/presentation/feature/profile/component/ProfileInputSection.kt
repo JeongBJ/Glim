@@ -21,6 +21,7 @@ fun ProfileInputSection(
     onNicknameChange: (String) -> Unit,
     onCompleteClick: () -> Unit,
     isButtonEnabled: Boolean,
+    isEditProfile: Boolean,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -44,7 +45,8 @@ fun ProfileInputSection(
                 .height(56.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
-            Text("시작하기")
+            val text = if (isEditProfile) "수정하기" else "시작하기"
+            Text(text)
         }
     }
 }
@@ -52,5 +54,5 @@ fun ProfileInputSection(
 @Preview
 @Composable
 fun ProfileInputSectionPreview() {
-    ProfileInputSection("닉네임", {} , {}, true)
+    ProfileInputSection("닉네임", {} , {}, true, false)
 }

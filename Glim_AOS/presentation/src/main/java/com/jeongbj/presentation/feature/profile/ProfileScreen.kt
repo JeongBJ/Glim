@@ -15,7 +15,8 @@ import com.jeongbj.presentation.common.util.toMultipartImage
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
-    onNavigateHome: () -> Unit
+    onNavigateHome: () -> Unit,
+    popBackStack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -42,6 +43,8 @@ fun ProfileScreen(
                 is ProfileSideEffect.ShowToast -> {
 
                 }
+
+                ProfileSideEffect.PopBackStack -> popBackStack()
             }
         }
     }

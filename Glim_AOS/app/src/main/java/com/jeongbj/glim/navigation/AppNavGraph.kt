@@ -41,9 +41,14 @@ fun AppNavGraph(
         )
 
         profileNav(
-            navigateToHome = { navController.navigate(HomeRoute) {
-                popUpTo(LoginRoute) { inclusive = true }
-            } }
+            navController = navController,
+            navigateToHome = {
+                navController.navigate(HomeRoute) {
+                    popUpTo(LoginRoute) { inclusive = true }
+                    launchSingleTop = true
+                }
+            },
+            popBackStack = { navController.popBackStack() }
         )
 
         homeNav(
@@ -72,7 +77,11 @@ fun AppNavGraph(
         )
 
         infoNav(
-
+            navigateToProfile = {
+                navController.currentBackStackEntry?.savedStateHandle?.set("user", it)
+                navController.navigate(ProfileRoute) },
+            navigateToQuoteDetail = { navController.navigate(GlimRoute(it)) },
+            navigateToSettings = {  }
         )
     }
 }

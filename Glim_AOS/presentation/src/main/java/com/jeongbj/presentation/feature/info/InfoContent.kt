@@ -46,9 +46,10 @@ fun InfoContent(
             span = { GridItemSpan(maxLineSpan) }
         ) {
             InfoHeaderSection(
-                onProfileImageClicked = { onAction(InfoAction.OnProfileImageClicked) },
                 modifier = modifier,
                 user = state.userInfo?.user,
+                onProfileImageClicked = { onAction(InfoAction.OnProfileImageClicked) },
+                onSettingClicked = { onAction(InfoAction.OnSettingClicked) },
                 isOwner = state.isOwner
             )
             Spacer(modifier = Modifier.height(8.dp))

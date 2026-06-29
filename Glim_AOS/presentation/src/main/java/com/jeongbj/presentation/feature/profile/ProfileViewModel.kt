@@ -7,6 +7,7 @@ import com.jeongbj.core.common.MultipartImage
 import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.user.model.User
 import com.jeongbj.domain.user.usecase.UserUseCases
+import com.jeongbj.presentation.common.model.UserUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,14 +62,13 @@ class ProfileViewModel @Inject constructor(
 
     private fun onCompleteClick() {
         try {
-            Timber.d("onCompleteClick: ")
-
             viewModelScope.launch {
                 val multipartImage = _state.value.multipartImage
                 val profile = User(nickname = _state.value.nickname)
                 userUseCases.updateProfileUseCase(multipartImage, profile).collect {
                     if (it is ResultType.Success) {
-                        _sideEffect.emit(ProfileSideEffect.NavigateToHome)
+                        if (_state.value.isEditProfile) _sideEffect.emit(ProfileSideEffect.PopBackStack)
+                        else _sideEffect.emit(ProfileSideEffect.NavigateToHome)
                     } else {
 
                     }
@@ -81,5 +81,14 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun isNicknameValid(nickname: String) = nickname.length in 2..10
+    fun init(user: UserUI?) {
+        user?: return
+        _state.update { it.copy(
+            nickname = user.nickname,
+            imageUrl = user.imageUrl,
+            isButtonEnabled = true,
+            isEditProfile = true
+        ) }
+    }
 
 }

@@ -10,11 +10,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.jeongbj.presentation.common.model.UserUI
 import com.jeongbj.presentation.feature.info.viewmodel.InfoViewModel
 import com.jeongbj.presentation.theme.StatusBarStyle
 
 @Composable
 fun InfoScreen(
+    navigateToProfile: (UserUI?) -> Unit,
+    navigateToQuoteDetail: (Long) -> Unit,
+    navigateToSettings: () -> Unit,
     viewModel: InfoViewModel = hiltViewModel()
 ) {
 
@@ -24,7 +28,11 @@ fun InfoScreen(
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
-
+            when (effect) {
+                is InfoSideEffect.NavigateToProfile -> navigateToProfile(effect.user)
+                is InfoSideEffect.NavigateToQuoteDetail -> navigateToQuoteDetail(effect.quoteSeq)
+                InfoSideEffect.NavigateToSettings -> navigateToSettings()
+            }
         }
     }
 

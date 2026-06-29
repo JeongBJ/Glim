@@ -11,8 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.jeongbj.domain.user.model.User
+import com.jeongbj.presentation.R
+import com.jeongbj.presentation.common.component.ActionButton
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.profile.component.ProfileImageSection
 import com.jeongbj.presentation.theme.GlimTheme
@@ -21,6 +24,7 @@ import com.jeongbj.presentation.theme.GlimTheme
 fun InfoHeaderSection(
     modifier: Modifier = Modifier,
     onProfileImageClicked: () -> Unit,
+    onSettingClicked: () -> Unit,
     user: User?,
     isOwner: Boolean = false,
 ) {
@@ -30,6 +34,20 @@ fun InfoHeaderSection(
             .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        if (isOwner) {
+            Column (
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalAlignment = Alignment.End
+            ) {
+                ActionButton(
+                    painter = painterResource(R.drawable.ic_settings),
+                    onClick = onSettingClicked
+                )
+            }
+        }
+
         ProfileImageSection(
             imageModel = user?.imageUrl,
             onImageClick = onProfileImageClicked,
@@ -52,8 +70,12 @@ fun InfoHeaderSection(
 fun InfoHeaderSectionPreview() {
     GlimTheme {
         InfoHeaderSection(
-            user = User("nickname", imageUrl = null),
-            onProfileImageClicked = { },
+            onProfileImageClicked = {  },
+            onSettingClicked = {  },
+            user = User(
+                nickname = "nickname",
+                imageUrl = null
+            ),
             isOwner = true
         )
     }

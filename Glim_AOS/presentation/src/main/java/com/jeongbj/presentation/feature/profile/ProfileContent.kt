@@ -53,7 +53,7 @@ private fun ProfileSetupPortrait(
         Spacer(modifier = Modifier.height(40.dp))
 
         ProfileImageSection(
-            imageModel = state.imageUri,
+            imageModel = state.imageUri?: state.imageUrl,
             onImageClick = { onAction(ProfileAction.OnImageClick) }
         )
 
@@ -64,7 +64,8 @@ private fun ProfileSetupPortrait(
             onNicknameChange = { onAction(ProfileAction.OnNicknameChanged(it)) },
             onCompleteClick = { onAction(ProfileAction.OnCompleteClick) },
             isButtonEnabled = state.isButtonEnabled,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            isEditProfile = state.isEditProfile
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -88,7 +89,7 @@ private fun ProfileSetupLandscape(
             contentAlignment = Alignment.Center
         ) {
             ProfileImageSection(
-                imageModel = state.imageUri,
+                imageModel = state.imageUri?: state.imageUrl,
                 onImageClick = { onAction(ProfileAction.OnImageClick) }
             )
         }
@@ -103,7 +104,8 @@ private fun ProfileSetupLandscape(
                 nickname = state.nickname,
                 onNicknameChange = { onAction(ProfileAction.OnNicknameChanged(it)) },
                 onCompleteClick = { onAction(ProfileAction.OnCompleteClick) },
-                isButtonEnabled = state.isButtonEnabled
+                isButtonEnabled = state.isButtonEnabled,
+                isEditProfile = state.isEditProfile
             )
         }
     }

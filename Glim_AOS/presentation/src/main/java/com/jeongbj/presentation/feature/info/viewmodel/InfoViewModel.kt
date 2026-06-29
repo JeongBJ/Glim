@@ -10,6 +10,7 @@ import androidx.paging.cachedIn
 import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.user.model.InfoQuotesType
 import com.jeongbj.domain.user.usecase.InfoUseCases
+import com.jeongbj.presentation.common.model.UserUI
 import com.jeongbj.presentation.common.paging.QuoteThumbnailPagingSource
 import com.jeongbj.presentation.feature.info.GlimType
 import com.jeongbj.presentation.feature.info.InfoAction
@@ -46,8 +47,12 @@ class InfoViewModel @Inject constructor(
             InfoAction.OnProfileImageClicked -> onProfileImageClicked()
             is InfoAction.OnQuoteThumbnailClicked -> onQuoteThumbnailClicked(action.quoteSeq)
             is InfoAction.OnTabSelected -> onTabSelected(action.tab)
+            InfoAction.OnSettingClicked -> onSettingClicked()
         }
     }
+
+    private fun onSettingClicked() =
+        _sideEffect.tryEmit(InfoSideEffect.NavigateToSettings)
 
     private val quoteTrigger = MutableStateFlow<InfoRequest>(
         InfoRequest(InfoQuotesType.MY, null)
@@ -119,8 +124,15 @@ class InfoViewModel @Inject constructor(
     private fun onQuoteThumbnailClicked(quoteSeq: Long) =
         _sideEffect.tryEmit(InfoSideEffect.NavigateToQuoteDetail(quoteSeq))
 
-    private fun onProfileImageClicked() =
-        _sideEffect.tryEmit(InfoSideEffect.NavigateToProfile(_state.value.userInfo?.user))
+    private fun onProfileImageClicked() {
+        val user = _state.value.userInfo?.user ?: return
+        _sideEffect.tryEmit(InfoSideEffect.NavigateToProfile(
+            UserUI(
+                nickname = user.nickname,
+                imageUrl = user.imageUrl
+            )
+        ))
+    }
 
     private data class InfoRequest(
         val type: InfoQuotesType,

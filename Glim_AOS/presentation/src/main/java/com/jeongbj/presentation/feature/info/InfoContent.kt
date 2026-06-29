@@ -48,7 +48,8 @@ fun InfoContent(
             InfoHeaderSection(
                 onProfileImageClicked = { onAction(InfoAction.OnProfileImageClicked) },
                 modifier = modifier,
-                user = state.userInfo?.user
+                user = state.userInfo?.user,
+                isOwner = state.isOwner
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

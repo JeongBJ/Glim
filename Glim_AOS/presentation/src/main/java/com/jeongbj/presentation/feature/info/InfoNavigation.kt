@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data object InfoRoute
+data class InfoRoute(val userSeq: Long? = null)
 
 fun NavGraphBuilder.infoNav() {
     composable<InfoRoute> {

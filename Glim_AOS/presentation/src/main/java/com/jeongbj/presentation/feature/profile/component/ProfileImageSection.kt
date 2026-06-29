@@ -24,12 +24,13 @@ import com.jeongbj.presentation.R
 fun ProfileImageSection(
     imageModel: Any?,
     onImageClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isOwner: Boolean = true
 ) {
     Box(
         modifier = modifier
             .size(120.dp)
-            .clickable { onImageClick() }
+            .clickable { if (isOwner) onImageClick() }
     ) {
         AsyncImage(
             model = imageModel ?: R.drawable.img_empty_profile,
@@ -40,20 +41,22 @@ fun ProfileImageSection(
             contentScale = ContentScale.Crop
         )
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .size(32.dp)
-                .background(Color.White, CircleShape)
-                .border(1.dp, Color.LightGray, CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_edit),
-                contentDescription = "수정",
-                modifier = Modifier.size(16.dp),
-                tint = Color.Black
-            )
+        if (isOwner) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .size(32.dp)
+                    .background(Color.White, CircleShape)
+                    .border(1.dp, Color.LightGray, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_edit),
+                    contentDescription = "수정",
+                    modifier = Modifier.size(16.dp),
+                    tint = Color.Black
+                )
+            }
         }
     }
 }

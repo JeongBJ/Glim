@@ -7,8 +7,10 @@ import java.time.LocalDate
 
 data class InfoState(
     val isLoading: Boolean = false,
+    val isOwner: Boolean = false,
+    val userSeq: Long? = null,
     val userInfo: UserInfo? = null,
-    val contributions: HashMap<LocalDate, Int> = hashMapOf(),
+    val contributions: Map<LocalDate, Int> = mapOf(),
     val selectedTab: GlimType = GlimType.OWN
 )
 

@@ -19,9 +19,10 @@ import com.jeongbj.presentation.theme.GlimTheme
 
 @Composable
 fun InfoHeaderSection(
-    onProfileImageClicked: () -> Unit,
     modifier: Modifier = Modifier,
-    user: User?
+    onProfileImageClicked: () -> Unit,
+    user: User?,
+    isOwner: Boolean = false,
 ) {
     Column(
         modifier = modifier
@@ -31,7 +32,8 @@ fun InfoHeaderSection(
     ) {
         ProfileImageSection(
             imageModel = user?.imageUrl,
-            onImageClick = onProfileImageClicked
+            onImageClick = onProfileImageClicked,
+            isOwner = isOwner
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -51,7 +53,8 @@ fun InfoHeaderSectionPreview() {
     GlimTheme {
         InfoHeaderSection(
             user = User("nickname", imageUrl = null),
-            onProfileImageClicked = { }
+            onProfileImageClicked = { },
+            isOwner = true
         )
     }
 }

@@ -67,7 +67,8 @@ class ProfileViewModel @Inject constructor(
                 val profile = User(nickname = _state.value.nickname)
                 userUseCases.updateProfileUseCase(multipartImage, profile).collect {
                     if (it is ResultType.Success) {
-                        if (_state.value.isEditProfile) _sideEffect.emit(ProfileSideEffect.PopBackStack)
+                        _sideEffect.emit(ProfileSideEffect.ShowToast("프로필 등록이 완료되었습니다."))
+                        if (_state.value.isEditProfile) _sideEffect.emit(ProfileSideEffect.NavigateToInfo)
                         else _sideEffect.emit(ProfileSideEffect.NavigateToHome)
                     } else {
 

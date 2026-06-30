@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jeongbj.android.extentions.showToast
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.common.util.toMultipartImage
 
@@ -16,7 +17,8 @@ import com.jeongbj.presentation.common.util.toMultipartImage
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     onNavigateHome: () -> Unit,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
+    navigateToInfo: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -41,10 +43,11 @@ fun ProfileScreen(
                 }
 
                 is ProfileSideEffect.ShowToast -> {
-
+                    context.showToast(effect.message)
                 }
 
                 ProfileSideEffect.PopBackStack -> popBackStack()
+                ProfileSideEffect.NavigateToInfo -> navigateToInfo()
             }
         }
     }

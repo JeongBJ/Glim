@@ -24,7 +24,7 @@ import com.jeongbj.presentation.feature.profile.profileNav
 @Composable
 fun AppNavGraph(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
 ) {
     val googleClientId = stringResource(R.string.default_web_client_id)
     NavHost(
@@ -34,9 +34,11 @@ fun AppNavGraph(
     ) {
         loginNav(
             googleClientId = googleClientId,
-            navigateToHome = { navController.navigate(HomeRoute) {
-                popUpTo(LoginRoute) { inclusive = true }
-            } },
+            navigateToHome = {
+                navController.navigate(HomeRoute) {
+                    popUpTo(LoginRoute) { inclusive = true }
+                }
+            },
             navigateToProfile = { navController.navigate(ProfileRoute) }
         )
 
@@ -45,14 +47,16 @@ fun AppNavGraph(
             navigateToHome = {
                 navController.navigate(HomeRoute) {
                     popUpTo(LoginRoute) { inclusive = true }
-                    launchSingleTop = true
                 }
             },
             popBackStack = { navController.popBackStack() }
         )
 
         homeNav(
-            navigateToBookDetail = { navController.navigate(BookDetailRoute(isbn13 = it)) },
+            navigateToBookDetail = {
+                navController.previousBackStackEntry?.savedStateHandle?.set("profile_updated", true)
+                navController.navigate(BookDetailRoute(isbn13 = it))
+            },
             navigateToQuoteDetail = { navController.navigate(GlimRoute(quoteSeq = it)) }
         )
 
@@ -79,9 +83,10 @@ fun AppNavGraph(
         infoNav(
             navigateToProfile = {
                 navController.currentBackStackEntry?.savedStateHandle?.set("user", it)
-                navController.navigate(ProfileRoute) },
+                navController.navigate(ProfileRoute)
+            },
             navigateToQuoteDetail = { navController.navigate(GlimRoute(it)) },
-            navigateToSettings = {  }
+            navigateToSettings = { }
         )
     }
 }

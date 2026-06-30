@@ -96,7 +96,7 @@ class InfoViewModel @Inject constructor(
         }
         quoteTrigger.tryEmit(InfoRequest(type, state.userSeq))
     }
-    private fun getUserInfo() {
+    fun getUserInfo() {
         viewModelScope.launch {
             infoUseCases.getUserInfoUseCase().collect { result ->
                 when (result) {

@@ -25,4 +25,5 @@ sealed interface ProfileSideEffect {
     data object OpenGallery : ProfileSideEffect
     data class ShowToast(val message: String) : ProfileSideEffect
     data object PopBackStack: ProfileSideEffect
+    data object NavigateToInfo: ProfileSideEffect
 }

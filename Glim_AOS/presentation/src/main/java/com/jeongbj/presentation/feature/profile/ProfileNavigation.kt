@@ -7,15 +7,13 @@ import androidx.navigation.compose.composable
 import com.jeongbj.presentation.common.model.UserUI
 import kotlinx.serialization.Serializable
 
-const val PROFILE_ROUTE = "profile"
-
 @Serializable
 data object ProfileRoute
 
 fun NavGraphBuilder.profileNav(
     navController: NavController,
     navigateToHome: () -> Unit,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
 ) {
     composable<ProfileRoute> {
         val viewModel: ProfileViewModel = hiltViewModel()
@@ -24,7 +22,11 @@ fun NavGraphBuilder.profileNav(
         ProfileScreen(
             viewModel = viewModel,
             onNavigateHome = navigateToHome,
-            popBackStack = popBackStack
+            popBackStack = popBackStack,
+            navigateToInfo = {
+                navController.previousBackStackEntry?.savedStateHandle?.set("profile_updated", true)
+                popBackStack()
+            }
         )
     }
 }

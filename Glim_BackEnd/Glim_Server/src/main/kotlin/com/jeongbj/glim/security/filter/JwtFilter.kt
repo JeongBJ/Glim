@@ -28,7 +28,9 @@ class JwtFilter(
             )
             SecurityContextHolder.getContext().authentication = auth
         } else {
-
+            if (token != null) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED)
+            }
         }
 
         filterChain.doFilter(request, response)

@@ -21,16 +21,17 @@ class JwtFilter(
     ) {
         val token = resolveToken(request)
 
-        if (token != null && jwtProvider.validateAccessToken(token)) {
-            val userId = jwtProvider.getUserId(token)
-            val auth = UsernamePasswordAuthenticationToken(
-                userId, null, emptyList()
-            )
-            SecurityContextHolder.getContext().authentication = auth
-        } else {
-            if (token != null) {
+        if (token != null) {
+            if (!jwtProvider.validateAccessToken(token)) {
+                println("d")
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED)
+                return
             }
+
+            val userId = jwtProvider.getUserId(token)
+
+            SecurityContextHolder.getContext().authentication =
+                UsernamePasswordAuthenticationToken(userId, null, emptyList())
         }
 
         filterChain.doFilter(request, response)

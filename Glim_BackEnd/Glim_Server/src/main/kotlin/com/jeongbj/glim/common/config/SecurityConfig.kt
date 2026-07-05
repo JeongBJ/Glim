@@ -21,6 +21,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
+                it.requestMatchers("/error").permitAll()
                 it.requestMatchers("/auth/**").permitAll()
                 it.requestMatchers("/login/**").permitAll()
                 it.requestMatchers("/.well-known/**").permitAll()

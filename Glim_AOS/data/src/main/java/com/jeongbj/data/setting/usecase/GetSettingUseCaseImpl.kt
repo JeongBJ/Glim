@@ -2,13 +2,14 @@ package com.jeongbj.data.setting.usecase
 
 import com.jeongbj.domain.setting.model.Settings
 import com.jeongbj.domain.setting.repository.SettingRepository
-import com.jeongbj.domain.setting.usecase.UpdateSettingsUseCase
+import com.jeongbj.domain.setting.usecase.GetSettingsUseCase
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class UpdateSettingUseCaseImpl @Inject constructor(
+class GetSettingUseCaseImpl @Inject constructor(
     private val settingRepository: SettingRepository
-): UpdateSettingsUseCase {
-    override suspend fun invoke(settings: Settings) {
-        TODO("Not yet implemented")
-    }
+): GetSettingsUseCase {
+    override fun invoke(): Flow<Settings> =
+        settingRepository.getSettings()
+
 }

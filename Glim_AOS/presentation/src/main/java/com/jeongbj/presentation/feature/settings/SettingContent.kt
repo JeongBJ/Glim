@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,7 @@ fun SettingContent(
 
     Column(
         modifier = modifier.fillMaxSize()
+            .statusBarsPadding()
     ) {
         GlimTopbar(
             title = "설정",
@@ -38,7 +40,7 @@ fun SettingContent(
             SettingToggleItem(
                 title = "자동 로그인",
                 description = "앱 실행 시 자동으로 로그인 합니다",
-                checked = state.isPushEnabled,
+                checked = state.settings.autoLoginEnabled,
                 onCheckChanged = { onAction(SettingAction.OnAutoLoginSwitchToggled(it)) }
             )
 
@@ -46,7 +48,7 @@ fun SettingContent(
             SettingToggleItem(
                 title = "푸시 알림",
                 description = "글림의 모든 알림을 받을 지 설정합니다",
-                checked = state.isPushEnabled,
+                checked = state.settings.pushEnabled,
                 onCheckChanged = { onAction(SettingAction.OnPushSwitchToggled(it)) }
             )
 
@@ -55,7 +57,7 @@ fun SettingContent(
             SettingToggleItem(
                 title = "잠금화면에서 글림 바로보기",
                 description = "잠금화면에서 스와이프하여 글림을 바로 볼 수 있습니다",
-                checked = state.isPushEnabled,
+                checked = state.settings.lockScreenEnabled,
                 onCheckChanged = { onAction(SettingAction.OnLockScreenSwitchToggled(it)) }
             )
 

@@ -20,6 +20,8 @@ import com.jeongbj.presentation.feature.post.PostRoute
 import com.jeongbj.presentation.feature.post.postNav
 import com.jeongbj.presentation.feature.profile.ProfileRoute
 import com.jeongbj.presentation.feature.profile.profileNav
+import com.jeongbj.presentation.feature.settings.SettingRoute
+import com.jeongbj.presentation.feature.settings.settingNav
 
 @Composable
 fun AppNavGraph(
@@ -86,7 +88,9 @@ fun AppNavGraph(
                 navController.navigate(ProfileRoute)
             },
             navigateToQuoteDetail = { navController.navigate(GlimRoute(it)) },
-            navigateToSettings = { }
+            navigateToSettings = { navController.navigate(SettingRoute) }
         )
+
+        settingNav()
     }
 }

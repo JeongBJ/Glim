@@ -1,6 +1,8 @@
 package com.jeongbj.domain.setting.usecase
 
-data class SettingUseCases(
+import javax.inject.Inject
+
+data class SettingUseCases @Inject constructor(
     val updateSettingsUseCase: UpdateSettingsUseCase,
     val getSettingsUseCase: GetSettingsUseCase
 )

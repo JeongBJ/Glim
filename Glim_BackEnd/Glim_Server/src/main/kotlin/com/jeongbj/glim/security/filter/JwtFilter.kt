@@ -23,7 +23,6 @@ class JwtFilter(
 
         if (token != null) {
             if (!jwtProvider.validateAccessToken(token)) {
-                println("d")
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED)
                 return
             }

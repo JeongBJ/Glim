@@ -35,15 +35,16 @@ class TokenAuthenticator @Inject constructor(
                 val newToken = try {
                     authRepository.get()
                         .refreshAccessToken(refreshToken)
-                        .accessToken
                 } catch (e: Exception) {
                     Timber.tag("TokenAuthenticator").e(e, "authenticate: ")
                     tokenManager.notifyTokenExpired()
                     return@runBlocking null
                 }
 
+                tokenManager.saveTokens(newToken)
+
                 response.request.newBuilder()
-                    .header(JWT.HEADER, "${JWT.TYPE} $newToken")
+                    .header(JWT.HEADER, "${JWT.TYPE} ${newToken.accessToken}")
                     .build()
 
             }

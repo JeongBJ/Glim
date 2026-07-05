@@ -44,7 +44,6 @@ fun InfoContent(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0A0A1A))
     ) {
         if (maxWidth < 600.dp) {
             InfoPortrait(

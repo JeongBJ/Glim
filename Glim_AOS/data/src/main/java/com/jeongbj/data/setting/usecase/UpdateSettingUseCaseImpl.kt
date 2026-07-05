@@ -8,7 +8,6 @@ import javax.inject.Inject
 class UpdateSettingUseCaseImpl @Inject constructor(
     private val settingRepository: SettingRepository
 ): UpdateSettingsUseCase {
-    override suspend fun invoke(settings: Settings) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun invoke(settings: Settings) =
+        settingRepository.updateSettings(settings)
 }

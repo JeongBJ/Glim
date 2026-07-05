@@ -36,6 +36,14 @@ fun SettingContent(
             .padding(horizontal = 16.dp)
         ) {
             SettingToggleItem(
+                title = "자동 로그인",
+                description = "앱 실행 시 자동으로 로그인 합니다",
+                checked = state.isPushEnabled,
+                onCheckChanged = { onAction(SettingAction.OnAutoLoginSwitchToggled(it)) }
+            )
+
+            Spacer(Modifier.height(32.dp))
+            SettingToggleItem(
                 title = "푸시 알림",
                 description = "글림의 모든 알림을 받을 지 설정합니다",
                 checked = state.isPushEnabled,
@@ -48,7 +56,7 @@ fun SettingContent(
                 title = "잠금화면에서 글림 바로보기",
                 description = "잠금화면에서 스와이프하여 글림을 바로 볼 수 있습니다",
                 checked = state.isPushEnabled,
-                onCheckChanged = { onAction(SettingAction.OnPushSwitchToggled(it)) }
+                onCheckChanged = { onAction(SettingAction.OnLockScreenSwitchToggled(it)) }
             )
 
             Spacer(Modifier.height(32.dp))
@@ -61,7 +69,7 @@ fun SettingContent(
 
             SettingItem(
                 title = "회원 탈퇴",
-                onClick = { onAction(SettingAction.OnLogoutClicked) }
+                onClick = { onAction(SettingAction.OnResignClicked) }
             )
         }
     }

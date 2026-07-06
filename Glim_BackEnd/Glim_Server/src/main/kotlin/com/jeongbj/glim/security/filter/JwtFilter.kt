@@ -36,6 +36,11 @@ class JwtFilter(
         filterChain.doFilter(request, response)
     }
 
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        val path = request.servletPath
+        return path.startsWith("/auth/")
+    }
+
     private fun resolveToken(request: HttpServletRequest): String? =
         request.getHeader("Authorization")
             ?.takeIf { it.startsWith("Bearer ") }

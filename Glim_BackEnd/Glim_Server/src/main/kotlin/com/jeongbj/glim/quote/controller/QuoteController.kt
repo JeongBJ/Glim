@@ -27,7 +27,7 @@ class QuoteController (
     }
 
     @PostMapping("/generate")
-    fun generateImage(@RequestBody request: GenerateImageRequest): ResponseEntity<ByteArray> {
+    suspend fun generateImage(@RequestBody request: GenerateImageRequest): ResponseEntity<ByteArray> {
         val body = runCatching {
             quoteService.generateImage(request.content)
         }.onFailure {
@@ -35,7 +35,7 @@ class QuoteController (
         }.getOrNull()
 
         return ResponseEntity.ok()
-            .contentType(MediaType.IMAGE_JPEG)
+            .contentType(MediaType.parseMediaType("image/webp"))
             .body(body)
     }
 

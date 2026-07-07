@@ -47,6 +47,14 @@ pollination:
   width: 1024
   model: flux
 
+gradio:
+#  base-url: ENC(zjIfDrHhWCxnKk/EZ0ukWwH1lgdoAL1eqvykF8OOdgJ2Sr4UxRvNu05A+zaRXKe4Pj3sL7dyOAlOCGtfC58i8g==)
+  base-url: ENC(yJoVYdGgSreK2xJtqAVRMKgLZlRiRiLJ+wwPwmCUgU1TSm4XMzv42loeRTPFlW+7MufpmNzhpnyFoU6CcNhFRKc0cDfq680M9PBN2Po1qDU=)
+#  key: ENC(35V/n4NWaNG/jhDr6DzIAgzGIjakzMUcpdI1HtLc4Trv3aIVgUYVHBAlD1+oOHfZkPDHj8kzfzoUM2ten0LtwhQODks/krV+Uq5t/RmOAvU=)
+  key: ENC(XH2JA0EjzUW8sKnjVF6gtgQJid7V79rTef4b+0KZe0m3ZtqGDf+wHakH1Ye1lF1JhQVNT9ZEx8HVhhsgu0eqJ4Dm6Eu0QRtNggTjaSNJegQ=)
+  height: 1792
+  width: 1024
+
 gemini:
   key: ENC(X73K/8bny9ofMFRlFKFxshx2sB6dmvDu8+frSUVv3Ht/A8440BxiFntEU9XWPaJeyeV4wDYsAb6terPdKeL6sjnO3sWm0adNp2YFRzSSm/o=)
   model: gemini-3.1-flash-lite

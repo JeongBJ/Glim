@@ -1,6 +1,7 @@
 package com.jeongbj.glim.common.config
 
 import com.jeongbj.glim.security.filter.JwtFilter
+import jakarta.servlet.DispatcherType
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -21,6 +22,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests {
+                it.dispatcherTypeMatchers(DispatcherType.ERROR,DispatcherType.ASYNC).permitAll()
                 it.requestMatchers("/error").permitAll()
                 it.requestMatchers("/auth/**").permitAll()
                 it.requestMatchers("/login/**").permitAll()

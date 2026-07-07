@@ -1,5 +1,6 @@
 package com.jeongbj.glim.external.ai.pollination.config
 
+import io.netty.channel.ChannelOption
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
@@ -30,6 +31,7 @@ class PollinationConfig(
             .clientConnector(
                 ReactorClientHttpConnector(
                     HttpClient.create()
+                        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
                         .responseTimeout(Duration.ofSeconds(30))
                 )
             )

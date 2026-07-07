@@ -4,6 +4,7 @@ import com.jeongbj.glim.book.mapper.toQuoteResponse
 import com.jeongbj.glim.book.repository.BookRepository
 import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.external.ai.gemini.service.GeminiService
+import com.jeongbj.glim.external.ai.gradio.service.GradioService
 import com.jeongbj.glim.external.ai.pollination.service.PollinationService
 import com.jeongbj.glim.infra.bucket.BucketService
 import com.jeongbj.glim.quote.dto.QuoteCursor
@@ -31,13 +32,14 @@ class QuoteService(
     private val bucketService: BucketService,
     private val userRepository: UserRepository,
     private val pollinationService: PollinationService,
+    private val gradioService: GradioService,
     private val geminiService: GeminiService
 ) {
 
-    fun generateImage(content: String): ByteArray {
+    suspend fun generateImage(content: String): ByteArray {
         val prompt = geminiService.generateText(content)
         println(prompt)
-        return pollinationService.generateImage(prompt)
+        return gradioService.generateImage(prompt)
     }
 
     fun saveQuote(userSeq: Long, request: QuoteRequest, multipartFile: MultipartFile)

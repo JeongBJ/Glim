@@ -48,10 +48,15 @@ pollination:
   model: flux
 
 gradio:
-#  base-url: ENC(zjIfDrHhWCxnKk/EZ0ukWwH1lgdoAL1eqvykF8OOdgJ2Sr4UxRvNu05A+zaRXKe4Pj3sL7dyOAlOCGtfC58i8g==)
-  base-url: ENC(yJoVYdGgSreK2xJtqAVRMKgLZlRiRiLJ+wwPwmCUgU1TSm4XMzv42loeRTPFlW+7MufpmNzhpnyFoU6CcNhFRKc0cDfq680M9PBN2Po1qDU=)
-#  key: ENC(35V/n4NWaNG/jhDr6DzIAgzGIjakzMUcpdI1HtLc4Trv3aIVgUYVHBAlD1+oOHfZkPDHj8kzfzoUM2ten0LtwhQODks/krV+Uq5t/RmOAvU=)
-  key: ENC(XH2JA0EjzUW8sKnjVF6gtgQJid7V79rTef4b+0KZe0m3ZtqGDf+wHakH1Ye1lF1JhQVNT9ZEx8HVhhsgu0eqJ4Dm6Eu0QRtNggTjaSNJegQ=)
+  urls:
+    - ENC(zjIfDrHhWCxnKk/EZ0ukWwH1lgdoAL1eqvykF8OOdgJ2Sr4UxRvNu05A+zaRXKe4Pj3sL7dyOAlOCGtfC58i8g==)
+    - ENC(yJoVYdGgSreK2xJtqAVRMKgLZlRiRiLJ+wwPwmCUgU1TSm4XMzv42loeRTPFlW+7MufpmNzhpnyFoU6CcNhFRKc0cDfq680M9PBN2Po1qDU=)
+    - ENC(ckZmtqJ/1/7yks8DNKLWOHarfMCMJQ6xjG5EZ5Ii/dNZ2vcTOOiZPJ2UYBdHI/nWE15iLGVqzJPMeVabEXghsga87BUHcK4p6kTyVcjyZmGwGBvjoq9qyTOqAglT0d4u)
+    - ENC(zehK1IHuoap9c8RuhXL7XdIzNsg3JZT48Jzg3bXDPhOofRLBQ8rSWJVktqvKF9bqS/PD0qP3y3yWsUIkvNtstMe2ZrUPoCRSIFlaTpOX6kk=)
+  keys:
+    - ENC(35V/n4NWaNG/jhDr6DzIAgzGIjakzMUcpdI1HtLc4Trv3aIVgUYVHBAlD1+oOHfZkPDHj8kzfzoUM2ten0LtwhQODks/krV+Uq5t/RmOAvU=)
+    - ENC(XH2JA0EjzUW8sKnjVF6gtgQJid7V79rTef4b+0KZe0m3ZtqGDf+wHakH1Ye1lF1JhQVNT9ZEx8HVhhsgu0eqJ4Dm6Eu0QRtNggTjaSNJegQ=)
+    - ENC(WmXEUrYHGtNDkYBrJFhHMSO5IMjIMH+uvE9AI8NC+mKqxvAUSFr84chPLh5RzyqtIJ5rS7cVdnXBFxtDI+UnT7PlIJp9N/La5XcfiHVW10c=)
   height: 1792
   width: 1024
 

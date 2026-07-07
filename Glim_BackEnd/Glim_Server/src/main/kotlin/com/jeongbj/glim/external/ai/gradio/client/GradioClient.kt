@@ -20,18 +20,29 @@ class GradioClient(
     private val gradioWebClient: WebClient,
     private val properties: GradioProperties
 ) {
-
     suspend fun generateImage(prompt: String): ByteArray {
-        val event = createEvent(prompt)
-        val imageUrl = getResult(event.eventId)
-        val image = downloadImage(imageUrl)
-        return image
+        for (url in properties.urls) {
+            for (key in properties.keys) {
+                try {
+                    val event = createEvent(prompt, url, key)
+                    val imageUrl = getResult(event.eventId, url, key)
+                    val image = downloadImage(imageUrl, key)
+                    return image
+                } catch (e: Exception) {
+                    continue
+                }
+            }
+        }
+        throw IllegalStateException("All HF Servers Failed")
     }
 
-    suspend fun createEvent(prompt: String)
+    suspend fun createEvent(prompt: String, url: String, key: String)
     : GradioEventResponse {
         return gradioWebClient.post()
-            .uri("/gradio_api/call/infer")
+            .uri("$url/gradio_api/call/infer")
+            .headers {
+                it.setBearerAuth(key)
+            }
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(
                 GradioRequest(data = listOf(
@@ -47,10 +58,13 @@ class GradioClient(
             .awaitBody<GradioEventResponse>()
     }
 
-    suspend fun getResult(eventId: String): String {
+    suspend fun getResult(eventId: String, url: String, key: String): String {
         println(eventId)
         val event = gradioWebClient.get()
-            .uri("/gradio_api/call/infer/$eventId")
+            .uri("$url/gradio_api/call/infer/$eventId")
+            .headers {
+                it.setBearerAuth(key)
+            }
             .accept(MediaType.TEXT_EVENT_STREAM)
             .retrieve()
             .bodyToFlux(ServerSentEvent::class.java)
@@ -73,12 +87,12 @@ class GradioClient(
         return file["url"] as String
     }
 
-    private suspend fun downloadImage(url: String): ByteArray {
+    private suspend fun downloadImage(url: String, key: String): ByteArray {
         val response = WebClient.create()
             .get()
             .uri(url)
             .headers {
-                it.setBearerAuth(properties.key)
+                it.setBearerAuth(key)
             }
             .exchangeToMono { res ->
                 println(res.statusCode())

@@ -3,7 +3,6 @@ package com.jeongbj.glim.external.ai.gradio.config
 import io.netty.channel.ChannelOption
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpHeaders
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
@@ -17,8 +16,6 @@ class GradioConfig(
     @Bean
     fun gradioWebClient(): WebClient {
         return WebClient.builder()
-            .baseUrl(gradioProperties.baseUrL)
-            .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer ${gradioProperties.key}")
             .clientConnector(
                 ReactorClientHttpConnector(
                     HttpClient.create()

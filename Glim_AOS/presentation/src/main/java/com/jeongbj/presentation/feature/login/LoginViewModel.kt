@@ -3,7 +3,6 @@ package com.jeongbj.presentation.feature.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeongbj.core.common.ResultType
-import com.jeongbj.domain.auth.usecase.RefreshAccessTokenUseCase
 import com.jeongbj.domain.setting.usecase.SettingUseCases
 import com.jeongbj.domain.user.model.User
 import com.jeongbj.domain.user.usecase.LoginUseCases
@@ -23,7 +22,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCases: LoginUseCases,
     private val settingUseCases: SettingUseCases,
-    private val refreshAccessTokenUseCase: RefreshAccessTokenUseCase,
 ) : ViewModel() {
 
     private val _loginEffect = MutableSharedFlow<LoginEffect>()
@@ -40,11 +38,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val settings = settingUseCases.getSettingsUseCase().first()
             if (settings.autoLoginEnabled) {
-                refreshAccessTokenUseCase().collect { result ->
-                    if (result is ResultType.Success) {
-                        _loginEffect.emit(LoginEffect.NavigateHome)
-                    }
-                }
+                login(loginUseCases.autoLoginUseCase())
             }
         }
     }

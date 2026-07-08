@@ -13,4 +13,7 @@ interface LoginApi {
     @POST("login/kakao")
     suspend fun kakaoLogin(@Body loginTokenRequest: LoginTokenRequest): BaseResponse<LoginResponse>
 
+    @POST("login")
+    suspend fun autoLogin(@Body loginTokenRequest: LoginTokenRequest): BaseResponse<LoginResponse>
+
 }

@@ -15,4 +15,7 @@ class LoginRemoteDataSource @Inject constructor(
 
     suspend fun kakaoLogin(loginTokenRequest: LoginTokenRequest) : BaseResponse<LoginResponse> =
         loginApi.kakaoLogin(loginTokenRequest)
+
+    suspend fun autoLogin(loginTokenRequest: LoginTokenRequest) : BaseResponse<LoginResponse> =
+        loginApi.autoLogin(loginTokenRequest)
 }

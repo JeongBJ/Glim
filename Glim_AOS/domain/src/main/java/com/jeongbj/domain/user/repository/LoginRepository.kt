@@ -7,4 +7,6 @@ interface LoginRepository {
     suspend fun googleLogin(loginToken: LoginToken) : User
 
     suspend fun kakaoLogin(loginToken: LoginToken) : User
+
+    suspend fun autoLogin(): User
 }

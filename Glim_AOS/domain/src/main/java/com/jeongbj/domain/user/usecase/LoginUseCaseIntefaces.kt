@@ -11,3 +11,7 @@ interface GoogleLoginUseCase {
 interface KakaoLoginUseCase {
     operator fun invoke(idToken: String) : Flow<ResultType<User>>
 }
+
+interface AutoLoginUseCase {
+    operator fun invoke(): Flow<ResultType<User>>
+}

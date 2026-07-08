@@ -60,7 +60,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
 
-
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation)
@@ -69,4 +68,5 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.kakao.login)
+    implementation(libs.firebase.messaging)
 }

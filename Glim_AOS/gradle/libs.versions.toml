@@ -38,6 +38,7 @@ turbine = "1.2.1"
 lottie = "6.7.1"
 mlkit = "16.0.1"
 datastore = "1.2.1"
+firebaseMessaging = "25.1.0"
 
 
 [libraries]
@@ -93,6 +94,7 @@ mlkit = { group = "com.google.mlkit", name = "text-recognition", version.ref = "
 mlkit-korean = { group = "com.google.mlkit", name = "text-recognition-korean", version.ref = "mlkit"}
 androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version = "datastore" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -17,8 +17,6 @@ class LoginController(
 ) {
     @PostMapping("/google")
     fun googleLogin(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<LoginResponse?>> {
-//        val response = loginService.googleLogin(loginRequest)
-//        return ResponseEntity.ok(BaseResponse.success(response))
         return try {
             val response = loginService.googleLogin(loginRequest)
 
@@ -36,6 +34,12 @@ class LoginController(
     @PostMapping("/kakao")
     fun kakaoLogin(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<LoginResponse>> {
         val response = loginService.kakaoLogin(loginRequest)
+        return ResponseEntity.ok(BaseResponse.success(response))
+    }
+
+    @PostMapping
+    fun autoLogin(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<LoginResponse>> {
+        val response = loginService.autoLogin(loginRequest)
         return ResponseEntity.ok(BaseResponse.success(response))
     }
 }

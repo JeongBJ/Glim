@@ -37,6 +37,9 @@ class User(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val fcmTokens: MutableList<FcmToken> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
     val quotes: MutableList<Quote> = mutableListOf()
 
 ) {

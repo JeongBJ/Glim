@@ -2,9 +2,12 @@ package com.jeongbj.glim.user.service
 
 import com.jeongbj.glim.common.exception.UserNotFoundException
 import com.jeongbj.glim.infra.bucket.BucketService
+import com.jeongbj.glim.user.dto.request.FcmTokenRequest
 import com.jeongbj.glim.user.dto.request.ProfileRequest
 import com.jeongbj.glim.user.dto.response.UserResponse
+import com.jeongbj.glim.user.entity.FcmToken
 import com.jeongbj.glim.user.mapper.toResponse
+import com.jeongbj.glim.user.repository.FcmTokenRepository
 import com.jeongbj.glim.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 @Transactional
 class UserService(
     private val userRepository: UserRepository,
+    private val fcmTokenRepository: FcmTokenRepository,
     private val bucketService: BucketService
 ) {
     fun updateProfile(userSeq: Long, profileRequest: ProfileRequest, multipartFile: MultipartFile?): UserResponse {
@@ -30,5 +34,20 @@ class UserService(
             bucketService.deleteImage(oldImageUrl)
         }
         return user.toResponse()
+    }
+
+    fun updateFcmToken(userSeq: Long, request: FcmTokenRequest) {
+        val currentUser = userRepository.findById(userSeq).orElseThrow { UserNotFoundException() }
+        val fcmToken = fcmTokenRepository.findByToken(request.token) ?: fcmTokenRepository.save(FcmToken(
+            user = currentUser,
+            token = request.token,
+            pushEnabled = request.enabled
+        ))
+
+        fcmToken.updatePushEnabled(request.enabled)
+
+        if (currentUser.userSeq != fcmToken.user.userSeq) {
+            fcmToken.updateUser(currentUser)
+        }
     }
 }

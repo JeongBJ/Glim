@@ -3,6 +3,9 @@ package com.jeongbj.glim.infra.bucket
 import com.oracle.bmc.Region
 import com.oracle.bmc.auth.ConfigFileAuthenticationDetailsProvider
 import com.oracle.bmc.objectstorage.ObjectStorageClient
+import com.oracle.bmc.objectstorage.model.BatchDeleteObjectIdentifier
+import com.oracle.bmc.objectstorage.model.BatchDeleteObjectsDetails
+import com.oracle.bmc.objectstorage.requests.BatchDeleteObjectsRequest
 import com.oracle.bmc.objectstorage.requests.DeleteObjectRequest
 import com.oracle.bmc.objectstorage.requests.PutObjectRequest
 import jakarta.annotation.PreDestroy
@@ -67,6 +70,26 @@ class BucketService(
             .objectName(objectName)
             .build()
         client.deleteObject(request)
+    }
+
+    fun batchDelete(images: List<String?>) {
+        if (images.isEmpty()) return
+        val objects = images.filterNotNull().map {
+            BatchDeleteObjectIdentifier.builder()
+                .objectName(it.substringAfterLast("/o/"))
+                .build()
+        }
+        val details = BatchDeleteObjectsDetails.builder()
+            .objects(objects)
+            .isSkipDeletedResult(false)
+            .build()
+
+        val request = BatchDeleteObjectsRequest.builder()
+            .namespaceName(ociProperties.namespace)
+            .bucketName(ociProperties.bucket)
+            .batchDeleteObjectsDetails(details)
+            .build()
+        client.batchDeleteObjects(request)
     }
 
     @PreDestroy

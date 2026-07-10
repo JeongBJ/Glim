@@ -5,4 +5,6 @@ import com.jeongbj.domain.user.model.User
 
 interface UserRepository {
     suspend fun updateProfile(image: MultipartImage?, profile: User): User
+
+    suspend fun updateFcmToken(enabled: Boolean)
 }

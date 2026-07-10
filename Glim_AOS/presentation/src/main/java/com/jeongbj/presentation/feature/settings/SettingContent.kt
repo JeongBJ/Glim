@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.jeongbj.presentation.common.component.GlimTopbar
+import com.jeongbj.presentation.common.notification.rememberNotificationPermissionState
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.settings.component.SettingItem
 import com.jeongbj.presentation.feature.settings.component.SettingToggleItem
@@ -20,11 +22,21 @@ import com.jeongbj.presentation.theme.GlimTheme
 fun SettingContent(
     modifier: Modifier = Modifier,
     state: SettingState,
-    onAction: (SettingAction) -> Unit
+    onAction: (SettingAction) -> Unit,
 ) {
 
+    val context = LocalContext.current
+    val permissionState = rememberNotificationPermissionState(
+        onResult = { granted ->
+            if (granted) onAction(SettingAction.OnPushSwitchToggled(true))
+            else onAction(SettingAction.OnPushSwitchToggled(false))
+        }
+    )
+
+
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .statusBarsPadding()
     ) {
         GlimTopbar(
@@ -34,7 +46,8 @@ fun SettingContent(
 
         Spacer(Modifier.height(16.dp))
 
-        Column(modifier = modifier.fillMaxWidth()
+        Column(modifier = modifier
+            .fillMaxWidth()
             .padding(horizontal = 16.dp)
         ) {
             SettingToggleItem(
@@ -49,7 +62,21 @@ fun SettingContent(
                 title = "푸시 알림",
                 description = "글림의 모든 알림을 받을 지 설정합니다",
                 checked = state.settings.pushEnabled,
-                onCheckChanged = { onAction(SettingAction.OnPushSwitchToggled(it)) }
+                onCheckChanged = {
+                    when (it) {
+                        true -> {
+                            if (!permissionState.isEnabled) {
+                                permissionState.requestPermission()
+                            } else {
+                                onAction(SettingAction.OnPushSwitchToggled(true))
+                            }
+                        }
+                        false -> {
+                            onAction(SettingAction.OnPushSwitchToggled(false))
+                        }
+                    }
+
+                }
             )
 
             Spacer(Modifier.height(32.dp))

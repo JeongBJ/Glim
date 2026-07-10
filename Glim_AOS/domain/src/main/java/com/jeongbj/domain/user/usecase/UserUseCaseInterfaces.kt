@@ -8,3 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface UpdateProfileUseCase {
     operator fun invoke(image: MultipartImage?, profile: User): Flow<ResultType<User>>
 }
+
+interface UpdateFcmTokenUseCase {
+    operator fun invoke(enabled: Boolean): Flow<ResultType<Unit>>
+}

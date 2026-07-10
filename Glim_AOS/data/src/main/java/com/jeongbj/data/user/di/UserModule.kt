@@ -5,12 +5,14 @@ import com.jeongbj.data.user.repository.UserRepositoryImpl
 import com.jeongbj.data.user.usecase.AutoLoginUseCaseImpl
 import com.jeongbj.data.user.usecase.GoogleLoginUseCaseImpl
 import com.jeongbj.data.user.usecase.KakaoLoginUseCaseImpl
+import com.jeongbj.data.user.usecase.UpdateFcmTokenUseCaseImpl
 import com.jeongbj.data.user.usecase.UpdateProfileUseCaseImpl
 import com.jeongbj.domain.user.repository.LoginRepository
 import com.jeongbj.domain.user.repository.UserRepository
 import com.jeongbj.domain.user.usecase.AutoLoginUseCase
 import com.jeongbj.domain.user.usecase.GoogleLoginUseCase
 import com.jeongbj.domain.user.usecase.KakaoLoginUseCase
+import com.jeongbj.domain.user.usecase.UpdateFcmTokenUseCase
 import com.jeongbj.domain.user.usecase.UpdateProfileUseCase
 import dagger.Binds
 import dagger.Module
@@ -42,4 +44,6 @@ abstract class UserModule {
     @Binds
     abstract fun bindUpdateProfileUseCase(impl: UpdateProfileUseCaseImpl): UpdateProfileUseCase
 
+    @Binds
+    abstract fun bindUpdateFcmTokenUseCase(impl: UpdateFcmTokenUseCaseImpl): UpdateFcmTokenUseCase
 }

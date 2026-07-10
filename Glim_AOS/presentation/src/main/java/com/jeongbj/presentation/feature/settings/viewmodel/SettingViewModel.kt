@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.auth.usecase.AuthUseCases
 import com.jeongbj.domain.setting.usecase.SettingUseCases
+import com.jeongbj.domain.user.usecase.UserUseCases
 import com.jeongbj.presentation.feature.settings.SettingAction
 import com.jeongbj.presentation.feature.settings.SettingSideEffect
 import com.jeongbj.presentation.feature.settings.SettingState
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val settingUseCases: SettingUseCases,
-    private val authUseCases: AuthUseCases
+    private val authUseCases: AuthUseCases,
+    private val userUseCases: UserUseCases
 ): ViewModel() {
 
     private val _state = MutableStateFlow(SettingState())
@@ -69,6 +71,14 @@ class SettingViewModel @Inject constructor(
     private fun onPushSwitchToggled(pushEnabled: Boolean) {
         _state.update { it.copy(settings = it.settings.copy(pushEnabled = pushEnabled)) }
         updateSettings()
+        viewModelScope.launch {
+            userUseCases.updateFcmTokenUseCase(pushEnabled).collect {
+                if (it is ResultType.Success) {
+                    val message = if (pushEnabled) "푸시 알림이 활성화 되었습니다." else "푸시 알림이 비활성화 되었습니다."
+                    _sideEffect.emit(SettingSideEffect.ShowToast(message))
+                }
+            }
+        }
     }
 
     private fun onLockScreenSwitchToggled(lockScreenEnabled: Boolean) {

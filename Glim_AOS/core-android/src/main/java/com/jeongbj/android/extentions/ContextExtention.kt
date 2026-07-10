@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.widget.Toast
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 
 fun Context.hasCameraPermission(): Boolean {
@@ -14,6 +16,19 @@ fun Context.hasCameraPermission(): Boolean {
         this,
         Manifest.permission.CAMERA
     ) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Context.checkNotificationPermission(): Boolean {
+    return when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+        else -> {
+            NotificationManagerCompat.from(this).areNotificationsEnabled()
+        }
+    }
 }
 
 tailrec fun Context.findActivity(): Activity? =

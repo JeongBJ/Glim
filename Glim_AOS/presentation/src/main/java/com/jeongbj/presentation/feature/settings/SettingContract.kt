@@ -17,6 +17,7 @@ sealed interface SettingAction {
 }
 
 sealed interface SettingSideEffect {
+    data class ShowToast(val message: String): SettingSideEffect
     data object NavigateBack: SettingSideEffect
     data object NavigateLogin: SettingSideEffect
 }

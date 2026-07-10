@@ -1,6 +1,7 @@
 package com.jeongbj.data.fcm.manager
 
 import com.jeongbj.data.fcm.datastore.FcmTokenDataStore
+import com.jeongbj.domain.user.model.FcmToken
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,11 +15,11 @@ class FcmTokenManager @Inject constructor(
         fcmTokenDataStore.clear()
     }
 
-    suspend fun saveFcmToken(token: String) {
-        fcmTokenDataStore.save(token)
+    suspend fun saveFcmToken(token: String, enabled: Boolean = true) {
+        fcmTokenDataStore.save(token, enabled)
     }
 
-    fun getFcmToken(): Flow<String> {
+    fun getFcmToken(): Flow<FcmToken?> {
         return fcmTokenDataStore.get()
     }
 

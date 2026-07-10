@@ -4,6 +4,7 @@ import com.jeongbj.core.common.unwrap
 import com.jeongbj.data.auth.manager.TokenManager
 import com.jeongbj.data.auth.mapper.toDomain
 import com.jeongbj.data.fcm.manager.FcmTokenManager
+import com.jeongbj.data.fcm.mapper.toRequest
 import com.jeongbj.data.user.datasource.LoginRemoteDataSource
 import com.jeongbj.data.user.mapper.toDomain
 import com.jeongbj.data.user.mapper.toRequest
@@ -42,9 +43,9 @@ class LoginRepositoryImpl @Inject constructor(
         val fcmToken = fcmTokenManager.getFcmToken().first()
         val response = loginRemoteDataSource.autoLogin(LoginTokenRequest(
             idToken = refreshToken,
-            fcmToken = fcmToken
+            fcmTokenRequest = fcmToken?.toRequest()
         )).unwrap()
-
+        tokenManager.saveTokens(response.token.toDomain())
         return response.user.toDomain()
     }
 }

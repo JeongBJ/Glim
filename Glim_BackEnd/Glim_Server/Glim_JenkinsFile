@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
 
     environment {
         FIREBASE_CREDENTIAL = credentials('firebase-admin')

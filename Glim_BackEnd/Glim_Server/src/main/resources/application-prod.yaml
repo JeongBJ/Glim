@@ -26,3 +26,6 @@ server:
 
 oci:
   config-path: ${user.home}/.oci/OCI_CONFIG
+
+firebase:
+  credential-path: ${FIREBASE_CREDENTIAL_PATH}

@@ -64,6 +64,8 @@ dependencies {
     kapt("jakarta.annotation:jakarta.annotation-api")
     kapt("jakarta.persistence:jakarta.persistence-api")
 
+    implementation("com.google.firebase:firebase-admin:9.8.0")
+
 }
 
 kotlin {

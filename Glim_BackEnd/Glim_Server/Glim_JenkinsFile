@@ -1,5 +1,10 @@
 pipeline {
     agent none
+
+    environment {
+        FIREBASE_CREDENTIAL = credentials('firebase-admin')
+    }
+
     stages {
 
         stage('Gradle Build') {
@@ -35,6 +40,7 @@ pipeline {
                         -m 4g \
                         -v /home/ubuntu/Glim/log:/home/log \
                         -v /home/ubuntu/.oci:/root/.oci \
+                        -e FIREBASE_CREDENTIAL_PATH=/run/secrets/firebase-admin.json \
                         -e SPRING_PROFILES_ACTIVE=prod \
                         -e GLIM_DB_PORT=${GLIM_DB_PORT} \
                         -e REDIS_PORT=${REDIS_PORT} \

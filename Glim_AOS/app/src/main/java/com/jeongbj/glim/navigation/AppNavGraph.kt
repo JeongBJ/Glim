@@ -91,6 +91,9 @@ fun AppNavGraph(
             navigateToSettings = { navController.navigate(SettingRoute) }
         )
 
-        settingNav()
+        settingNav(
+            navigateBack = { navController.popBackStack() },
+            navigateToLogin = { navController.navigate(LoginRoute) { popUpTo(LoginRoute) { inclusive = true } } }
+        )
     }
 }

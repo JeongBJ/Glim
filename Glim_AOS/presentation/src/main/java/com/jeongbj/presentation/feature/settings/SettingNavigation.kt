@@ -10,13 +10,16 @@ import kotlinx.serialization.Serializable
 data object SettingRoute
 
 fun NavGraphBuilder.settingNav(
-
+    navigateBack: () -> Unit,
+    navigateToLogin: () -> Unit,
 ) {
     composable<SettingRoute>{
         val viewModel: SettingViewModel = hiltViewModel()
 
         SettingScreen(
-            viewModel = viewModel
+            viewModel = viewModel,
+            navigateBack = navigateBack,
+            navigateToLogin = navigateToLogin
         )
     }
 }

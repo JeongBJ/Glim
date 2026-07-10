@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     stages {
 
         stage('Gradle Build') {
@@ -28,6 +28,9 @@ pipeline {
                     file(credentialsId: 'firebase-admin', variable: 'FIREBASE_CREDENTIAL')
                 ]) {
                     sh '''
+                        mkdir -p /var/jenkins_home/secrets
+                        cp "$FIREBASE_CREDENTIAL" /var/jenkins_home/secrets/firebase-admin.json
+
                         docker stop glim || true
                         docker rm glim || true
 
@@ -39,7 +42,7 @@ pipeline {
                             -m 4g \
                             -v /home/ubuntu/Glim/log:/home/log \
                             -v /home/ubuntu/.oci:/root/.oci \
-                            -v ${FIREBASE_CREDENTIAL}:/run/secrets/firebase-admin.json:ro \
+                            -v /home/ubuntu/jenkins/secrets/firebase-admin.json:/run/secrets/firebase-admin.json:ro \
                             -e FIREBASE_CREDENTIAL_PATH=/run/secrets/firebase-admin.json \
                             -e SPRING_PROFILES_ACTIVE=prod \
                             -e GLIM_DB_PORT=${GLIM_DB_PORT} \

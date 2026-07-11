@@ -3,9 +3,11 @@ package com.jeongbj.presentation.feature.glim.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +36,9 @@ fun GlimItem(
     onLikeClicked: () -> Unit = {},
     onShareClicked: () -> Unit = {},
     onBookInfoClicked: (String) -> Unit = {},
-    onSaveClicked: (String) -> Unit = {}
+    onSaveClicked: (String) -> Unit = {},
+    onProfileClicked: (Long) -> Unit = {},
+    onPopupMenuClicked: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -53,8 +57,24 @@ fun GlimItem(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.End
         ) {
+
+            Row(
+                modifier = modifier.fillMaxWidth()
+                    .padding(top = 32.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                GlimProfile(
+                    imageModel = quote.user.imageUrl,
+                    nickname = quote.user.nickname,
+                    onProfileClicked = { onProfileClicked(quote.user.userSeq) }
+                )
+
+                ActionButton(
+                    onClick = { onPopupMenuClicked() },
+                    painter = painterResource(R.drawable.ic_share)
+                )
+            }
             ActionButton(
-                modifier = Modifier.padding(top = 24.dp),
                 onClick = { onSaveClicked(quote.imageUrl) },
                 painter = painterResource(R.drawable.ic_download)
             )
@@ -108,7 +128,10 @@ fun GlimItemPreview() {
                 content = "content",
                 numLikes = 10,
                 liked = true,
-                user = User(nickname = "nickname"),
+                user = User(
+                    userSeq = 0,
+                    nickname = "nickname"
+                ),
                 book = Book(
                     title = "title",
                     coverUrl = "",

@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetLikedQuotesUseCaseImpl @Inject constructor(
     private val infoRepository: InfoRepository
 ): GetLikedQuotesUseCase {
-    override suspend fun invoke(cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
-        infoRepository.getLikedQuotes(cursor)
+    override suspend fun invoke(userSeq: Long, cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
+        infoRepository.getLikedQuotes(userSeq, cursor)
 
 }

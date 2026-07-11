@@ -18,4 +18,8 @@ interface QuoteRepository {
     suspend fun increaseView(quoteSeq: Long)
 
     suspend fun likeQuote(quoteSeq: Long)
+
+    suspend fun blockQuote(quoteSeq: Long)
+
+    suspend fun deleteQuote(quoteSeq: Long)
 }

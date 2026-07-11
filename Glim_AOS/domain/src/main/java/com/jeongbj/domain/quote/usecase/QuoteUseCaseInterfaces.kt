@@ -31,3 +31,11 @@ interface IncreaseViewUseCase {
 interface LikeQuoteUseCase {
     operator fun invoke(quoteSeq: Long): Flow<ResultType<Unit>>
 }
+
+interface BlockQuoteUseCase {
+    operator fun invoke(quoteSeq: Long): Flow<ResultType<Unit>>
+}
+
+interface DeleteQuoteUseCase {
+    operator fun invoke(quoteSeq: Long): Flow<ResultType<Unit>>
+}

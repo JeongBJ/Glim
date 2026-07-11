@@ -10,17 +10,17 @@ import com.jeongbj.domain.user.usecase.InfoUseCases
 class QuoteThumbnailPagingSource(
     private val infoUseCases: InfoUseCases,
     private val type: InfoQuotesType,
-    private val userSeq: Long? = null
+    private val userSeq: Long = 0
 ): PagingSource<Long, QuoteThumbnail>() {
 
     override suspend fun load(params: LoadParams<Long>): LoadResult<Long, QuoteThumbnail> {
         return try {
             val cursor = Cursor(params.key, params.loadSize)
             val result = when (type) {
-                InfoQuotesType.MY -> infoUseCases.getMyQuotesUseCase(cursor)
-                InfoQuotesType.LIKED -> infoUseCases.getLikedQuotesUseCase(cursor)
-                InfoQuotesType.USER -> infoUseCases.getUserQuotesUseCase(userSeq!!, cursor)
-                InfoQuotesType.USER_LIKED -> infoUseCases.getUserLikedQuotesUseCase(userSeq!!, cursor)
+                InfoQuotesType.MY -> infoUseCases.getMyQuotesUseCase(userSeq, cursor)
+                InfoQuotesType.LIKED -> infoUseCases.getLikedQuotesUseCase(userSeq, cursor)
+                InfoQuotesType.USER -> infoUseCases.getUserQuotesUseCase(userSeq, cursor)
+                InfoQuotesType.USER_LIKED -> infoUseCases.getUserLikedQuotesUseCase(userSeq, cursor)
             }
 
             LoadResult.Page(

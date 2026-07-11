@@ -35,4 +35,10 @@ class QuoteRemoteDataSource @Inject constructor(
 
     suspend fun likeQuote(quoteSeq: Long): BaseResponse<Unit> =
         quoteApi.likeQuote(quoteSeq)
+
+    suspend fun blockQuote(quoteSeq: Long): BaseResponse<Unit> =
+        quoteApi.blockQuote(quoteSeq)
+
+    suspend fun deleteQuote(quoteSeq: Long): BaseResponse<Unit> =
+        quoteApi.deleteQuote(quoteSeq)
 }

@@ -6,7 +6,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import com.jeongbj.android.extentions.showToast
+import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.settings.viewmodel.SettingViewModel
+import com.jeongbj.presentation.theme.GlimTheme
 
 @Composable
 fun SettingScreen(
@@ -31,4 +33,15 @@ fun SettingScreen(
         state = state,
         onAction = { viewModel.onAction(it) }
     )
+}
+
+@Previews
+@Composable
+fun SettingScreenPreview() {
+    GlimTheme {
+        SettingContent(
+            state = SettingState(),
+            onAction = { }
+        )
+    }
 }

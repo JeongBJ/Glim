@@ -11,7 +11,7 @@ import javax.inject.Inject
 class GetUserInfoUseCaseImpl @Inject constructor(
     private val infoRepository: InfoRepository
 ): GetUserInfoUseCase {
-    override fun invoke(): Flow<ResultType<UserInfo>> = flowResult {
-        infoRepository.getUserInfo()
+    override fun invoke(userSeq: Long): Flow<ResultType<UserInfo>> = flowResult {
+        infoRepository.getUserInfo(userSeq)
     }
 }

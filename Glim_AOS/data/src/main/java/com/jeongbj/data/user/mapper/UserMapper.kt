@@ -9,6 +9,7 @@ import com.jeongbj.domain.user.model.User
 import com.jeongbj.domain.user.model.UserInfo
 
 fun UserResponse.toDomain() : User = User(
+    userSeq = userSeq,
     nickname = nickname ?: "",
     imageUrl = imageUrl
 )

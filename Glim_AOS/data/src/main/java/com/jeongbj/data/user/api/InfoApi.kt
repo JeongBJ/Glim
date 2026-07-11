@@ -9,17 +9,19 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface InfoApi {
-    @GET("info")
-    suspend fun getUserInfo(): BaseResponse<UserInfoResponse>
+    @GET("info/{userSeq}")
+    suspend fun getUserInfo(@Path("userSeq") userSeq: Long): BaseResponse<UserInfoResponse>
 
-    @GET("info/liked")
+    @GET("info/liked/{userSeq}")
     suspend fun getLikedQuotes(
+        @Path("userSeq") userSeq: Long,
         @Query("cursor") cursor: Long?,
         @Query("size") size: Int = 20
     ): BaseResponse<CursorPage<QuoteThumbnail, Long>>
 
-    @GET("info/quotes")
+    @GET("info/quotes/{userSeq}")
     suspend fun getMyQuotes(
+        @Path("userSeq") userSeq: Long,
         @Query("cursor") cursor: Long?,
         @Query("size") size: Int = 20
     ): BaseResponse<CursorPage<QuoteThumbnail, Long>>

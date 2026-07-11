@@ -8,15 +8,15 @@ import com.jeongbj.domain.user.model.UserInfo
 import kotlinx.coroutines.flow.Flow
 
 interface GetUserInfoUseCase {
-    operator fun invoke(): Flow<ResultType<UserInfo>>
+    operator fun invoke(userSeq: Long): Flow<ResultType<UserInfo>>
 }
 
 interface GetLikedQuotesUseCase {
-    suspend operator fun invoke(cursor: Cursor): CursorPage<QuoteThumbnail, Long>
+    suspend operator fun invoke(userSeq: Long, cursor: Cursor): CursorPage<QuoteThumbnail, Long>
 }
 
 interface GetMyQuotesUseCase {
-    suspend operator fun invoke(cursor: Cursor): CursorPage<QuoteThumbnail, Long>
+    suspend operator fun invoke(userSeq: Long, cursor: Cursor): CursorPage<QuoteThumbnail, Long>
 }
 
 interface GetUserLikedQuotesUseCase {

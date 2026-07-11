@@ -10,6 +10,6 @@ import javax.inject.Inject
 class GetMyQuotesUseCaseImpl @Inject constructor(
     private val infoRepository: InfoRepository
 ): GetMyQuotesUseCase {
-    override suspend fun invoke(cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
-        infoRepository.getMyQuotes(cursor)
+    override suspend fun invoke(userSeq: Long, cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
+        infoRepository.getMyQuotes(userSeq, cursor)
 }

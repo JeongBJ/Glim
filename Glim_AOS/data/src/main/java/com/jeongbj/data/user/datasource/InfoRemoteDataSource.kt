@@ -10,16 +10,16 @@ import javax.inject.Inject
 class InfoRemoteDataSource @Inject constructor(
     private val infoApi: InfoApi
 ) {
-    suspend fun getUserInfo(): BaseResponse<UserInfoResponse> =
-        infoApi.getUserInfo()
+    suspend fun getUserInfo(userSeq: Long): BaseResponse<UserInfoResponse> =
+        infoApi.getUserInfo(userSeq)
 
-    suspend fun getLikedQuotes(cursor: Long?, size: Int)
+    suspend fun getLikedQuotes(userSeq: Long, cursor: Long?, size: Int)
     : BaseResponse<CursorPage<QuoteThumbnail, Long>> =
-        infoApi.getLikedQuotes(cursor, size)
+        infoApi.getLikedQuotes(userSeq, cursor, size)
 
-    suspend fun getMyQuotes(cursor: Long?, size: Int)
+    suspend fun getMyQuotes(userSeq: Long, cursor: Long?, size: Int)
     : BaseResponse<CursorPage<QuoteThumbnail, Long>> =
-        infoApi.getMyQuotes(cursor, size)
+        infoApi.getMyQuotes(userSeq, cursor, size)
 
     suspend fun getUserLikedQuotes(userSeq: Long, cursor: Long?, size: Int)
     : BaseResponse<CursorPage<QuoteThumbnail, Long>> =

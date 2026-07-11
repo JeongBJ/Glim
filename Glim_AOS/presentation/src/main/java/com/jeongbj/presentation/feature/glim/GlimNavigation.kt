@@ -13,7 +13,8 @@ data class GlimRoute(
 )
 
 fun NavGraphBuilder.glimNav(
-    navigateToBookDetail: (String) -> Unit
+    navigateToBookDetail: (String) -> Unit,
+    navigateToInfo: (Long) -> Unit
 ) {
     composable<GlimRoute>(
         deepLinks = listOf(
@@ -25,7 +26,8 @@ fun NavGraphBuilder.glimNav(
         val viewModel: GlimViewModel = hiltViewModel()
         GlimScreen(
             viewModel = viewModel,
-            navigateToBookDetail = { navigateToBookDetail(it) }
+            navigateToBookDetail = { navigateToBookDetail(it) },
+            navigateToInfo = navigateToInfo
         )
     }
 }

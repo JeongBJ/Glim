@@ -73,6 +73,7 @@ fun InfoHeaderSectionPreview() {
             onProfileImageClicked = {  },
             onSettingClicked = {  },
             user = User(
+                userSeq = 0,
                 nickname = "nickname",
                 imageUrl = null
             ),

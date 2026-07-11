@@ -13,6 +13,7 @@ import com.jeongbj.presentation.feature.glim.GlimRoute
 import com.jeongbj.presentation.feature.glim.glimNav
 import com.jeongbj.presentation.feature.home.HomeRoute
 import com.jeongbj.presentation.feature.home.homeNav
+import com.jeongbj.presentation.feature.info.InfoRoute
 import com.jeongbj.presentation.feature.info.infoNav
 import com.jeongbj.presentation.feature.login.LoginRoute
 import com.jeongbj.presentation.feature.login.loginNav
@@ -79,7 +80,8 @@ fun AppNavGraph(
         )
 
         glimNav(
-            navigateToBookDetail = { navController.navigate(BookDetailRoute(it)) }
+            navigateToBookDetail = { navController.navigate(BookDetailRoute(it)) },
+            navigateToInfo = { navController.navigate(InfoRoute(it)) },
         )
 
         infoNav(

@@ -104,8 +104,12 @@ class GlimViewModel @Inject constructor(
             is GlimAction.OnLikeClicked -> onLikeClicked(action.quote)
             is GlimAction.OnShareClicked -> onShareClicked(action.quote)
             is GlimAction.OnSaveClicked -> onSaveClicked(action.imageUrl)
+            is GlimAction.OnProfileClicked -> onProfileClicked(action.userSeq)
         }
     }
+
+    private fun onProfileClicked(userSeq: Long) =
+        _sideEffect.tryEmit(GlimSideEffect.NavigateToInfo(userSeq))
 
     private fun onShareClicked(quote: Quote) {
         _sideEffect.tryEmit(GlimSideEffect.ShareGlim(

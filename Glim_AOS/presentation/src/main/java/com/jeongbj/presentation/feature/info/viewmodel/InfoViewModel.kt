@@ -64,16 +64,18 @@ class InfoViewModel @Inject constructor(
                 QuoteThumbnailPagingSource(
                     infoUseCases = infoUseCases,
                     type = request.type,
-                    userSeq = request.userSeq
+                    userSeq = request.userSeq ?: 0
                 )
             }
         ).flow
     }.cachedIn(viewModelScope)
 
+    private var userSeq = 0L
+
     init {
+        userSeq = savedStateHandle.toRoute<InfoRoute>().userSeq ?: 0
         getUserInfo()
-        val userSeq = savedStateHandle.toRoute<InfoRoute>().userSeq
-        if (userSeq == null) {
+        if (userSeq == 0L) {
             _state.update { it.copy(isOwner = true) }
             getQuoteThumbnails()
         } else {
@@ -81,6 +83,7 @@ class InfoViewModel @Inject constructor(
             getQuoteThumbnails()
         }
     }
+
 
     private fun getQuoteThumbnails() {
         val state = _state.value
@@ -98,7 +101,7 @@ class InfoViewModel @Inject constructor(
     }
     fun getUserInfo() {
         viewModelScope.launch {
-            infoUseCases.getUserInfoUseCase().collect { result ->
+            infoUseCases.getUserInfoUseCase(userSeq).collect { result ->
                 when (result) {
                     is ResultType.Success -> {
                         val map = result.data.contributions.associate { it.date to it.count}

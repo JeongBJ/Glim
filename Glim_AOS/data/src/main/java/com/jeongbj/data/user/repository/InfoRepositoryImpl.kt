@@ -13,15 +13,15 @@ import javax.inject.Inject
 class InfoRepositoryImpl @Inject constructor(
     private val infoRemoteDataSource: InfoRemoteDataSource
 ): InfoRepository {
-    override suspend fun getUserInfo(): UserInfo {
-        return infoRemoteDataSource.getUserInfo().unwrap().toDomain()
+    override suspend fun getUserInfo(userSeq: Long): UserInfo {
+        return infoRemoteDataSource.getUserInfo(userSeq).unwrap().toDomain()
     }
 
-    override suspend fun getLikedQuotes(cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
-        infoRemoteDataSource.getLikedQuotes(cursor.cursor, cursor.size).unwrap()
+    override suspend fun getLikedQuotes(userSeq: Long, cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
+        infoRemoteDataSource.getLikedQuotes(userSeq, cursor.cursor, cursor.size).unwrap()
 
-    override suspend fun getMyQuotes(cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
-        infoRemoteDataSource.getMyQuotes(cursor.cursor, cursor.size).unwrap()
+    override suspend fun getMyQuotes(userSeq: Long, cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
+        infoRemoteDataSource.getMyQuotes(userSeq, cursor.cursor, cursor.size).unwrap()
 
     override suspend fun getUserLikedQuotes(userSeq: Long, cursor: Cursor): CursorPage<QuoteThumbnail, Long> =
         infoRemoteDataSource.getUserLikedQuotes(userSeq, cursor.cursor, cursor.size).unwrap()

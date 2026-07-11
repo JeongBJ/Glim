@@ -10,6 +10,7 @@ import com.jeongbj.domain.quote.model.QuoteCursor
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -42,4 +43,10 @@ interface QuoteApi {
 
     @GET("like/{quoteSeq}")
     suspend fun likeQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
+
+    @GET("quote/block/{quoteSeq}")
+    suspend fun blockQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
+
+    @DELETE("quote/{quoteSeq}")
+    suspend fun deleteQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
 }

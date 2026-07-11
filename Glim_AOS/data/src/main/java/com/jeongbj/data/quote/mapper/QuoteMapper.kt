@@ -20,6 +20,7 @@ fun QuoteResponse.toDomain(): Quote = Quote(
 )
 
 fun QuoteUserResponse.toDomain(): User = User(
+    userSeq = userSeq,
     nickname = nickname,
     imageUrl = imageUrl
 )

@@ -21,7 +21,8 @@ import com.jeongbj.presentation.theme.DarkThemeScreen
 @Composable
 fun GlimScreen(
     viewModel: GlimViewModel = hiltViewModel(),
-    navigateToBookDetail: (String) -> Unit
+    navigateToBookDetail: (String) -> Unit,
+    navigateToInfo: (Long) -> Unit
 ) {
 
     val quotes = viewModel.quotes.collectAsLazyPagingItems()
@@ -34,6 +35,7 @@ fun GlimScreen(
                 is GlimSideEffect.NavigateToBookDetail -> navigateToBookDetail(effect.isbn13)
                 is GlimSideEffect.ShowToast -> context.showToast(effect.msg)
                 is GlimSideEffect.ShareGlim -> context.shareGlim(effect.link)
+                is GlimSideEffect.NavigateToInfo -> navigateToInfo(effect.userSeq)
             }
         }
     }

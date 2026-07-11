@@ -56,4 +56,11 @@ class QuoteRepositoryImpl @Inject constructor(
 
     override suspend fun likeQuote(quoteSeq: Long) =
         quoteRemoteDataSource.likeQuote(quoteSeq).unwrap()
+
+    override suspend fun blockQuote(quoteSeq: Long) =
+        quoteRemoteDataSource.blockQuote(quoteSeq).unwrap()
+
+    override suspend fun deleteQuote(quoteSeq: Long) =
+        quoteRemoteDataSource.deleteQuote(quoteSeq).unwrap()
+
 }

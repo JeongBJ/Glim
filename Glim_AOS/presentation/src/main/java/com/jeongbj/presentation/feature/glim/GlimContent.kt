@@ -23,10 +23,11 @@ fun GlimContent(
         val quote = quotes[page] ?: return@VerticalPager
         GlimItem(
             quote = quote,
-            onLikeClicked = { onAction(GlimAction.OnLikeClicked(quote))},
+            onLikeClicked = { onAction(GlimAction.OnLikeClicked(quote)) },
             onShareClicked = { onAction(GlimAction.OnShareClicked(quote)) },
             onBookInfoClicked = { onAction(GlimAction.OnBookInfoClicked(it)) },
-            onSaveClicked = { onAction(GlimAction.OnSaveClicked(it)) }
+            onSaveClicked = { onAction(GlimAction.OnSaveClicked(it)) },
+            onProfileClicked = { onAction(GlimAction.OnProfileClicked(it)) },
         )
     }
 }

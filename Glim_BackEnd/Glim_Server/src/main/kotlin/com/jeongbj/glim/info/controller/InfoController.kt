@@ -51,21 +51,21 @@ class InfoController(
         return ResponseEntity.ok(BaseResponse.success(data, "내 글림 조회 성공"))
     }
 
-    @GetMapping("/liked/{userSeq}")
-    fun getUserLikedQuotes(
-        @PathVariable userSeq: Long,
-        request: CursorRequest
-    ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
-        val data = infoService.getLikedQuotes(userSeq, request.cursor, request.size)
-        return ResponseEntity.ok(BaseResponse.success(data, "좋아요 한 글림 조회 성공"))
-    }
-
-    @GetMapping("/quotes/{userSeq}")
-    fun getUserQuotes(
-        @PathVariable userSeq: Long,
-        request: CursorRequest
-    ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
-        val data = infoService.getUserQuotes(userSeq, request.cursor, request.size)
-        return ResponseEntity.ok(BaseResponse.success(data, "유저 글림 조회 성공"))
-    }
+//    @GetMapping("/liked/{userSeq}")
+//    fun getUserLikedQuotes(
+//        @PathVariable userSeq: Long,
+//        request: CursorRequest
+//    ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
+//        val data = infoService.getLikedQuotes(userSeq, request.cursor, request.size)
+//        return ResponseEntity.ok(BaseResponse.success(data, "좋아요 한 글림 조회 성공"))
+//    }
+//
+//    @GetMapping("/quotes/{userSeq}")
+//    fun getUserQuotes(
+//        @PathVariable userSeq: Long,
+//        request: CursorRequest
+//    ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
+//        val data = infoService.getUserQuotes(userSeq, request.cursor, request.size)
+//        return ResponseEntity.ok(BaseResponse.success(data, "유저 글림 조회 성공"))
+//    }
 }

@@ -19,28 +19,35 @@ class InfoController(
     private val infoService: InfoService
 ) {
 
-    @GetMapping
-    fun getInfo(@AuthenticationPrincipal userSeq: Long)
-    : ResponseEntity<BaseResponse<InfoResponse>> {
-        val data = infoService.getInfo(userSeq)
+    @GetMapping("/{userSeq}")
+    fun getInfo(
+        @PathVariable userSeq: Long,
+        @AuthenticationPrincipal myUserSeq: Long
+    ) : ResponseEntity<BaseResponse<InfoResponse>> {
+        val currentUserSeq = if (userSeq == 0L) myUserSeq else userSeq
+        val data = infoService.getInfo(currentUserSeq)
         return ResponseEntity.ok(BaseResponse.success(data, "내 정보 조회 성공"))
     }
 
-    @GetMapping("/liked")
+    @GetMapping("/liked/{userSeq}")
     fun getLikedQuotes(
-        @AuthenticationPrincipal userSeq: Long,
+        @PathVariable userSeq: Long,
+        @AuthenticationPrincipal myUserSeq: Long,
         request: CursorRequest
     ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
-        val data = infoService.getLikedQuotes(userSeq, request.cursor, request.size)
+        val currentUserSeq = if (userSeq == 0L) myUserSeq else userSeq
+        val data = infoService.getLikedQuotes(currentUserSeq, request.cursor, request.size)
         return ResponseEntity.ok(BaseResponse.success(data, "좋아요 한 글림 조회 성공"))
     }
 
-    @GetMapping("/quotes")
+    @GetMapping("/quotes/{userSeq}")
     fun getMyQuotes(
-        @AuthenticationPrincipal userSeq: Long,
+        @PathVariable userSeq: Long,
+        @AuthenticationPrincipal myUserSeq: Long,
         request: CursorRequest
     ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
-        val data = infoService.getUserQuotes(userSeq, request.cursor, request.size)
+        val currentUserSeq = if (userSeq == 0L) myUserSeq else userSeq
+        val data = infoService.getUserQuotes(currentUserSeq, request.cursor, request.size)
         return ResponseEntity.ok(BaseResponse.success(data, "내 글림 조회 성공"))
     }
 

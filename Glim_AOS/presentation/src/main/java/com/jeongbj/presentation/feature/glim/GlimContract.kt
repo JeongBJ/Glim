@@ -13,6 +13,8 @@ sealed interface GlimAction {
     data class OnBookInfoClicked(val isbn13: String): GlimAction
     data class OnSaveClicked(val imageUrl: String): GlimAction
     data class OnProfileClicked(val userSeq: Long): GlimAction
+    data class OnDeleteClicked(val quoteSeq: Long): GlimAction
+    data class OnBlockClicked(val quoteSeq: Long): GlimAction
 
 }
 

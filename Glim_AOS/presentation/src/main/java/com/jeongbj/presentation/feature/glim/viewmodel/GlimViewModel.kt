@@ -112,6 +112,36 @@ class GlimViewModel @Inject constructor(
             is GlimAction.OnShareClicked -> onShareClicked(action.quote)
             is GlimAction.OnSaveClicked -> onSaveClicked(action.imageUrl)
             is GlimAction.OnProfileClicked -> onProfileClicked(action.userSeq)
+            is GlimAction.OnBlockClicked -> onBlockClicked(action.quoteSeq)
+            is GlimAction.OnDeleteClicked -> onDeleteClicked(action.quoteSeq)
+        }
+    }
+
+    private fun onDeleteClicked(quoteSeq: Long) {
+        viewModelScope.launch {
+            quoteUseCases.deleteQuoteUseCase(quoteSeq).collect { result ->
+                when (result) {
+                    is ResultType.Success -> {
+                        _sideEffect.emit(GlimSideEffect.ShowToast("삭제가 완료되었습니다."))
+                        quoteTrigger.emit(QuoteRequest.List)
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun onBlockClicked(quoteSeq: Long) {
+        viewModelScope.launch {
+            quoteUseCases.blockQuoteUseCase(quoteSeq).collect { result ->
+                when (result) {
+                    is ResultType.Success -> {
+                        _sideEffect.emit(GlimSideEffect.ShowToast("차단이 완료되었습니다."))
+                        quoteTrigger.emit(QuoteRequest.List)
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 

@@ -29,6 +29,8 @@ fun GlimContent(
             onBookInfoClicked = { onAction(GlimAction.OnBookInfoClicked(it)) },
             onSaveClicked = { onAction(GlimAction.OnSaveClicked(it)) },
             onProfileClicked = { onAction(GlimAction.OnProfileClicked(it)) },
+            onDeleteClicked = { onAction(GlimAction.OnDeleteClicked(it)) },
+            onBlockClicked = { onAction(GlimAction.OnBlockClicked(it)) },
         )
     }
 }

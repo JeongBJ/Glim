@@ -6,6 +6,7 @@ import com.jeongbj.glim.user.entity.User
 
 fun User.toResponse(): UserResponse =
     UserResponse(
+        userSeq = userSeq,
         email = email,
         nickname = nickname,
         imageUrl = imageUrl

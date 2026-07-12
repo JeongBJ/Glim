@@ -41,6 +41,7 @@ class InfoQueryRepository(
 
                     Projections.constructor(
                         UserResponse::class.java,
+                        user.userSeq,
                         Expressions.constant(""),
                         user.nickname,
                         user.imageUrl

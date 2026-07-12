@@ -1,7 +1,6 @@
 package com.jeongbj.data.user.repository
 
 import com.jeongbj.core.common.unwrap
-import com.jeongbj.data.auth.manager.TokenManager
 import com.jeongbj.data.auth.mapper.toDomain
 import com.jeongbj.data.fcm.manager.FcmTokenManager
 import com.jeongbj.data.fcm.mapper.toRequest
@@ -9,6 +8,7 @@ import com.jeongbj.data.user.datasource.LoginRemoteDataSource
 import com.jeongbj.data.user.mapper.toDomain
 import com.jeongbj.data.user.mapper.toRequest
 import com.jeongbj.data.user.request.LoginTokenRequest
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.user.model.LoginToken
 import com.jeongbj.domain.user.model.User
 import com.jeongbj.domain.user.repository.LoginRepository

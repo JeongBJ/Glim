@@ -1,7 +1,7 @@
 package com.jeongbj.data.network.interceptor
 
 import com.jeongbj.core.common.JWT
-import com.jeongbj.data.auth.manager.TokenManager
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.auth.repository.AuthRepository
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex

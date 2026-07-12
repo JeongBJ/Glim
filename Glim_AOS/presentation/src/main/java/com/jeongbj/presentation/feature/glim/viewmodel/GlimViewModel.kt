@@ -11,6 +11,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.jeongbj.android.image.ImageSaver
 import com.jeongbj.core.common.ResultType
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.domain.quote.usecase.QuoteUseCases
 import com.jeongbj.presentation.common.paging.QuotePagingSource
@@ -37,6 +38,7 @@ import javax.inject.Inject
 class GlimViewModel @Inject constructor(
     private val quoteUseCases: QuoteUseCases,
     private val imageSaver: ImageSaver,
+    private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -95,6 +97,11 @@ class GlimViewModel @Inject constructor(
         val quoteSeq = savedStateHandle.toRoute<GlimRoute>().quoteSeq
         if (quoteSeq != null) getQuote(quoteSeq)
         else getQuotes()
+        getCurrentUserSeq()
+    }
+
+    private fun getCurrentUserSeq() {
+        _state.update { it.copy(currentUserSeq = tokenManager.currentUserSeq() ?: 0) }
     }
 
 

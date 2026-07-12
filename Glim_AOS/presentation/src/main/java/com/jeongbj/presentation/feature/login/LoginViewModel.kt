@@ -3,6 +3,7 @@ package com.jeongbj.presentation.feature.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jeongbj.core.common.ResultType
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.setting.usecase.SettingUseCases
 import com.jeongbj.domain.user.model.User
 import com.jeongbj.domain.user.usecase.LoginUseCases
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCases: LoginUseCases,
     private val settingUseCases: SettingUseCases,
+    private val tokenManager: TokenManager
 ) : ViewModel() {
 
     private val _loginEffect = MutableSharedFlow<LoginEffect>()
@@ -56,6 +58,7 @@ class LoginViewModel @Inject constructor(
             flow.collectLatest { result ->
                 when (result) {
                     is ResultType.Success -> {
+                        tokenManager.saveUserSeq(result.data.userSeq)
                         if (result.data.nickname.isBlank()) {
                             _loginEffect.emit(LoginEffect.NavigateProfile)
                         } else {

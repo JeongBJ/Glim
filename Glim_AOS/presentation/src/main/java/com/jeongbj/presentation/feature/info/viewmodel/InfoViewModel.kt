@@ -8,6 +8,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.jeongbj.core.common.ResultType
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.user.model.InfoQuotesType
 import com.jeongbj.domain.user.usecase.InfoUseCases
 import com.jeongbj.presentation.common.model.UserUI
@@ -33,6 +34,7 @@ import javax.inject.Inject
 @HiltViewModel
 class InfoViewModel @Inject constructor(
     private val infoUseCases: InfoUseCases,
+    private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
@@ -74,14 +76,9 @@ class InfoViewModel @Inject constructor(
 
     init {
         userSeq = savedStateHandle.toRoute<InfoRoute>().userSeq ?: 0
+        _state.update { it.copy(userSeq = userSeq) }
         getUserInfo()
-        if (userSeq == 0L) {
-            _state.update { it.copy(isOwner = true) }
-            getQuoteThumbnails()
-        } else {
-            _state.update { it.copy(userSeq = userSeq) }
-            getQuoteThumbnails()
-        }
+        getQuoteThumbnails()
     }
 
 
@@ -89,12 +86,10 @@ class InfoViewModel @Inject constructor(
         val state = _state.value
         val type = when (state.selectedTab) {
             GlimType.OWN -> {
-                if (state.isOwner) InfoQuotesType.MY
-                else InfoQuotesType.USER
+                InfoQuotesType.MY
             }
             GlimType.LIKED -> {
-                if (state.isOwner) InfoQuotesType.LIKED
-                else InfoQuotesType.USER_LIKED
+                InfoQuotesType.LIKED
             }
         }
         quoteTrigger.tryEmit(InfoRequest(type, state.userSeq))
@@ -105,9 +100,11 @@ class InfoViewModel @Inject constructor(
                 when (result) {
                     is ResultType.Success -> {
                         val map = result.data.contributions.associate { it.date to it.count}
+                        val isOwner = result.data.user.userSeq == tokenManager.currentUserSeq()
                         _state.update { it.copy(
                             userInfo = result.data,
-                            contributions = map
+                            contributions = map,
+                            isOwner = isOwner
                         ) }
                     }
                     is ResultType.Error -> {

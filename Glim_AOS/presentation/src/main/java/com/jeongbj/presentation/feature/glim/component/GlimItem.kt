@@ -33,12 +33,14 @@ import com.jeongbj.presentation.theme.DarkThemeScreen
 fun GlimItem(
     modifier: Modifier = Modifier,
     quote: Quote,
+    isOwner: Boolean = false,
     onLikeClicked: () -> Unit = {},
     onShareClicked: () -> Unit = {},
     onBookInfoClicked: (String) -> Unit = {},
     onSaveClicked: (String) -> Unit = {},
     onProfileClicked: (Long) -> Unit = {},
-    onPopupMenuClicked: () -> Unit = {}
+    onDeleteClicked: (Long) -> Unit = {},
+    onBlockClicked: (Long) -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -59,9 +61,11 @@ fun GlimItem(
         ) {
 
             Row(
-                modifier = modifier.fillMaxWidth()
+                modifier = modifier
+                    .fillMaxWidth()
                     .padding(top = 32.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 GlimProfile(
                     imageModel = quote.user.imageUrl,
@@ -69,9 +73,10 @@ fun GlimItem(
                     onProfileClicked = { onProfileClicked(quote.user.userSeq) }
                 )
 
-                ActionButton(
-                    onClick = { onPopupMenuClicked() },
-                    painter = painterResource(R.drawable.ic_share)
+                GlimPopupMenu(
+                    isOwner = isOwner,
+                    onDeleteClicked = { onDeleteClicked(quote.quoteSeq) },
+                    onBlockClicked = { onBlockClicked(quote.quoteSeq) }
                 )
             }
             ActionButton(

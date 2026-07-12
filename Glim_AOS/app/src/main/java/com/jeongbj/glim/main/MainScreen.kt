@@ -13,7 +13,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jeongbj.android.extentions.showToast
-import com.jeongbj.data.auth.manager.SessionEvent
+import com.jeongbj.domain.auth.manager.SessionEvent
 import com.jeongbj.glim.navigation.AppNavGraph
 import com.jeongbj.glim.navigation.GlimBottomBar
 import com.jeongbj.presentation.common.notification.rememberNotificationPermissionState

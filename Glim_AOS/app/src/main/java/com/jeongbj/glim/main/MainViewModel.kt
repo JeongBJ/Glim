@@ -3,8 +3,8 @@ package com.jeongbj.glim.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
-import com.jeongbj.data.auth.manager.TokenManager
 import com.jeongbj.data.fcm.manager.FcmTokenManager
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.setting.usecase.SettingUseCases
 import com.jeongbj.domain.user.usecase.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel

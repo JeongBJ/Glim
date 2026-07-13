@@ -1,5 +1,7 @@
 package com.jeongbj.glim.info.repository
 
+import com.jeongbj.glim.block.entity.QBlockedQuote
+import com.jeongbj.glim.block.entity.QBlockedUser
 import com.jeongbj.glim.info.dto.GlimContributionResponse
 import com.jeongbj.glim.info.dto.InfoResponse
 import com.jeongbj.glim.info.dto.InfoUserProjection
@@ -19,15 +21,32 @@ import java.time.LocalDate
 class InfoQueryRepository(
     private val queryFactory: JPAQueryFactory
 ) {
+    private val quote = QQuote.quote
+    private val like = QLike.like
+    private val user = QUser.user
+    private val blockedQuote = QBlockedQuote.blockedQuote
+    private val blockedUser = QBlockedUser.blockedUser1
+
     fun getInfo(userSeq: Long): InfoResponse {
-        val quote = QQuote.quote
-        val like = QLike.like
-        val user = QUser.user
 
         val likeExpression = JPAExpressions
             .select(like.count().intValue())
             .from(like)
-            .where(like.user.userSeq.eq(userSeq))
+            .leftJoin(blockedQuote)
+            .on(
+                blockedQuote.quote.eq(like.quote),
+                blockedQuote.user.userSeq.eq(userSeq)
+            )
+            .leftJoin(blockedUser)
+            .on(
+                blockedUser.blockedUser.userSeq.eq(like.quote.user.userSeq),
+                blockedUser.user.userSeq.eq(userSeq)
+            )
+            .where(
+                like.user.userSeq.eq(userSeq),
+                blockedQuote.isNull(),
+                blockedUser.isNull()
+            )
 
         val quoteExpression = JPAExpressions
             .select(quote.count().intValue())

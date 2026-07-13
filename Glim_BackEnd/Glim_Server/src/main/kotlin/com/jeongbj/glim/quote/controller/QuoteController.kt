@@ -67,5 +67,12 @@ class QuoteController (
         val quote = quoteService.getQuote(quoteSeq, userSeq)
         return ResponseEntity.ok(BaseResponse.success(quote, "글림 조회 성공"))
     }
+
+    @DeleteMapping("/{quoteSeq}")
+    fun deleteQuote(@AuthenticationPrincipal userSeq: Long, @PathVariable quoteSeq: Long)
+    : ResponseEntity<BaseResponse<Unit>> {
+        quoteService.deleteQuote(userSeq, quoteSeq)
+        return ResponseEntity.ok(BaseResponse.success(Unit, "글림 삭제가 완료되었습니다"))
+    }
 }
 

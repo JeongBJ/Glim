@@ -88,4 +88,11 @@ class QuoteService(
         quote.increaseView()
         quoteRankingRepository.increaseView(quoteSeq)
     }
+
+    fun deleteQuote(userSeq: Long, quoteSeq: Long) {
+        val quote = quoteRepository.findById(quoteSeq).orElseThrow()
+        if (userSeq == quote.user.userSeq) {
+            quoteRepository.delete(quote)
+        }
+    }
 }

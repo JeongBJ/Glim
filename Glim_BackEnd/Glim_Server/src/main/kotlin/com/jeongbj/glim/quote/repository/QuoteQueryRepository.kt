@@ -1,5 +1,7 @@
 package com.jeongbj.glim.quote.repository
 
+import com.jeongbj.glim.block.entity.QBlockedQuote
+import com.jeongbj.glim.block.entity.QBlockedUser
 import com.jeongbj.glim.book.entity.QBook
 import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.info.dto.QuoteThumbnailResponse
@@ -25,6 +27,8 @@ class QuoteQueryRepository(
     private val user = QUser.user
     private val book = QBook.book
     private val like = QLike.like
+    private val blockedQuote = QBlockedQuote.blockedQuote
+    private val blockedUser = QBlockedUser.blockedUser1
 
     fun getQuotes(
         seed: Long,
@@ -103,7 +107,19 @@ class QuoteQueryRepository(
             .from(quote)
             .join(quote.user, user)
             .join(quote.book, book)
+            .leftJoin(blockedQuote)
+            .on(
+                blockedQuote.quote.eq(quote),
+                blockedQuote.user.userSeq.eq(userSeq)
+            )
+            .leftJoin(blockedUser)
+            .on(
+                blockedUser.blockedUser.userSeq.eq(quote.user.userSeq),
+                blockedUser.user.userSeq.eq(userSeq)
+            )
             .where(
+                blockedQuote.isNull(),
+                blockedUser.isNull(),
                 cursorCondition
             )
             .orderBy(
@@ -183,17 +199,31 @@ class QuoteQueryRepository(
             .where(
                 quote.quoteSeq.eq(quoteSeq)
             )
+            .leftJoin(blockedQuote)
+            .on(
+                blockedQuote.quote.eq(quote),
+                blockedQuote.user.userSeq.eq(userSeq)
+            )
+            .leftJoin(blockedUser)
+            .on(
+                blockedUser.blockedUser.userSeq.eq(quote.user.userSeq),
+                blockedUser.user.userSeq.eq(userSeq)
+            )
+            .where(
+                blockedQuote.isNull(),
+                blockedUser.isNull()
+            )
             .fetchOne()
 
         return result?.toQuoteResponse()
     }
 
     fun getLikedQuotes(
-        userSeq: Long,
+        currentUserSeq: Long,
+        targetUserSeq: Long,
         cursor: Long?,
         size: Int
-    )
-    : CursorPage<QuoteThumbnailResponse, Long> {
+    ): CursorPage<QuoteThumbnailResponse, Long> {
 
         val result = queryFactory
             .select(
@@ -205,8 +235,20 @@ class QuoteQueryRepository(
             )
             .from(like)
             .join(like.quote, quote)
+            .leftJoin(blockedQuote)
+            .on(
+                blockedQuote.quote.eq(quote),
+                blockedQuote.user.userSeq.eq(currentUserSeq)
+            )
+            .leftJoin(blockedUser)
+            .on(
+                blockedUser.blockedUser.userSeq.eq(quote.user.userSeq),
+                blockedUser.user.userSeq.eq(currentUserSeq)
+            )
             .where(
-                like.user.userSeq.eq(userSeq),
+                like.user.userSeq.eq(targetUserSeq),
+                blockedQuote.isNull(),
+                blockedUser.isNull(),
                 cursor?.let { like.likeSeq.lt(it) }
             )
             .orderBy(like.likeSeq.desc())
@@ -224,7 +266,8 @@ class QuoteQueryRepository(
     }
 
     fun getUserQuotes(
-        userSeq: Long,
+        currentUserSeq: Long,
+        targetUserSeq: Long,
         cursor: Long?,
         size: Int
     ): CursorPage<QuoteThumbnailResponse, Long> {
@@ -238,8 +281,20 @@ class QuoteQueryRepository(
                 )
             )
             .from(quote)
+            .leftJoin(blockedQuote)
+            .on(
+                blockedQuote.quote.eq(quote),
+                blockedQuote.user.userSeq.eq(currentUserSeq)
+            )
+            .leftJoin(blockedUser)
+            .on(
+                blockedUser.blockedUser.userSeq.eq(quote.user.userSeq),
+                blockedUser.user.userSeq.eq(currentUserSeq)
+            )
             .where(
-                quote.user.userSeq.eq(userSeq),
+                quote.user.userSeq.eq(targetUserSeq),
+                blockedQuote.isNull(),
+                blockedUser.isNull(),
                 cursor?.let { quote.quoteSeq.lt(it) }
             )
             .orderBy(quote.quoteSeq.desc())

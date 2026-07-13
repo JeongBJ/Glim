@@ -32,22 +32,20 @@ class InfoController(
     @GetMapping("/liked/{userSeq}")
     fun getLikedQuotes(
         @PathVariable userSeq: Long,
-        @AuthenticationPrincipal myUserSeq: Long,
+        @AuthenticationPrincipal currentUserSeq: Long,
         request: CursorRequest
     ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
-        val currentUserSeq = if (userSeq == 0L) myUserSeq else userSeq
-        val data = infoService.getLikedQuotes(currentUserSeq, request.cursor, request.size)
+        val data = infoService.getLikedQuotes(currentUserSeq, userSeq, request.cursor, request.size)
         return ResponseEntity.ok(BaseResponse.success(data, "좋아요 한 글림 조회 성공"))
     }
 
     @GetMapping("/quotes/{userSeq}")
     fun getMyQuotes(
         @PathVariable userSeq: Long,
-        @AuthenticationPrincipal myUserSeq: Long,
+        @AuthenticationPrincipal currentUserSeq: Long,
         request: CursorRequest
     ): ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
-        val currentUserSeq = if (userSeq == 0L) myUserSeq else userSeq
-        val data = infoService.getUserQuotes(currentUserSeq, request.cursor, request.size)
+        val data = infoService.getUserQuotes(currentUserSeq, userSeq, request.cursor, request.size)
         return ResponseEntity.ok(BaseResponse.success(data, "내 글림 조회 성공"))
     }
 

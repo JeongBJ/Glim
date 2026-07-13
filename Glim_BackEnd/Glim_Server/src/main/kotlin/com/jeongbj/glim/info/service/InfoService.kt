@@ -18,11 +18,11 @@ class InfoService(
         return result
     }
 
-    fun getUserQuotes(userSeq: Long, cursor: Long?, size: Int): CursorPage<QuoteThumbnailResponse, Long> {
-        return quoteQueryRepository.getUserQuotes(userSeq, cursor, size)
+    fun getUserQuotes(currentUserSeq: Long, targetUserSeq: Long, cursor: Long?, size: Int): CursorPage<QuoteThumbnailResponse, Long> {
+        return quoteQueryRepository.getUserQuotes(currentUserSeq, targetUserSeq, cursor, size)
     }
 
-    fun getLikedQuotes(userSeq: Long, cursor: Long?, size: Int): CursorPage<QuoteThumbnailResponse, Long> {
-        return quoteQueryRepository.getLikedQuotes(userSeq, cursor, size)
+    fun getLikedQuotes(currentUserSeq: Long, targetUserSeq: Long, cursor: Long?, size: Int): CursorPage<QuoteThumbnailResponse, Long> {
+        return quoteQueryRepository.getLikedQuotes(currentUserSeq, targetUserSeq, cursor, size)
     }
 }

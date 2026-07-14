@@ -11,6 +11,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.codec.ServerSentEvent
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.awaitBodilessEntity
 import org.springframework.web.reactive.function.client.awaitBody
 import org.springframework.web.reactive.function.client.bodyToMono
 
@@ -20,6 +21,21 @@ class GradioClient(
     private val gradioWebClient: WebClient,
     private val properties: GradioProperties
 ) {
+    suspend fun wakeUpSpaces() {
+        for (url in properties.urls) {
+            println(url)
+            runCatching {
+                gradioWebClient.get()
+                    .uri("$url/gradio_api/info")
+                    .headers {
+                        it.setBearerAuth(properties.keys[0])
+                    }
+                    .retrieve()
+                    .awaitBodilessEntity()
+            }.onFailure { println(it) }
+        }
+    }
+
     suspend fun generateImage(prompt: String): ByteArray {
         for (url in properties.urls) {
             for (key in properties.keys) {

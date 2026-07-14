@@ -52,7 +52,7 @@ class BlockController(
         return ResponseEntity.ok(BaseResponse.success(Unit, "사용자 차단 해제가 완료되었습니다."))
     }
 
-    @PostMapping("/quote")
+    @GetMapping("/quote")
     fun getBlockedQuotes(
         @AuthenticationPrincipal userSeq: Long,
         @RequestBody request: CursorRequest

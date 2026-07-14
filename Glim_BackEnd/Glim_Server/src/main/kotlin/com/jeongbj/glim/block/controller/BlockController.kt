@@ -55,7 +55,7 @@ class BlockController(
     @GetMapping("/quote")
     fun getBlockedQuotes(
         @AuthenticationPrincipal userSeq: Long,
-        @RequestBody request: CursorRequest
+        request: CursorRequest
     ) : ResponseEntity<BaseResponse<CursorPage<QuoteThumbnailResponse, Long>>> {
         val data = blockService.getBlockedQuotes(userSeq, request.cursor, request.size)
         return ResponseEntity.ok(BaseResponse.success(data, "차단된 글림 조회가 완료되었습니다."))
@@ -65,7 +65,7 @@ class BlockController(
     @GetMapping("/user")
     fun getBlockedUsers(
         @AuthenticationPrincipal userSeq: Long,
-        @RequestBody request: CursorRequest
+        request: CursorRequest
     ) : ResponseEntity<BaseResponse<CursorPage<UserResponse, Long>>> {
         val data = blockService.getBlockedUsers(userSeq, request.cursor, request.size)
         return ResponseEntity.ok(BaseResponse.success(data, "차단 사용자 조회가 완료되었습니다."))

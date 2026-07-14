@@ -1,16 +1,16 @@
-package com.jeongbj.data.quote.usecase
+package com.jeongbj.data.block.usecase
 
 import com.jeongbj.core.common.ResultType
 import com.jeongbj.core.common.flowResult
-import com.jeongbj.domain.quote.repository.QuoteRepository
-import com.jeongbj.domain.quote.usecase.BlockQuoteUseCase
+import com.jeongbj.domain.block.repository.BlockRepository
+import com.jeongbj.domain.block.usecase.BlockQuoteUseCase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class BlockQuoteUseCaseImpl @Inject constructor(
-    private val quoteRepository: QuoteRepository
+    private val blockRepository: BlockRepository
 ): BlockQuoteUseCase {
     override fun invoke(quoteSeq: Long): Flow<ResultType<Unit>> = flowResult {
-        quoteRepository.blockQuote(quoteSeq)
+        blockRepository.blockQuote(quoteSeq)
     }
 }

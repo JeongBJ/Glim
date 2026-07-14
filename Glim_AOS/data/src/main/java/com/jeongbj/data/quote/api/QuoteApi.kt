@@ -44,9 +44,6 @@ interface QuoteApi {
     @GET("like/{quoteSeq}")
     suspend fun likeQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
 
-    @GET("quote/block/{quoteSeq}")
-    suspend fun blockQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
-
     @DELETE("quote/{quoteSeq}")
     suspend fun deleteQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
 }

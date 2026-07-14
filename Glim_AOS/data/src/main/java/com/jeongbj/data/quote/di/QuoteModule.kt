@@ -1,7 +1,6 @@
 package com.jeongbj.data.quote.di
 
 import com.jeongbj.data.quote.repository.QuoteRepositoryImpl
-import com.jeongbj.data.quote.usecase.BlockQuoteUseCaseImpl
 import com.jeongbj.data.quote.usecase.DeleteQuoteUseCaseImpl
 import com.jeongbj.data.quote.usecase.GenerateImageUseCaseImpl
 import com.jeongbj.data.quote.usecase.GetQuoteUseCaseImpl
@@ -10,7 +9,6 @@ import com.jeongbj.data.quote.usecase.IncreaseViewUseCaseImpl
 import com.jeongbj.data.quote.usecase.LikeQuoteUseCaseImpl
 import com.jeongbj.data.quote.usecase.SaveQuoteUseCaseImpl
 import com.jeongbj.domain.quote.repository.QuoteRepository
-import com.jeongbj.domain.quote.usecase.BlockQuoteUseCase
 import com.jeongbj.domain.quote.usecase.DeleteQuoteUseCase
 import com.jeongbj.domain.quote.usecase.GenerateImageUseCase
 import com.jeongbj.domain.quote.usecase.GetQuoteUseCase
@@ -49,9 +47,6 @@ abstract class QuoteModule {
 
     @Binds
     abstract fun likeQuoteUseCase(impl: LikeQuoteUseCaseImpl): LikeQuoteUseCase
-
-    @Binds
-    abstract fun blockQuoteUseCase(impl: BlockQuoteUseCaseImpl): BlockQuoteUseCase
 
     @Binds
     abstract fun deleteQuoteUseCase(impl: DeleteQuoteUseCaseImpl): DeleteQuoteUseCase

@@ -75,7 +75,7 @@ class InfoViewModel @Inject constructor(
     private var userSeq = 0L
 
     init {
-        userSeq = savedStateHandle.toRoute<InfoRoute>().userSeq ?: 0
+        userSeq = savedStateHandle.toRoute<InfoRoute>().userSeq ?: tokenManager.currentUserSeq() ?: 0
         _state.update { it.copy(userSeq = userSeq) }
         getUserInfo()
         getQuoteThumbnails()

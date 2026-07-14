@@ -12,6 +12,7 @@ import androidx.paging.map
 import com.jeongbj.android.image.ImageSaver
 import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.auth.manager.TokenManager
+import com.jeongbj.domain.block.usecase.BlockUseCases
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.domain.quote.usecase.QuoteUseCases
 import com.jeongbj.presentation.common.paging.QuotePagingSource
@@ -37,6 +38,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GlimViewModel @Inject constructor(
     private val quoteUseCases: QuoteUseCases,
+    private val blockUseCases: BlockUseCases,
     private val imageSaver: ImageSaver,
     private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle,
@@ -133,10 +135,10 @@ class GlimViewModel @Inject constructor(
 
     private fun onBlockClicked(quoteSeq: Long) {
         viewModelScope.launch {
-            quoteUseCases.blockQuoteUseCase(quoteSeq).collect { result ->
+            blockUseCases.blockQuoteUseCase(quoteSeq).collect { result ->
                 when (result) {
                     is ResultType.Success -> {
-                        _sideEffect.emit(GlimSideEffect.ShowToast("차단이 완료되었습니다."))
+                        _sideEffect.emit(GlimSideEffect.ShowToast("글림 차단이 완료되었습니다."))
                         quoteTrigger.emit(QuoteRequest.List)
                     }
                     else -> {}

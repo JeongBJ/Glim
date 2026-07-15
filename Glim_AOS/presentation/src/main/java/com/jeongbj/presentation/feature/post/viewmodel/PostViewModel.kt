@@ -182,15 +182,15 @@ class PostViewModel @Inject constructor(
                     is ResultType.Success -> {
                         _state.update { it.copy(
                             backgroundImageUri = result.data,
-                            isLoading = false
+                            isGenerating = false
                         ) }
                     }
 
                     is ResultType.Error -> {
-                        _state.update { it.copy(isLoading = false) }
+                        _state.update { it.copy(isGenerating = false) }
                         Timber.e(result.exception, "onImageGenerateClicked: ")
                     }
-                    ResultType.Loading -> _state.update { it.copy(isLoading = true) }
+                    ResultType.Loading -> _state.update { it.copy(isGenerating = true) }
                 }
             }
         }

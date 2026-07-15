@@ -24,6 +24,7 @@ import com.jeongbj.presentation.common.camera.CameraTarget
 import com.jeongbj.presentation.common.camera.rememberCameraHandler
 import com.jeongbj.presentation.common.component.AnimationLoadingOverlay
 import com.jeongbj.presentation.common.component.ConfirmDialog
+import com.jeongbj.presentation.common.component.LoadingOverlay
 import com.jeongbj.presentation.feature.post.ocr.TextRecognizeContent
 import com.jeongbj.presentation.feature.post.viewmodel.PostViewModel
 import com.jeongbj.presentation.theme.DarkThemeScreen
@@ -130,6 +131,10 @@ fun PostScreen(
             }
 
             if (state.isLoading) {
+                LoadingOverlay()
+            }
+
+            if (state.isGenerating) {
                 AnimationLoadingOverlay()
             }
         }

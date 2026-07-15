@@ -20,6 +20,7 @@ data class PostState(
     val buttonVisible: Boolean = true,
     val postText: PostText = PostText(),
     val isLoading: Boolean = false,
+    val isGenerating: Boolean = false,
     val selectedBook: Book? = null,
     val uploadedQuote: Quote? = null,
     val showBottomSheet: Boolean = false

@@ -47,7 +47,10 @@ class GlimViewModel @Inject constructor(
     private val _state = MutableStateFlow(GlimState())
 
     val state = _state.asStateFlow()
-    private val quoteTrigger = MutableStateFlow<QuoteRequest>(QuoteRequest.List)
+    private val quoteTrigger = MutableSharedFlow<QuoteRequest>(
+        replay = 1,
+        extraBufferCapacity = 1
+    )
 
     private val _sideEffect = MutableSharedFlow<GlimSideEffect>(extraBufferCapacity = 1)
     val sideEffect = _sideEffect.asSharedFlow()
@@ -114,8 +117,23 @@ class GlimViewModel @Inject constructor(
             is GlimAction.OnShareClicked -> onShareClicked(action.quote)
             is GlimAction.OnSaveClicked -> onSaveClicked(action.imageUrl)
             is GlimAction.OnProfileClicked -> onProfileClicked(action.userSeq)
-            is GlimAction.OnBlockClicked -> onBlockClicked(action.quoteSeq)
             is GlimAction.OnDeleteClicked -> onDeleteClicked(action.quoteSeq)
+            is GlimAction.OnBlockQuoteClicked -> onBlockQuoteClicked(action.quoteSeq)
+            is GlimAction.OnBlockUserClicked -> onBlockUserClicked(action.userSeq)
+        }
+    }
+
+    private fun onBlockUserClicked(userSeq: Long) {
+        viewModelScope.launch {
+            blockUseCases.blockUserUseCase(userSeq).collect { result ->
+                when (result) {
+                    is ResultType.Success -> {
+                        _sideEffect.emit(GlimSideEffect.ShowToast("사용자 차단이 완료되었습니다."))
+                        quoteTrigger.emit(QuoteRequest.List)
+                    }
+                    else -> {}
+                }
+            }
         }
     }
 
@@ -133,7 +151,7 @@ class GlimViewModel @Inject constructor(
         }
     }
 
-    private fun onBlockClicked(quoteSeq: Long) {
+    private fun onBlockQuoteClicked(quoteSeq: Long) {
         viewModelScope.launch {
             blockUseCases.blockQuoteUseCase(quoteSeq).collect { result ->
                 when (result) {

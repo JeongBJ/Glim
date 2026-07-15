@@ -4,5 +4,6 @@ enum class InfoQuotesType {
     MY,
     LIKED,
     USER,
-    USER_LIKED
+    USER_LIKED,
+    BLOCKED
 }

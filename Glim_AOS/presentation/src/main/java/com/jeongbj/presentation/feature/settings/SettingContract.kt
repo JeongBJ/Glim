@@ -14,10 +14,16 @@ sealed interface SettingAction {
     data class OnLockScreenSwitchToggled(val lockScreenEnabled: Boolean): SettingAction
     data object OnLogoutClicked: SettingAction
     data object OnResignClicked: SettingAction
+    data object OnBlockedGlimClicked: SettingAction
+    data object OnBlockedUserClicked: SettingAction
+    data class OnUnblockUserClicked(val userSeq: Long): SettingAction
+    data class OnUnblockQuoteClicked(val quoteSeq: Long): SettingAction
 }
 
 sealed interface SettingSideEffect {
     data class ShowToast(val message: String): SettingSideEffect
     data object NavigateBack: SettingSideEffect
     data object NavigateLogin: SettingSideEffect
+    data object ShowBlockedGlim: SettingSideEffect
+    data object ShowBlockedUser: SettingSideEffect
 }

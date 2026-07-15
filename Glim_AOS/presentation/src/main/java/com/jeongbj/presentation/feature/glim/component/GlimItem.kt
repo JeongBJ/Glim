@@ -40,7 +40,8 @@ fun GlimItem(
     onSaveClicked: (String) -> Unit = {},
     onProfileClicked: (Long) -> Unit = {},
     onDeleteClicked: (Long) -> Unit = {},
-    onBlockClicked: (Long) -> Unit = {}
+    onBlockQuoteClicked: (Long) -> Unit = {},
+    onBlockUserClicked: (Long) -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -76,7 +77,8 @@ fun GlimItem(
                 GlimPopupMenu(
                     isOwner = isOwner,
                     onDeleteClicked = { onDeleteClicked(quote.quoteSeq) },
-                    onBlockClicked = { onBlockClicked(quote.quoteSeq) }
+                    onBlockUserClicked = { onBlockUserClicked(quote.user.userSeq) },
+                    onBlockQuoteClicked = { onBlockQuoteClicked(quote.quoteSeq) }
                 )
             }
             ActionButton(

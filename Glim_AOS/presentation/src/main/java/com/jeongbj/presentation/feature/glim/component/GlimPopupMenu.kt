@@ -18,7 +18,8 @@ import com.jeongbj.presentation.common.component.ConfirmDialog
 @Composable
 fun GlimPopupMenu(
     onDeleteClicked: () -> Unit,
-    onBlockClicked: () -> Unit,
+    onBlockUserClicked: () -> Unit,
+    onBlockQuoteClicked: () -> Unit,
     isOwner: Boolean = false,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -50,7 +51,7 @@ fun GlimPopupMenu(
                 )
             } else {
                 DropdownMenuItem(
-                    text = { Text("차단") },
+                    text = { Text("글림 차단") },
                     leadingIcon = {
                         Icon(
                             painter = painterResource(R.drawable.ic_error),
@@ -58,7 +59,21 @@ fun GlimPopupMenu(
                         )
                     },
                     onClick = {
-                        selectedItem = GLIM_POPUP_ITEM.BLOCK
+                        selectedItem = GLIM_POPUP_ITEM.BLOCK_QUOTE
+                        showConfirmDialog = true
+                    },
+                )
+
+                DropdownMenuItem(
+                    text = { Text("사용자 차단") },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_error),
+                            contentDescription = null
+                        )
+                    },
+                    onClick = {
+                        selectedItem = GLIM_POPUP_ITEM.BLOCK_USER
                         showConfirmDialog = true
                     },
                 )
@@ -72,18 +87,21 @@ fun GlimPopupMenu(
                     expanded = false
                 },
                 title = when (selectedItem) {
-                    GLIM_POPUP_ITEM.DELETE -> "글림 삭제"
-                    GLIM_POPUP_ITEM.BLOCK -> "글림 차단"
+                    GLIM_POPUP_ITEM.DELETE -> selectedItem.string
+                    GLIM_POPUP_ITEM.BLOCK_QUOTE -> selectedItem.string
+                    GLIM_POPUP_ITEM.BLOCK_USER -> selectedItem.string
                 },
                 message = when (selectedItem) {
                     GLIM_POPUP_ITEM.DELETE -> "삭제하면 복구할 수 없어요.\n정말 삭제하시겠어요?"
-                    GLIM_POPUP_ITEM.BLOCK -> "차단한 글림은 다시 볼 수 없어요.\n차단하시겠어요?"
+                    GLIM_POPUP_ITEM.BLOCK_QUOTE -> "차단한 글림은 다시 볼 수 없어요.\n차단하시겠어요?"
+                    GLIM_POPUP_ITEM.BLOCK_USER -> "차단한 유저가 작성한 모든 글림을 볼 수 없어요.\n차단하시겠어요?"
                 },
                 onConfirm = {
                     expanded = false
                     when (selectedItem) {
                         GLIM_POPUP_ITEM.DELETE -> onDeleteClicked()
-                        GLIM_POPUP_ITEM.BLOCK -> onBlockClicked()
+                        GLIM_POPUP_ITEM.BLOCK_QUOTE -> onBlockQuoteClicked()
+                        GLIM_POPUP_ITEM.BLOCK_USER -> onBlockUserClicked()
                     }
                 },
             )
@@ -91,6 +109,6 @@ fun GlimPopupMenu(
     }
 }
 
-private enum class GLIM_POPUP_ITEM {
-    DELETE, BLOCK
+private enum class GLIM_POPUP_ITEM(val string: String) {
+    DELETE("글림 삭제"), BLOCK_USER("사용자 차단"), BLOCK_QUOTE("글림 차단")
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -46,60 +47,81 @@ fun SettingContent(
 
         Spacer(Modifier.height(16.dp))
 
-        Column(modifier = modifier
+        LazyColumn(modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
         ) {
-            SettingToggleItem(
-                title = "자동 로그인",
-                description = "앱 실행 시 자동으로 로그인 합니다",
-                checked = state.settings.autoLoginEnabled,
-                onCheckChanged = { onAction(SettingAction.OnAutoLoginSwitchToggled(it)) }
-            )
+            item {
+                SettingToggleItem(
+                    title = "자동 로그인",
+                    description = "앱 실행 시 자동으로 로그인 합니다",
+                    checked = state.settings.autoLoginEnabled,
+                    onCheckChanged = { onAction(SettingAction.OnAutoLoginSwitchToggled(it)) }
+                )
 
-            Spacer(Modifier.height(32.dp))
-            SettingToggleItem(
-                title = "푸시 알림",
-                description = "글림의 모든 알림을 받을 지 설정합니다",
-                checked = state.settings.pushEnabled,
-                onCheckChanged = {
-                    when (it) {
-                        true -> {
-                            if (!permissionState.isEnabled) {
-                                permissionState.requestPermission()
-                            } else {
-                                onAction(SettingAction.OnPushSwitchToggled(true))
+                Spacer(Modifier.height(32.dp))
+            }
+
+            item {
+                SettingToggleItem(
+                    title = "푸시 알림",
+                    description = "글림의 모든 알림을 받을 지 설정합니다",
+                    checked = state.settings.pushEnabled,
+                    onCheckChanged = {
+                        when (it) {
+                            true -> {
+                                if (!permissionState.isEnabled) {
+                                    permissionState.requestPermission()
+                                } else {
+                                    onAction(SettingAction.OnPushSwitchToggled(true))
+                                }
+                            }
+                            false -> {
+                                onAction(SettingAction.OnPushSwitchToggled(false))
                             }
                         }
-                        false -> {
-                            onAction(SettingAction.OnPushSwitchToggled(false))
-                        }
+
                     }
+                )
+                Spacer(Modifier.height(32.dp))
+            }
 
-                }
-            )
+            item {
+                SettingToggleItem(
+                    title = "잠금화면에서 글림 바로보기",
+                    description = "잠금화면에서 스와이프하여 글림을 바로 볼 수 있습니다",
+                    checked = state.settings.lockScreenEnabled,
+                    onCheckChanged = { onAction(SettingAction.OnLockScreenSwitchToggled(it)) }
+                )
 
-            Spacer(Modifier.height(32.dp))
+                Spacer(Modifier.height(32.dp))
+            }
 
-            SettingToggleItem(
-                title = "잠금화면에서 글림 바로보기",
-                description = "잠금화면에서 스와이프하여 글림을 바로 볼 수 있습니다",
-                checked = state.settings.lockScreenEnabled,
-                onCheckChanged = { onAction(SettingAction.OnLockScreenSwitchToggled(it)) }
-            )
+            item {
+                SettingItem(
+                    title = "차단한 글림",
+                    onClick = { onAction(SettingAction.OnBlockedGlimClicked) }
+                )
+                SettingItem(
+                    title = "차단한 사용자",
+                    onClick = { onAction(SettingAction.OnBlockedUserClicked) }
+                )
+                Spacer(Modifier.height(32.dp))
+            }
 
-            Spacer(Modifier.height(32.dp))
+            item {
+                SettingItem(
+                    title = "로그아웃",
+                    onClick = { onAction(SettingAction.OnLogoutClicked) }
+                )
 
-            SettingItem(
-                title = "로그아웃",
-                onClick = { onAction(SettingAction.OnLogoutClicked) }
-            )
 
+                SettingItem(
+                    title = "회원 탈퇴",
+                    onClick = { onAction(SettingAction.OnResignClicked) }
+                )
 
-            SettingItem(
-                title = "회원 탈퇴",
-                onClick = { onAction(SettingAction.OnResignClicked) }
-            )
+            }
         }
     }
 }

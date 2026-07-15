@@ -30,7 +30,8 @@ fun GlimContent(
             onSaveClicked = { onAction(GlimAction.OnSaveClicked(it)) },
             onProfileClicked = { onAction(GlimAction.OnProfileClicked(it)) },
             onDeleteClicked = { onAction(GlimAction.OnDeleteClicked(it)) },
-            onBlockClicked = { onAction(GlimAction.OnBlockClicked(it)) },
+            onBlockQuoteClicked = { onAction(GlimAction.OnBlockQuoteClicked(it)) },
+            onBlockUserClicked = { onAction(GlimAction.OnBlockUserClicked(it)) },
         )
     }
 }

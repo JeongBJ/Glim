@@ -24,6 +24,7 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.dispatcherTypeMatchers(DispatcherType.ERROR,DispatcherType.ASYNC).permitAll()
                 it.requestMatchers("/error").permitAll()
+                it.requestMatchers("/privacy").permitAll()
                 it.requestMatchers("/auth/**").permitAll()
                 it.requestMatchers("/login/**").permitAll()
                 it.requestMatchers("/.well-known/**").permitAll()

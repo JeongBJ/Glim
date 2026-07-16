@@ -199,20 +199,6 @@ class QuoteQueryRepository(
             .where(
                 quote.quoteSeq.eq(quoteSeq)
             )
-            .leftJoin(blockedQuote)
-            .on(
-                blockedQuote.quote.eq(quote),
-                blockedQuote.user.userSeq.eq(userSeq)
-            )
-            .leftJoin(blockedUser)
-            .on(
-                blockedUser.blockedUser.userSeq.eq(quote.user.userSeq),
-                blockedUser.user.userSeq.eq(userSeq)
-            )
-            .where(
-                blockedQuote.isNull(),
-                blockedUser.isNull()
-            )
             .fetchOne()
 
         return result?.toQuoteResponse()

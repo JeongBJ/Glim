@@ -1,12 +1,12 @@
 package com.jeongbj.presentation.feature.info
 
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -73,23 +73,28 @@ fun InfoLandScape(
 
         ) {
 
-        Column(
+        LazyColumn (
             modifier = modifier.weight(1f)
                 .padding(horizontal = 16.dp)
         ) {
-            InfoHeaderSection(
-                modifier = modifier,
-                user = state.userInfo?.user,
-                onProfileImageClicked = { onAction(InfoAction.OnProfileImageClicked) },
-                onSettingClicked = { onAction(InfoAction.OnSettingClicked) },
-                isOwner = state.isOwner
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            GlimGrassSection(
-                modifier = modifier.padding(horizontal = 8.dp),
-                contributions = state.contributions
-            )
-            Spacer(modifier = Modifier.height(8.dp))
+            item {
+                InfoHeaderSection(
+                    modifier = modifier,
+                    user = state.userInfo?.user,
+                    onProfileImageClicked = { onAction(InfoAction.OnProfileImageClicked) },
+                    onSettingClicked = { onAction(InfoAction.OnSettingClicked) },
+                    isOwner = state.isOwner
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            item {
+                GlimGrassSection(
+                    modifier = modifier.padding(horizontal = 8.dp),
+                    contributions = state.contributions
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
 
         LazyVerticalGrid(

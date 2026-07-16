@@ -54,7 +54,7 @@ class LoginService(
     private fun saveOrUpdateToken(user: User, request: FcmTokenRequest) {
         val existing = fcmTokenRepository.findByToken(request.token)
         if (existing != null) {
-            existing.updatePushEnabled(request.enabled)
+            existing.updatePushEnabled(user, request.enabled)
         } else {
             fcmTokenRepository.save(FcmToken(user = user, token = request.token, pushEnabled = request.enabled))
         }
@@ -62,10 +62,7 @@ class LoginService(
 
     private fun signUp(email: String, fcmToken: String, provider: Provider): User {
         val user = userRepository.save(User(email = email, provider = provider))
-        fcmTokenRepository.save(FcmToken(
-            user = user,
-            token = fcmToken
-        ))
+        saveOrUpdateToken(user, FcmTokenRequest(fcmToken, false))
         return user
     }
 }

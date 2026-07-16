@@ -44,7 +44,7 @@ class UserService(
             pushEnabled = request.enabled
         ))
 
-        fcmToken.updatePushEnabled(request.enabled)
+        fcmToken.updatePushEnabled(currentUser,request.enabled)
 
         if (currentUser.userSeq != fcmToken.user.userSeq) {
             fcmToken.updateUser(currentUser)

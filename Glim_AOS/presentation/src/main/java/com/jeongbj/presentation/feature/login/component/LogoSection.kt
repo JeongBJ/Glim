@@ -17,7 +17,7 @@ fun LogoSection() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
         Image(
-            painter = painterResource(id = R.drawable.logo_glim_image),
+            painter = painterResource(id = R.drawable.glim_logo_image_large),
             contentDescription = null,
             modifier = Modifier.size(120.dp)
         )

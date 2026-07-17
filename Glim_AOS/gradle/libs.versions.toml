@@ -39,6 +39,7 @@ lottie = "6.7.1"
 mlkit = "16.0.1"
 datastore = "1.2.1"
 firebaseMessaging = "25.1.1"
+coreSplashscreen = "1.2.0"
 
 
 [libraries]
@@ -95,6 +96,7 @@ mlkit-korean = { group = "com.google.mlkit", name = "text-recognition-korean", v
 androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version = "datastore" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -6,6 +6,7 @@ import com.jeongbj.domain.auth.manager.SessionEvent
 import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.auth.model.AuthToken
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -54,5 +55,10 @@ class TokenManagerImpl @Inject constructor(
 
     override fun notifyTokenExpired() {
         _sessionEvent.tryEmit(SessionEvent.Expired)
+    }
+
+    override val loginState: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    override fun finishStartUp() {
+        loginState.value = false
     }
 }

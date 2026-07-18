@@ -41,6 +41,8 @@ class LoginViewModel @Inject constructor(
             val settings = settingUseCases.getSettingsUseCase().first()
             if (settings.autoLoginEnabled) {
                 login(loginUseCases.autoLoginUseCase())
+            } else {
+                tokenManager.loginState.value = false
             }
         }
     }
@@ -59,6 +61,7 @@ class LoginViewModel @Inject constructor(
                 when (result) {
                     is ResultType.Success -> {
                         tokenManager.saveUserSeq(result.data.userSeq)
+                        tokenManager.loginState.value = false
                         if (result.data.nickname.isBlank()) {
                             _loginEffect.emit(LoginEffect.NavigateProfile)
                         } else {
@@ -69,6 +72,7 @@ class LoginViewModel @Inject constructor(
                     is ResultType.Error -> {
                         Timber.e(result.exception, "login: ")
                         _loginEffect.emit(LoginEffect.ShowMessage("로그인에 실패했습니다."))
+                        tokenManager.loginState.value = false
                     }
 
                     else -> Unit

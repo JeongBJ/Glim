@@ -1,6 +1,7 @@
 package com.jeongbj.domain.auth.manager
 
 import com.jeongbj.domain.auth.model.AuthToken
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 
 interface TokenManager {
@@ -25,6 +26,9 @@ interface TokenManager {
     fun notifyTokenExpired()
 
     val sessionEvent: SharedFlow<SessionEvent>
+    val loginState: MutableStateFlow<Boolean>
+
+    fun finishStartUp()
 }
 
 sealed class SessionEvent {

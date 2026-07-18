@@ -25,6 +25,7 @@ class SecurityConfig(
                 it.dispatcherTypeMatchers(DispatcherType.ERROR,DispatcherType.ASYNC).permitAll()
                 it.requestMatchers("/error").permitAll()
                 it.requestMatchers("/privacy").permitAll()
+                it.requestMatchers("/child").permitAll()
                 it.requestMatchers("/delete").permitAll()
                 it.requestMatchers("/auth/**").permitAll()
                 it.requestMatchers("/login/**").permitAll()

@@ -65,7 +65,7 @@ fun SearchTopSection(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
+                .height(52.dp)
                 .padding(horizontal = 16.dp),
             value = state.query,
             placeholder = {

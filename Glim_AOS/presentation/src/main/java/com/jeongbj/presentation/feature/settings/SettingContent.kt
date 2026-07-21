@@ -9,14 +9,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.jeongbj.presentation.common.component.GlimTopbar
 import com.jeongbj.presentation.common.notification.rememberNotificationPermissionState
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.settings.component.SettingItem
 import com.jeongbj.presentation.feature.settings.component.SettingToggleItem
+import com.jeongbj.presentation.feature.settings.dialog.TermsDialog
 import com.jeongbj.presentation.theme.GlimTheme
 
 @Composable
@@ -26,7 +30,7 @@ fun SettingContent(
     onAction: (SettingAction) -> Unit,
 ) {
 
-    val context = LocalContext.current
+    var showTermsDialog by remember { mutableStateOf(false) }
     val permissionState = rememberNotificationPermissionState(
         onResult = { granted ->
             if (granted) onAction(SettingAction.OnPushSwitchToggled(true))
@@ -111,6 +115,14 @@ fun SettingContent(
 
             item {
                 SettingItem(
+                    title = "정책 및 약관",
+                    onClick = { showTermsDialog = true }
+                )
+                Spacer(Modifier.height(32.dp))
+            }
+
+            item {
+                SettingItem(
                     title = "로그아웃",
                     onClick = { onAction(SettingAction.OnLogoutClicked) }
                 )
@@ -123,6 +135,12 @@ fun SettingContent(
 
             }
         }
+    }
+
+    if (showTermsDialog) {
+        TermsDialog(
+            onDismiss = { showTermsDialog = false },
+        )
     }
 }
 

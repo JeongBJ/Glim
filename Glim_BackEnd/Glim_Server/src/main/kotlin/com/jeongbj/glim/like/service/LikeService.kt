@@ -25,14 +25,14 @@ class LikeService(
 
         if(like != null) {
             likeRepository.delete(like)
-            quote.decreaseLikes()
+            quoteRepository.decreaseLikes(quoteSeq)
             quoteRankingRepository.decreaseLike(quoteSeq)
             return false
         }
 
         val user = userRepository.getReferenceById(userSeq)
         likeRepository.save(Like(user = user, quote = quote))
-        quote.increaseLikes()
+        quoteRepository.increaseLikes(quoteSeq)
         quoteRankingRepository.increaseLike(quoteSeq)
         pushService.notifyQuoteLiked(userSeq, quote)
 

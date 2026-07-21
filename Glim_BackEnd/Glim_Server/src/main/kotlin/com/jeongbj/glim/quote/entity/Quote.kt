@@ -46,9 +46,6 @@ class Quote (
     val likes: MutableList<Like> = mutableListOf()
 
 ) {
-    fun increaseLikes() = this.numLikes++
-
-    fun decreaseLikes() = this.numLikes--
 
     fun increaseView() = this.numViews++
 

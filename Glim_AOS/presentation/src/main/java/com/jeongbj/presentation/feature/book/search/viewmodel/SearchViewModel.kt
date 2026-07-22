@@ -66,8 +66,12 @@ class SearchViewModel @Inject constructor(
             is SearchAction.OnQuoteClick -> onQuoteClicked(action.quoteSeq)
             is SearchAction.OnBackClick -> onBackClicked()
             SearchAction.OnClearHistoryClicked -> onClearHistoryClicked()
+            SearchAction.OnBackAtResult -> onBackAtResult()
         }
     }
+
+    private fun onBackAtResult() =
+        _state.update { it.copy(searchMode = SearchMode.POPULAR) }
 
     private fun onClearHistoryClicked() {
         viewModelScope.launch {

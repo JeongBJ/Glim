@@ -29,6 +29,7 @@ sealed interface SearchAction {
     data class OnSelectedTabChanged(val selectedTab: QueryType): SearchAction
     data class OnFilterSelected(val filter: SearchFilter): SearchAction
     data object OnClearHistoryClicked: SearchAction
+    data object OnBackAtResult: SearchAction
 
 }
 

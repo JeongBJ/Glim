@@ -1,5 +1,6 @@
 package com.jeongbj.presentation.feature.book.search
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -28,6 +29,13 @@ fun SearchScreen(
     val uiState by viewModel.state.collectAsState()
     val listState = rememberLazyListState()
     val gridState = rememberLazyGridState()
+
+    BackHandler {
+        when (uiState.searchMode) {
+            SearchMode.RESULT -> viewModel.onAction(SearchAction.OnBackAtResult)
+            else -> popBackStack?.invoke()
+        }
+    }
 
 
     LaunchedEffect(Unit) {

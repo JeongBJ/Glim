@@ -50,7 +50,7 @@ fun GlimTopbar(
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(end = 16.dp)
+                    .padding(start = 48.dp, end = 16.dp)
             )
         } else {
             Image(

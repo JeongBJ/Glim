@@ -1,7 +1,5 @@
 package com.jeongbj.data.book.response
 
-import com.jeongbj.domain.quote.model.QuoteSummary
-
 data class BookDetailResponse(
     val title: String,
     val coverUrl: String,
@@ -14,5 +12,5 @@ data class BookDetailResponse(
     val priceSales: Int? = null,
     val publisher: String? = null,
     val category: String? = null,
-    val quotes: List<QuoteSummary>? = listOf()
+    val quotes: List<QuoteSummaryResponse>? = listOf()
 )

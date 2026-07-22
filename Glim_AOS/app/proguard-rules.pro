@@ -22,3 +22,9 @@
 
 # Kakao SDK
 -keep class com.kakao.sdk.** { *; }
+-keep class com.google.firebase.** { *; }
+-keep class com.google.android.gms.** { *; }
+-keepattributes *Annotation*
+-keepattributes Signature
+
+-keep class com.your.package.data.model.** { *; }

@@ -1,9 +1,11 @@
 package com.jeongbj.data.fcm.request
 
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
 data class FcmTokenRequest(
+    @SerializedName("token")
     val token: String,
+
+    @SerializedName("enabled")
     val enabled: Boolean
 )

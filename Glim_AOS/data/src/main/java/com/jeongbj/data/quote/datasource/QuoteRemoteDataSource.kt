@@ -6,8 +6,8 @@ import com.jeongbj.data.quote.api.QuoteApi
 import com.jeongbj.data.quote.request.CreateQuoteRequest
 import com.jeongbj.data.quote.request.GenerateImageRequest
 import com.jeongbj.data.quote.request.QuotePageRequest
+import com.jeongbj.data.quote.response.QuoteCursorResponse
 import com.jeongbj.data.quote.response.QuoteResponse
-import com.jeongbj.domain.quote.model.QuoteCursor
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class QuoteRemoteDataSource @Inject constructor(
         quoteApi.generateImage(generateImageRequest)
 
     suspend fun getQuotes(quotePageRequest: QuotePageRequest)
-    : BaseResponse<CursorPage<QuoteResponse, QuoteCursor>> =
+    : BaseResponse<CursorPage<QuoteResponse, QuoteCursorResponse>> =
         quoteApi.getQuotes(quotePageRequest)
 
     suspend fun getQuote(quoteSeq: Long): BaseResponse<QuoteResponse> =

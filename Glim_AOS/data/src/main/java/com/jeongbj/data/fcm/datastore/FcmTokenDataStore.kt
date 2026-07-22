@@ -4,8 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.jeongbj.data.fcm.entity.FcmTokenEntity
 import com.jeongbj.data.fcm.mapper.toDomain
-import com.jeongbj.data.fcm.request.FcmTokenRequest
 import com.jeongbj.domain.user.model.FcmToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -25,7 +25,7 @@ class FcmTokenDataStore @Inject constructor(
 
     suspend fun save(token: String, enabled: Boolean) {
         dataStore.edit { preferences ->
-            val json = Json.encodeToString(FcmTokenRequest(token, enabled))
+            val json = Json.encodeToString(FcmTokenEntity(token, enabled))
             preferences[PREF_KEY] = json
         }
     }
@@ -36,9 +36,9 @@ class FcmTokenDataStore @Inject constructor(
         }
     }
 
-    private fun decodeFcmToken(json: String): FcmTokenRequest? {
+    private fun decodeFcmToken(json: String): FcmTokenEntity? {
         return runCatching {
-            Json.decodeFromString<FcmTokenRequest>(json)
+            Json.decodeFromString<FcmTokenEntity>(json)
         }.getOrDefault(null)
     }
 

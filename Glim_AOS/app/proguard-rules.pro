@@ -27,4 +27,7 @@
 -keepattributes *Annotation*
 -keepattributes Signature
 
--keep class com.your.package.data.model.** { *; }
+-keep class com.jeongbj.data.**.request.** { *; }
+-keep class com.jeongbj.data.**.response.** { *; }
+-keep class com.jeongbj.core.common.** { *; }
+-keep class **$$serializer { *; }

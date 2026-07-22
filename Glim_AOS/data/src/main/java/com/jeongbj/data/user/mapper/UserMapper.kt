@@ -1,6 +1,7 @@
 package com.jeongbj.data.user.mapper
 
 import com.jeongbj.core.common.toLocalDate
+import com.jeongbj.data.user.request.UserRequest
 import com.jeongbj.data.user.response.GlimContributionResponse
 import com.jeongbj.data.user.response.UserInfoResponse
 import com.jeongbj.data.user.response.UserResponse
@@ -24,4 +25,9 @@ fun UserInfoResponse.toDomain(): UserInfo = UserInfo(
 fun GlimContributionResponse.toDomain() = GlimContribution(
     date = date.toLocalDate()!!,
     count = count
+)
+
+fun User.toRequest() = UserRequest(
+    nickname = nickname,
+    imageUrl = imageUrl
 )

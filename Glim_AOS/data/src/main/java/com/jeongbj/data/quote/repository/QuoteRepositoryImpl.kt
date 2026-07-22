@@ -42,7 +42,7 @@ class QuoteRepositoryImpl @Inject constructor(
         return CursorPage(
             items = result.data.items.map { it.toDomain() },
             hasNext = result.data.hasNext,
-            nextCursor = result.data.nextCursor,
+            nextCursor = result.data.nextCursor?.toDomain(),
             seed = result.data.seed
         )
     }

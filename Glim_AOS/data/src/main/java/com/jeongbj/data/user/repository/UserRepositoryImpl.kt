@@ -8,6 +8,7 @@ import com.jeongbj.data.network.mapper.toJsonRequestBody
 import com.jeongbj.data.network.mapper.toMultipartBody
 import com.jeongbj.data.user.datasource.UserRemoteDataSource
 import com.jeongbj.data.user.mapper.toDomain
+import com.jeongbj.data.user.mapper.toRequest
 import com.jeongbj.domain.user.model.User
 import com.jeongbj.domain.user.repository.UserRepository
 import kotlinx.coroutines.flow.first
@@ -21,7 +22,7 @@ class UserRepositoryImpl @Inject constructor(
         image: MultipartImage?,
         profile: User
     ): User {
-        return userRemoteDataSource.updateProfile(profile.toJsonRequestBody(), image.toMultipartBody())
+        return userRemoteDataSource.updateProfile(profile.toRequest().toJsonRequestBody(), image.toMultipartBody())
             .unwrap()
             .toDomain()
     }

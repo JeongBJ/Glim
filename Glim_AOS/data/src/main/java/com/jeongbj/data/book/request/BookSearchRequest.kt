@@ -1,10 +1,11 @@
 package com.jeongbj.data.book.request
 
+import com.google.gson.annotations.SerializedName
 import com.jeongbj.domain.book.model.BookSearchQueryType
 
 data class BookSearchRequest(
-    val query: String,
-    val queryType: BookSearchQueryType,
-    val page: Int,
-    val size: Int
+    @SerializedName("query") val query: String,
+    @SerializedName("queryType") val queryType: BookSearchQueryType,
+    @SerializedName("page") val page: Int,
+    @SerializedName("size") val size: Int
 )

@@ -1,7 +1,9 @@
 package com.jeongbj.data.user.request
 
+import com.google.gson.annotations.SerializedName
+
 data class UserRequest(
-    val nickname: String,
-    val imageUrl: String? = null
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("imageUrl") val imageUrl: String? = null
 )
 

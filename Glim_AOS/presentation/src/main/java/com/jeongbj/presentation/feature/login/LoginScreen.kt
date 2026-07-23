@@ -20,6 +20,7 @@ import com.jeongbj.presentation.feature.login.util.KakaoLoginLauncher
 import com.jeongbj.presentation.feature.login.util.KakaoLoginResult
 import com.jeongbj.presentation.theme.DarkThemeScreen
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @Composable
@@ -27,7 +28,7 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     googleClientId: String,
     onNavigateHome: () -> Unit,
-    onNavigateProfile: () -> Unit
+    onNavigateProfile: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -75,7 +76,9 @@ fun LoginScreen(
                         is KakaoLoginResult.Success -> {
                             viewModel.onClickEvent(event, result.idToken)
                         }
-                        else -> { }
+                        else -> {
+                            Timber.d("LoginScreen: ${result}")
+                        }
                     }
                 }
             }

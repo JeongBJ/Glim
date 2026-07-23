@@ -1,9 +1,10 @@
 package com.jeongbj.data.quote.request
 
+import com.google.gson.annotations.SerializedName
 import com.jeongbj.domain.quote.model.QuoteCursor
 
 data class QuotePageRequest(
-    val seed: Long?,
-    val cursor: QuoteCursor? = null,
-    val size: Int = 20,
+    @SerializedName("seed") val seed: Long?,
+    @SerializedName("cursor") val cursor: QuoteCursor? = null,
+    @SerializedName("size") val size: Int = 20,
 )

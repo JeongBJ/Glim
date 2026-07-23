@@ -1,6 +1,8 @@
 package com.jeongbj.data.user.response
 
+import com.google.gson.annotations.SerializedName
+
 data class QuoteThumbnailResponse(
-    val quoteSeq: Long,
-    val imageUrl: String?
+    @SerializedName("quoteSeq") val quoteSeq: Long,
+    @SerializedName("imageUrl") val imageUrl: String?
 )

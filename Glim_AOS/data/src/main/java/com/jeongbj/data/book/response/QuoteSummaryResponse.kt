@@ -1,9 +1,11 @@
 package com.jeongbj.data.book.response
 
+import com.google.gson.annotations.SerializedName
+
 data class QuoteSummaryResponse(
-    val quoteSeq: Long,
-    val content: String,
-    val numViews: Long,
-    val numLikes: Long,
-    val liked: Boolean,
+    @SerializedName("quoteSeq") val quoteSeq: Long,
+    @SerializedName("content") val content: String,
+    @SerializedName("numViews") val numViews: Long,
+    @SerializedName("numLikes") val numLikes: Long,
+    @SerializedName("liked") val liked: Boolean,
 )

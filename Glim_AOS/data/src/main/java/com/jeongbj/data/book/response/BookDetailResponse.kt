@@ -1,16 +1,18 @@
 package com.jeongbj.data.book.response
 
+import com.google.gson.annotations.SerializedName
+
 data class BookDetailResponse(
-    val title: String,
-    val coverUrl: String,
-    val linkUrl: String? = null,
-    val author: String,
-    val translator: String? = null,
-    val isbn13: String,
-    val description: String? = null,
-    val pubDate: String? = null,
-    val priceSales: Int? = null,
-    val publisher: String? = null,
-    val category: String? = null,
-    val quotes: List<QuoteSummaryResponse>? = listOf()
+    @SerializedName("title") val title: String,
+    @SerializedName("coverUrl") val coverUrl: String,
+    @SerializedName("linkUrl") val linkUrl: String? = null,
+    @SerializedName("author") val author: String,
+    @SerializedName("translator") val translator: String? = null,
+    @SerializedName("isbn13") val isbn13: String,
+    @SerializedName("description") val description: String? = null,
+    @SerializedName("pubDate") val pubDate: String? = null,
+    @SerializedName("priceSales") val priceSales: Int? = null,
+    @SerializedName("publisher") val publisher: String? = null,
+    @SerializedName("category") val category: String? = null,
+    @SerializedName("quotes") val quotes: List<QuoteSummaryResponse>? = listOf()
 )

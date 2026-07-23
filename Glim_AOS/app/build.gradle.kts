@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
@@ -22,6 +24,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val keystoreProperties = Properties().apply {
+        load(rootProject.file("local.properties").inputStream())
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -33,8 +48,19 @@ android {
             optimization {
                 enable = true
             }
+            signingConfig = signingConfigs.getByName("release")
+        }
+        create("releaseDebug") {
+            initWith(getByName("release"))
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("release")
+//            applicationIdSuffix = ".releasedebug"
+//            versionNameSuffix = "-releaseDebug"
+
+            matchingFallbacks += listOf("release")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21

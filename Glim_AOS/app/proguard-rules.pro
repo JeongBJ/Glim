@@ -20,14 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Kakao SDK
--keep class com.kakao.sdk.** { *; }
--keep class com.google.firebase.** { *; }
--keep class com.google.android.gms.** { *; }
 -keepattributes *Annotation*
 -keepattributes Signature
 
--keep class com.jeongbj.data.**.request.** { *; }
--keep class com.jeongbj.data.**.response.** { *; }
+#-keep class com.jeongbj.data.**.request.** { *; }
+#-keep class com.jeongbj.data.**.response.** { *; }
 -keep class com.jeongbj.core.common.** { *; }
 -keep class **$$serializer { *; }

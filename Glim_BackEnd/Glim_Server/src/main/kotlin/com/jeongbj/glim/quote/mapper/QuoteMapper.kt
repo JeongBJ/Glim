@@ -1,5 +1,6 @@
 package com.jeongbj.glim.quote.mapper
 
+import com.jeongbj.glim.info.dto.QuoteThumbnailResponse
 import com.jeongbj.glim.quote.dto.*
 import com.jeongbj.glim.quote.entity.Quote
 
@@ -45,6 +46,11 @@ fun QuoteProjection.toQuoteResponse(): QuoteResponse = QuoteResponse(
         author = author,
         isbn13 = isbn13
     )
+)
+
+fun QuoteThumbnailProjection.toQuoteThumbnailResponse() = QuoteThumbnailResponse(
+    quoteSeq = quoteSeq,
+    imageUrl = imageUrl
 )
 
 fun QuoteDetailProjection.toQuoteResponse(): QuoteResponse = QuoteResponse(

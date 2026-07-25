@@ -6,8 +6,10 @@ import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.external.ai.gemini.service.GeminiService
 import com.jeongbj.glim.external.ai.gradio.service.GradioService
 import com.jeongbj.glim.external.ai.pollination.service.PollinationService
+import com.jeongbj.glim.info.dto.QuoteThumbnailResponse
 import com.jeongbj.glim.infra.bucket.BucketService
 import com.jeongbj.glim.quote.dto.QuoteCursor
+import com.jeongbj.glim.quote.dto.QuotePageRequest
 import com.jeongbj.glim.quote.dto.QuoteRequest
 import com.jeongbj.glim.quote.dto.QuoteResponse
 import com.jeongbj.glim.quote.entity.Quote
@@ -94,5 +96,14 @@ class QuoteService(
         if (userSeq == quote.user.userSeq) {
             quoteRepository.delete(quote)
         }
+    }
+
+    fun getLockScreenQuotes(request: QuotePageRequest)
+    : CursorPage<QuoteThumbnailResponse, QuoteCursor> {
+        return quoteQueryRepository.getLockScreenQuotes(
+            seed = request.seed,
+            cursor = request.cursor,
+            size = request.size.toLong()
+        )
     }
 }

@@ -6,12 +6,10 @@ import com.jeongbj.glim.book.entity.QBook
 import com.jeongbj.glim.common.dto.CursorPage
 import com.jeongbj.glim.info.dto.QuoteThumbnailResponse
 import com.jeongbj.glim.like.entity.QLike
-import com.jeongbj.glim.quote.dto.QuoteCursor
-import com.jeongbj.glim.quote.dto.QuoteDetailProjection
-import com.jeongbj.glim.quote.dto.QuoteProjection
-import com.jeongbj.glim.quote.dto.QuoteResponse
+import com.jeongbj.glim.quote.dto.*
 import com.jeongbj.glim.quote.entity.QQuote
 import com.jeongbj.glim.quote.mapper.toQuoteResponse
+import com.jeongbj.glim.quote.mapper.toQuoteThumbnailResponse
 import com.jeongbj.glim.user.entity.QUser
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -52,10 +50,13 @@ class QuoteQueryRepository(
         val score = Expressions.numberTemplate(
             Long::class.java,
             """
+            cast(
                 ({0} * 100)
-                + ({1} * 10)
+                + (ln({1} + 1) * 200)
                 + {2}
-                """.trimIndent(),
+                as bigint
+            )
+            """.trimIndent(),
             quote.numLikes,
             quote.numViews,
             randomScore
@@ -294,6 +295,95 @@ class QuoteQueryRepository(
             items = items,
             hasNext = hasNext,
             nextCursor = items.lastOrNull()?.quoteSeq
+        )
+    }
+
+    fun getLockScreenQuotes(
+        seed: Long?,
+        cursor: QuoteCursor?,
+        size: Long,
+    ): CursorPage<QuoteThumbnailResponse, QuoteCursor> {
+        val randomScore = Expressions.numberTemplate(
+            Long::class.java,
+            """
+                mod(
+                    function('hashtext', concat({0}, {1})),
+                    100
+                ) + 100
+                """.trimIndent(),
+            quote.quoteSeq,
+            seed.toString()
+        )
+
+        val score = Expressions.numberTemplate(
+            Long::class.java,
+            """
+            cast(
+                ({0} * 100)
+                + (ln({1} + 1) * 200)
+                + {2}
+                as long
+            )
+            """.trimIndent(),
+            quote.numLikes,
+            quote.numViews,
+            randomScore
+        )
+
+        val cursorCondition = cursor?.let {
+            score.lt(it.score)
+                .or(
+                    score.eq(it.score)
+                        .and(
+                            quote.quoteSeq.lt(it.quoteSeq)
+                        )
+                )
+        }
+
+        val results = queryFactory
+            .select(
+                Projections.constructor(
+                    QuoteThumbnailProjection::class.java,
+                    quote.quoteSeq,
+                    quote.imageUrl,
+                    score
+                )
+            )
+            .from(quote)
+            .join(quote.book, book)
+            .where(
+                cursorCondition
+            )
+            .orderBy(
+                score.desc(),
+                quote.quoteSeq.desc()
+            )
+            .limit(size + 1)
+            .fetch()
+
+        val hasNext = results.size > size
+
+        val items = if (hasNext) {
+            results.dropLast(1)
+        } else {
+            results
+        }
+
+        val nextCursor = if (hasNext) {
+            items.lastOrNull()?.let {
+                QuoteCursor(
+                    score = it.score,
+                    quoteSeq = it.quoteSeq
+                )
+            }
+        } else {
+            null
+        }
+        return CursorPage(
+            items = items.map { it.toQuoteThumbnailResponse() },
+            hasNext = hasNext,
+            nextCursor = nextCursor,
+            seed = seed
         )
     }
 

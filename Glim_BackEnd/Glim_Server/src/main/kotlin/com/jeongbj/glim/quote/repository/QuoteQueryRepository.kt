@@ -54,7 +54,7 @@ class QuoteQueryRepository(
                 ({0} * 100)
                 + (ln({1} + 1) * 200)
                 + {2}
-                as bigint
+                as long
             )
             """.trimIndent(),
             quote.numLikes,

@@ -12,6 +12,7 @@ import com.jeongbj.data.quote.request.QuotePageRequest
 import com.jeongbj.domain.quote.model.CreateQuote
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.domain.quote.model.QuoteCursor
+import com.jeongbj.domain.quote.model.QuoteThumbnail
 import com.jeongbj.domain.quote.repository.QuoteRepository
 import javax.inject.Inject
 
@@ -59,5 +60,24 @@ class QuoteRepositoryImpl @Inject constructor(
 
     override suspend fun deleteQuote(quoteSeq: Long) =
         quoteRemoteDataSource.deleteQuote(quoteSeq).unwrap()
+
+    override suspend fun getLockScreenQuotes(
+        seed: Long?,
+        cursor: QuoteCursor?,
+        size: Int,
+    ): CursorPage<QuoteThumbnail, QuoteCursor> {
+        val result = quoteRemoteDataSource.getLockScreenQuotes(QuotePageRequest(
+            seed = seed,
+            cursor = cursor,
+            size = size
+        ))
+
+        return CursorPage(
+            items = result.data.items.map { it.toDomain() },
+            hasNext = result.data.hasNext,
+            nextCursor = result.data.nextCursor?.toDomain(),
+            seed = result.data.seed
+        )
+    }
 
 }

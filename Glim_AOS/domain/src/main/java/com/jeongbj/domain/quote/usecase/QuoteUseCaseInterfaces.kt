@@ -6,6 +6,7 @@ import com.jeongbj.core.common.ResultType
 import com.jeongbj.domain.quote.model.CreateQuote
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.domain.quote.model.QuoteCursor
+import com.jeongbj.domain.quote.model.QuoteThumbnail
 import kotlinx.coroutines.flow.Flow
 
 interface GenerateImageUseCase {
@@ -34,4 +35,8 @@ interface LikeQuoteUseCase {
 
 interface DeleteQuoteUseCase {
     operator fun invoke(quoteSeq: Long): Flow<ResultType<Unit>>
+}
+
+interface GetLockScreenQuotesUseCase {
+    suspend operator fun invoke(quoteCursor: QuoteCursor?, seed: Long?, size: Int): CursorPage<QuoteThumbnail, QuoteCursor>
 }

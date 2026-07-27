@@ -9,5 +9,6 @@ data class QuoteUseCases @Inject constructor(
     val getQuoteUseCase: GetQuoteUseCase,
     val increaseViewUseCase: IncreaseViewUseCase,
     val likeQuoteUseCase: LikeQuoteUseCase,
-    val deleteQuoteUseCase: DeleteQuoteUseCase
+    val deleteQuoteUseCase: DeleteQuoteUseCase,
+    val getLockScreenQuotesUseCase: GetLockScreenQuotesUseCase
 )

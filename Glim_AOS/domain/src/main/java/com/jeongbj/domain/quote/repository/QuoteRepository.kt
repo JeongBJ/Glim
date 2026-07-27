@@ -5,6 +5,7 @@ import com.jeongbj.core.common.MultipartImage
 import com.jeongbj.domain.quote.model.CreateQuote
 import com.jeongbj.domain.quote.model.Quote
 import com.jeongbj.domain.quote.model.QuoteCursor
+import com.jeongbj.domain.quote.model.QuoteThumbnail
 
 interface QuoteRepository {
     suspend fun saveQuote(createQuote: CreateQuote, image: MultipartImage): Quote
@@ -20,4 +21,6 @@ interface QuoteRepository {
     suspend fun likeQuote(quoteSeq: Long)
 
     suspend fun deleteQuote(quoteSeq: Long)
+
+    suspend fun getLockScreenQuotes(seed: Long?, cursor: QuoteCursor?, size: Int): CursorPage<QuoteThumbnail, QuoteCursor>
 }

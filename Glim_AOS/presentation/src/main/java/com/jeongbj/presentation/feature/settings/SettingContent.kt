@@ -1,5 +1,6 @@
 package com.jeongbj.presentation.feature.settings
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +15,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.jeongbj.android.extentions.showToast
 import com.jeongbj.presentation.common.component.GlimTopbar
 import com.jeongbj.presentation.common.notification.rememberNotificationPermissionState
 import com.jeongbj.presentation.common.preview.Previews
@@ -29,15 +32,23 @@ fun SettingContent(
     state: SettingState,
     onAction: (SettingAction) -> Unit,
 ) {
-
+    val context = LocalContext.current
     var showTermsDialog by remember { mutableStateOf(false) }
-    val permissionState = rememberNotificationPermissionState(
+    val pushPermissionState = rememberNotificationPermissionState(
         onResult = { granted ->
-            if (granted) onAction(SettingAction.OnPushSwitchToggled(true))
-            else onAction(SettingAction.OnPushSwitchToggled(false))
+            if (granted) {
+                onAction(SettingAction.OnPushSwitchToggled(true))
+            }
         }
     )
 
+    val lockPermissionState = rememberNotificationPermissionState(
+        onResult = { granted ->
+            if (granted) {
+                onAction(SettingAction.OnLockScreenSwitchToggled(true))
+            }
+        }
+    )
 
     Column(
         modifier = modifier
@@ -74,8 +85,9 @@ fun SettingContent(
                     onCheckChanged = {
                         when (it) {
                             true -> {
-                                if (!permissionState.isEnabled) {
-                                    permissionState.requestPermission()
+                                if (!pushPermissionState.isEnabled) {
+                                    context.showToast("활성화 하려면 알림 권한이 필요해요")
+                                    pushPermissionState.requestPermission()
                                 } else {
                                     onAction(SettingAction.OnPushSwitchToggled(true))
                                 }
@@ -95,7 +107,21 @@ fun SettingContent(
                     title = "잠금화면에서 글림 바로보기",
                     description = "잠금화면에서 스와이프하여 글림을 바로 볼 수 있습니다",
                     checked = state.settings.lockScreenEnabled,
-                    onCheckChanged = { onAction(SettingAction.OnLockScreenSwitchToggled(it)) }
+                    onCheckChanged = {
+                        when (it) {
+                            true -> {
+                                if (!lockPermissionState.isEnabled) {
+                                    context.showToast("활성화 하려면 알림 권한이 필요해요")
+                                    lockPermissionState.requestPermission()
+                                } else {
+                                    onAction(SettingAction.OnLockScreenSwitchToggled(true))
+                                }
+                            }
+                            else -> {
+                                onAction(SettingAction.OnLockScreenSwitchToggled(false))
+                            }
+                        }
+                    }
                 )
 
                 Spacer(Modifier.height(32.dp))
@@ -142,6 +168,10 @@ fun SettingContent(
             onDismiss = { showTermsDialog = false },
         )
     }
+}
+
+private fun showNotificationDeniedMessage(context: Context) {
+    context.showToast("알림 권한이 필요한 기능이에요")
 }
 
 @Previews

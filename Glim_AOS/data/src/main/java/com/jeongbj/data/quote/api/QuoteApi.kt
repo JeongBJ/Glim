@@ -7,6 +7,7 @@ import com.jeongbj.data.quote.request.GenerateImageRequest
 import com.jeongbj.data.quote.request.QuotePageRequest
 import com.jeongbj.data.quote.response.QuoteCursorResponse
 import com.jeongbj.data.quote.response.QuoteResponse
+import com.jeongbj.data.user.response.QuoteThumbnailResponse
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.http.Body
@@ -46,4 +47,9 @@ interface QuoteApi {
 
     @DELETE("quote/{quoteSeq}")
     suspend fun deleteQuote(@Path("quoteSeq") quoteSeq: Long): BaseResponse<Unit>
+
+    @POST("share/quotes")
+    suspend fun getLockScreenQuotes(
+        @Body quotePageRequest: QuotePageRequest
+    ): BaseResponse<CursorPage<QuoteThumbnailResponse, QuoteCursorResponse>>
 }

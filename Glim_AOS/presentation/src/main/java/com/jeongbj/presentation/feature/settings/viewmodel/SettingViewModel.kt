@@ -13,6 +13,7 @@ import com.jeongbj.domain.user.model.InfoQuotesType
 import com.jeongbj.domain.user.usecase.UserUseCases
 import com.jeongbj.presentation.common.paging.BlockedUserPagingSource
 import com.jeongbj.presentation.common.paging.QuoteThumbnailPagingSource
+import com.jeongbj.presentation.feature.lock.service.LockScreenServiceController
 import com.jeongbj.presentation.feature.settings.SettingAction
 import com.jeongbj.presentation.feature.settings.SettingSideEffect
 import com.jeongbj.presentation.feature.settings.SettingState
@@ -33,8 +34,9 @@ class SettingViewModel @Inject constructor(
     private val settingUseCases: SettingUseCases,
     private val authUseCases: AuthUseCases,
     private val userUseCases: UserUseCases,
-    private val blockUseCases: BlockUseCases
-): ViewModel() {
+    private val blockUseCases: BlockUseCases,
+    private val lockScreenServiceController: LockScreenServiceController,
+    ): ViewModel() {
 
     private val _state = MutableStateFlow(SettingState())
     val state = _state.asStateFlow()
@@ -58,7 +60,15 @@ class SettingViewModel @Inject constructor(
             SettingAction.OnBlockedUserClicked -> onBlockedUserClicked()
             is SettingAction.OnUnblockQuoteClicked -> onUnblockQuoteClicked(action.quoteSeq)
             is SettingAction.OnUnblockUserClicked -> onUnblockUserClicked(action.userSeq)
+            SettingAction.OnLockScreenConfirmClicked -> onLockScreenConfirmClicked()
         }
+    }
+
+    private fun onLockScreenConfirmClicked() {
+        _state.update { it.copy(settings = it.settings.copy(lockScreenEnabled = true)) }
+        updateSettings()
+        _sideEffect.tryEmit(SettingSideEffect.OpenBatterySetting)
+        lockScreenServiceController.start()
     }
 
     private fun onUnblockUserClicked(userSeq: Long) {
@@ -147,17 +157,22 @@ class SettingViewModel @Inject constructor(
         updateSettings()
         viewModelScope.launch {
             userUseCases.updateFcmTokenUseCase(pushEnabled).collect {
-                if (it is ResultType.Success) {
-                    val message = if (pushEnabled) "푸시 알림이 활성화 되었습니다." else "푸시 알림이 비활성화 되었습니다."
-                    _sideEffect.emit(SettingSideEffect.ShowToast(message))
-                }
+//                if (it is ResultType.Success) {
+//                    val message = if (pushEnabled) "푸시 알림이 활성화 되었습니다." else "푸시 알림이 비활성화 되었습니다."
+//                    _sideEffect.emit(SettingSideEffect.ShowToast(message))
+//                }
             }
         }
     }
 
     private fun onLockScreenSwitchToggled(lockScreenEnabled: Boolean) {
-        _state.update { it.copy(settings = it.settings.copy(lockScreenEnabled = lockScreenEnabled)) }
-        updateSettings()
+        if (lockScreenEnabled) {
+            _sideEffect.tryEmit(SettingSideEffect.ShowLockScreenDialog)
+        } else {
+            _state.update { it.copy(settings = it.settings.copy(lockScreenEnabled = false)) }
+            updateSettings()
+            lockScreenServiceController.stop()
+        }
     }
 
     private fun onAutoLoginSwitchToggled(autoLoginEnabled: Boolean) {

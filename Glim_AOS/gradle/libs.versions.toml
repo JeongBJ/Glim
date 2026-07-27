@@ -1,5 +1,5 @@
 [versions]
-agp = "9.3.0"
+agp = "9.3.1"
 coreKtx = "1.19.0"
 javaxInject = "1"
 junit = "4.13.2"
@@ -40,6 +40,7 @@ mlkit = "16.0.1"
 datastore = "1.2.1"
 firebaseMessaging = "25.1.1"
 coreSplashscreen = "1.2.0"
+activityKtx = "1.13.0"
 
 
 [libraries]
@@ -97,6 +98,7 @@ androidx-datastore-core = { group = "androidx.datastore", name = "datastore-core
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version = "datastore" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

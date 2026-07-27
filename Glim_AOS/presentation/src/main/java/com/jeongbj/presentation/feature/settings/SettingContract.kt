@@ -4,7 +4,7 @@ import com.jeongbj.domain.setting.model.Settings
 
 data class SettingState(
     val isLoading: Boolean = false,
-    val settings: Settings = Settings()
+    val settings: Settings = Settings(),
 )
 
 sealed interface SettingAction {
@@ -18,6 +18,7 @@ sealed interface SettingAction {
     data object OnBlockedUserClicked: SettingAction
     data class OnUnblockUserClicked(val userSeq: Long): SettingAction
     data class OnUnblockQuoteClicked(val quoteSeq: Long): SettingAction
+    data object OnLockScreenConfirmClicked: SettingAction
 }
 
 sealed interface SettingSideEffect {
@@ -26,4 +27,6 @@ sealed interface SettingSideEffect {
     data object NavigateLogin: SettingSideEffect
     data object ShowBlockedGlim: SettingSideEffect
     data object ShowBlockedUser: SettingSideEffect
+    data object ShowLockScreenDialog: SettingSideEffect
+    data object OpenBatterySetting: SettingSideEffect
 }

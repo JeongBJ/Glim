@@ -38,4 +38,7 @@ class QuoteRemoteDataSource @Inject constructor(
 
     suspend fun deleteQuote(quoteSeq: Long): BaseResponse<Unit> =
         quoteApi.deleteQuote(quoteSeq)
+
+    suspend fun getLockScreenQuotes(quotePageRequest: QuotePageRequest) =
+        quoteApi.getLockScreenQuotes(quotePageRequest)
 }

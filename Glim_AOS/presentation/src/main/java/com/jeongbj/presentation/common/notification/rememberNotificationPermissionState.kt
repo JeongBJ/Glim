@@ -1,23 +1,22 @@
 package com.jeongbj.presentation.common.notification
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.jeongbj.android.extentions.checkNotificationPermission
+import com.jeongbj.android.extentions.findActivity
 
 @Composable
 fun rememberNotificationPermissionState(
@@ -35,42 +34,64 @@ fun rememberNotificationPermissionState(
         onResult(granted)
     }
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                isEnabled = context.checkNotificationPermission()
+    val settingsLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val granted = context.checkNotificationPermission()
+        isEnabled = granted
+        onResult(granted)
+    }
+
+    // remember(isEnabled) 제거 -> 매번 새로 만들지 않고, isEnabled는 State로 위임
+    val requestPermission: () -> Unit = remember(permissionLauncher, settingsLauncher) {
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                val activity = context.findActivity()
+                val isDenied = ContextCompat.checkSelfPermission(
+                    context, Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_DENIED
+                val shouldShowRationale = activity?.let {
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        it, Manifest.permission.POST_NOTIFICATIONS
+                    )
+                } ?: false
+                val hasRequestedBefore = context.hasRequestedNotificationPermissionBefore()
+                val isPermanentlyDenied = isDenied && hasRequestedBefore && !shouldShowRationale
+
+                if (isPermanentlyDenied) {
+                    val intent = Intent().apply {
+                        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                    }
+                    settingsLauncher.launch(intent)
+                } else {
+                    context.markNotificationPermissionRequested()
+                    permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            } else {
+                val intent = Intent().apply {
+                    action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                    putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                }
+                settingsLauncher.launch(intent)
             }
         }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    return remember(isEnabled) {
-        NotificationPermissionState(
-            isEnabled = isEnabled,
-            requestPermission = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                } else {
-                    context.openNotificationSettings()
-                }
-            },
-            openSettings = { context.openNotificationSettings() }
-        )
-    }
+    return NotificationPermissionState(
+        isEnabled = isEnabled,
+        requestPermission = requestPermission,
+        openSettings = {
+            val intent = Intent().apply {
+                action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+            }
+            settingsLauncher.launch(intent)
+        }
+    )
 }
-
 data class NotificationPermissionState(
     val isEnabled: Boolean,
     val requestPermission: () -> Unit,
     val openSettings: () -> Unit
 )
-
-fun Context.openNotificationSettings() {
-    val intent = Intent().apply {
-        action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-    }
-    startActivity(intent)
-}

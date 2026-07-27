@@ -38,11 +38,11 @@ class QuoteQueryRepository(
         val randomScore = Expressions.numberTemplate(
             Long::class.java,
             """
-                mod(
-                    function('hashtext', concat({0}, {1})),
-                    100
-                ) + 100
-                """.trimIndent(),
+            mod(
+                function('hashtext', concat({0}, {1})),
+                100000
+            )
+            """.trimIndent(),
             quote.quoteSeq,
             seed.toString()
         )
@@ -51,15 +51,15 @@ class QuoteQueryRepository(
             Long::class.java,
             """
             cast(
-                ({0} * 100)
-                + (ln({1} + 1) * 200)
-                + {2}
+                {0}
+                + ({1} * 2)
+                + (ln({2} + 1) * 5)
                 as long
             )
             """.trimIndent(),
+            randomScore,
             quote.numLikes,
-            quote.numViews,
-            randomScore
+            quote.numViews
         )
 
         val likeExpression = JPAExpressions
@@ -306,11 +306,11 @@ class QuoteQueryRepository(
         val randomScore = Expressions.numberTemplate(
             Long::class.java,
             """
-                mod(
-                    function('hashtext', concat({0}, {1})),
-                    100
-                ) + 100
-                """.trimIndent(),
+            mod(
+                function('hashtext', concat({0}, {1})),
+                100000
+            )
+            """.trimIndent(),
             quote.quoteSeq,
             seed.toString()
         )
@@ -319,15 +319,15 @@ class QuoteQueryRepository(
             Long::class.java,
             """
             cast(
-                ({0} * 100)
-                + (ln({1} + 1) * 200)
-                + {2}
+                {0}
+                + ({1} * 2)
+                + (ln({2} + 1) * 5)
                 as long
             )
             """.trimIndent(),
+            randomScore,
             quote.numLikes,
-            quote.numViews,
-            randomScore
+            quote.numViews
         )
 
         val cursorCondition = cursor?.let {

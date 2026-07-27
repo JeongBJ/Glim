@@ -85,7 +85,7 @@
             android:exported="false">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="lockscreen_customization" />
+                android:value="Provides seamless, real-time short-form image streaming and rendering directly on the custom lock screen overlay immediately upon screen-on events without delay." />
         </service>
         <receiver
             android:name="com.jeongbj.presentation.feature.lock.service.BootCompletedReceiver"

@@ -27,3 +27,4 @@
 #-keep class com.jeongbj.data.**.response.** { *; }
 -keep class com.jeongbj.core.common.** { *; }
 -keep class **$$serializer { *; }
+-keep class com.kakao.sdk.**.model.** { *; }

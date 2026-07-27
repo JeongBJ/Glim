@@ -18,7 +18,7 @@ android {
         applicationId = "com.jeongbj.glim"
         minSdk = 26
         targetSdk = 37
-        versionCode = 8
+        versionCode = 10
         versionName = "1.0.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

@@ -4,6 +4,7 @@ import com.jeongbj.domain.quote.model.Quote
 
 data class GlimState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val currentUserSeq: Long = 0
 )
 
@@ -16,7 +17,7 @@ sealed interface GlimAction {
     data class OnDeleteClicked(val quoteSeq: Long): GlimAction
     data class OnBlockUserClicked(val userSeq: Long): GlimAction
     data class OnBlockQuoteClicked(val quoteSeq: Long): GlimAction
-
+    data object OnRefresh: GlimAction
 }
 
 sealed interface GlimSideEffect {

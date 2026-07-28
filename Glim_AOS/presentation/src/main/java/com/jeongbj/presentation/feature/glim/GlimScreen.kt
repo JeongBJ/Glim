@@ -1,8 +1,8 @@
 package com.jeongbj.presentation.feature.glim
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -29,6 +29,7 @@ fun GlimScreen(
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
+
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
@@ -41,7 +42,9 @@ fun GlimScreen(
     }
 
     DarkThemeScreen {
-        Box(
+        PullToRefreshBox(
+            onRefresh = { viewModel.onAction(GlimAction.OnRefresh) },
+            isRefreshing = state.isRefreshing,
             modifier = Modifier.fillMaxSize()
                 .background(Color.Black)
         ) {
@@ -50,7 +53,7 @@ fun GlimScreen(
                 onAction = { viewModel.onAction(it) },
                 quotes = quotes
             )
-            if (state.isLoading) {
+            if (state.isLoading && !state.isRefreshing) {
                 LoadingOverlay()
             }
         }

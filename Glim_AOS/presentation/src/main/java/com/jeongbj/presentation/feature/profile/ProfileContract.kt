@@ -18,6 +18,7 @@ sealed interface ProfileAction {
     data object OnImageClick: ProfileAction
     data class OnNicknameChanged(val nickname: String): ProfileAction
     data object OnCompleteClick: ProfileAction
+    data object OnBackClicked: ProfileAction
 }
 
 sealed interface ProfileSideEffect {

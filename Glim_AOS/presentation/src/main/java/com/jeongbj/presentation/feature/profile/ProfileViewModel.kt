@@ -26,7 +26,7 @@ class ProfileViewModel @Inject constructor(
     private val _state = MutableStateFlow(ProfileState())
     val state = _state.asStateFlow()
 
-    private val _sideEffect = MutableSharedFlow<ProfileSideEffect>()
+    private val _sideEffect = MutableSharedFlow<ProfileSideEffect>(extraBufferCapacity = 1)
     val sideEffect = _sideEffect.asSharedFlow()
 
 
@@ -36,8 +36,12 @@ class ProfileViewModel @Inject constructor(
             is ProfileAction.OnImageSelected -> onImageSelected(action.uri, action.multipartImage)
             is ProfileAction.OnImageClick -> onImageClick()
             is ProfileAction.OnCompleteClick -> onCompleteClick()
+            ProfileAction.OnBackClicked -> onBackClicked()
         }
     }
+
+    private fun onBackClicked() =
+        _sideEffect.tryEmit(ProfileSideEffect.PopBackStack)
 
     private fun onNicknameChanged(nickname: String) {
         val isValid = isNicknameValid(nickname)

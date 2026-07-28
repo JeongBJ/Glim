@@ -120,8 +120,12 @@ class GlimViewModel @Inject constructor(
             is GlimAction.OnDeleteClicked -> onDeleteClicked(action.quoteSeq)
             is GlimAction.OnBlockQuoteClicked -> onBlockQuoteClicked(action.quoteSeq)
             is GlimAction.OnBlockUserClicked -> onBlockUserClicked(action.userSeq)
+            GlimAction.OnRefresh -> onRefresh()
         }
     }
+
+    private fun onRefresh() =
+        quoteTrigger.tryEmit(QuoteRequest.List)
 
     private fun onBlockUserClicked(userSeq: Long) {
         viewModelScope.launch {

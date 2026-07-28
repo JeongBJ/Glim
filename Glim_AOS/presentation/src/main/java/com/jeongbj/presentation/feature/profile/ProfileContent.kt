@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.jeongbj.presentation.common.component.GlimTopbar
 import com.jeongbj.presentation.common.preview.Previews
 import com.jeongbj.presentation.feature.profile.component.ProfileImageSection
 import com.jeongbj.presentation.feature.profile.component.ProfileInputSection
@@ -50,6 +51,10 @@ private fun ProfileSetupPortrait(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+        GlimTopbar(
+            title = "프로필",
+            onBackClick = { onAction(ProfileAction.OnBackClicked) }
+        )
         Spacer(modifier = Modifier.height(40.dp))
 
         ProfileImageSection(
@@ -76,37 +81,45 @@ private fun ProfileSetupPortrait(
 private fun ProfileSetupLandscape(
     state: ProfileState, onAction: (ProfileAction) -> Unit
 ) {
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .imePadding()
-            .verticalScroll(rememberScrollState())
-            .padding(32.dp),
-        verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier.weight(1f),
-            contentAlignment = Alignment.Center
-        ) {
-            ProfileImageSection(
-                imageModel = state.imageUri?: state.imageUrl,
-                onImageClick = { onAction(ProfileAction.OnImageClick) }
-            )
-        }
-
-        Column(
+        GlimTopbar(
+            title = "프로필",
+            onBackClick = { onAction(ProfileAction.OnBackClicked) }
+        )
+        Row(
             modifier = Modifier
-                .weight(1.2f)
-                .padding(40.dp),
-            verticalArrangement = Arrangement.Center
+                .verticalScroll(rememberScrollState())
+                .padding(32.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            ProfileInputSection(
-                nickname = state.nickname,
-                onNicknameChange = { onAction(ProfileAction.OnNicknameChanged(it)) },
-                onCompleteClick = { onAction(ProfileAction.OnCompleteClick) },
-                isButtonEnabled = state.isButtonEnabled,
-                isEditProfile = state.isEditProfile
-            )
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                ProfileImageSection(
+                    imageModel = state.imageUri?: state.imageUrl,
+                    onImageClick = { onAction(ProfileAction.OnImageClick) }
+                )
+            }
+
+            Column(
+                modifier = Modifier
+                    .weight(1.2f)
+                    .padding(40.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                ProfileInputSection(
+                    nickname = state.nickname,
+                    onNicknameChange = { onAction(ProfileAction.OnNicknameChanged(it)) },
+                    onCompleteClick = { onAction(ProfileAction.OnCompleteClick) },
+                    isButtonEnabled = state.isButtonEnabled,
+                    isEditProfile = state.isEditProfile
+                )
+            }
         }
     }
 }

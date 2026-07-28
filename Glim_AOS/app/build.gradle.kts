@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
@@ -16,21 +18,49 @@ android {
         applicationId = "com.jeongbj.glim"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 10
+        versionName = "1.0.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val keystoreProperties = Properties().apply {
+        load(rootProject.file("local.properties").inputStream())
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            optimization {
+                enable = true
+            }
+            signingConfig = signingConfigs.getByName("release")
+        }
+        create("releaseDebug") {
+            initWith(getByName("release"))
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("release")
+//            applicationIdSuffix = ".releasedebug"
+//            versionNameSuffix = "-releaseDebug"
+
+            matchingFallbacks += listOf("release")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
@@ -55,14 +85,19 @@ dependencies {
     implementation(project(":presentation"))
     implementation(project(":data"))
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.material3)
+    implementation(libs.material.icons)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.navigation.runtime.ktx)
 
-
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+    implementation(libs.hilt.navigation)
+
     implementation(libs.timber)
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.kakao.login)
+    implementation(libs.firebase.messaging)
 }

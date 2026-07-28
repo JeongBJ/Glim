@@ -19,3 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepattributes *Annotation*
+-keepattributes Signature
+
+#-keep class com.jeongbj.data.**.request.** { *; }
+#-keep class com.jeongbj.data.**.response.** { *; }
+-keep class com.jeongbj.core.common.** { *; }
+-keep class **$$serializer { *; }
+-keep class com.kakao.sdk.**.model.** { *; }

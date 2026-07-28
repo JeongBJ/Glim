@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://172.19.0.1:${GLIM_DB_PORT}/glim
+    username: ENC(xBFR63gDrimIDS1Gmnv802CbBHfY/DZFC2esE7bDHxPGsC03nhOlKg1g/hTEaT/T)
+    password: ENC(VkaoFZ1a5spf0m77HwZDRZK1Y4NVz1talKGR1++nM890/ihPtJ1WTGZQLft/FqEo)
+
+  data:
+    redis:
+      host: redis
+      port: ${REDIS_PORT}
+      password: ENC(SPDZl3P0oZjCZtAHUlA19HvSiEUEL3RbZoA5KCyf9qQZxnsZnW24L/w1HHe72rUs)
+
+logging:
+  file:
+    name: /home/log/glim_output.log
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      total-size-cap: 1GB
+  level:
+    root: INFO
+
+server:
+  port: 8080
+
+oci:
+  config-path: ${user.home}/.oci/OCI_CONFIG
+
+firebase:
+  credential-path: ${FIREBASE_CREDENTIAL_PATH}

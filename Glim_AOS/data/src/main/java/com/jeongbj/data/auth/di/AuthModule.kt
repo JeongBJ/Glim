@@ -1,11 +1,13 @@
 package com.jeongbj.data.auth.di
 
+import com.jeongbj.data.auth.manager.TokenManagerImpl
 import com.jeongbj.data.auth.repository.AuthRepositoryImpl
 import com.jeongbj.data.auth.storage.AccessTokenStorageImpl
 import com.jeongbj.data.auth.usecase.ClearTokenUseCaseImpl
 import com.jeongbj.data.auth.usecase.LogoutUseCaseImpl
 import com.jeongbj.data.auth.usecase.RefreshAccessTokenUseCaseImpl
 import com.jeongbj.data.auth.usecase.ResignUseCaseImpl
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.auth.repository.AuthRepository
 import com.jeongbj.domain.auth.storage.AccessTokenStorage
 import com.jeongbj.domain.auth.usecase.ClearTokenUseCase
@@ -41,4 +43,8 @@ abstract class AuthModule {
 
     @Binds
     abstract fun bindClearTokenUseCase(impl: ClearTokenUseCaseImpl): ClearTokenUseCase
+
+    @Binds
+    @Singleton
+    abstract fun bindTokenManager(impl: TokenManagerImpl): TokenManager
 }

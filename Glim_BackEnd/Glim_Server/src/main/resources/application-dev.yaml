@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ENC(fHY5oWRCaBzS57lGwrfuix8rjqsi1llEcS4jpyq3CXm1xqJq3TYNnSO7xV1mAle2BIsyEZu9Kl1e1jiOH/AC+yzOSLZzTYiq1/M1gqa1RO4=)
+    username: ENC(xBFR63gDrimIDS1Gmnv802CbBHfY/DZFC2esE7bDHxPGsC03nhOlKg1g/hTEaT/T)
+    password: ENC(VkaoFZ1a5spf0m77HwZDRZK1Y4NVz1talKGR1++nM890/ihPtJ1WTGZQLft/FqEo)
+
+  data:
+    redis:
+      host: ENC(2+9eo6CecKGZ3wMnCVdnKhzPnf9WawrHihJEqS3KuPTsLvIPHSaS/nRS9aSLorcU)
+      port: ${REDIS_PORT}
+      password: ENC(SPDZl3P0oZjCZtAHUlA19HvSiEUEL3RbZoA5KCyf9qQZxnsZnW24L/w1HHe72rUs)
+
+#logging:
+#  level:
+#    org.springframework.security: TRACE
+
+server:
+  port: 8091
+
+oci:
+  config-path: ${user.home}/.oci/OCI_CONFIG
+
+firebase:
+  credential-path: ${user.home}/.oci/firebase-admin.json

@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+    stages {
+
+        stage('Gradle Build') {
+            agent any
+            steps {
+                dir('Glim_BackEnd/Glim_Server') {
+                    sh 'chmod +x ./gradlew'
+                    sh 'export JASYPT_ENCRYPTOR_PASSWORD=${JASYPT_PASSWORD} && ./gradlew clean bootJar --no-daemon'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            agent any
+            steps {
+                dir('Glim_BackEnd/Glim_Server') {
+                    sh 'docker build -t glim:latest .'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            agent any
+            steps {
+                withCredentials([
+                    file(credentialsId: 'firebase-admin', variable: 'FIREBASE_CREDENTIAL')
+                ]) {
+                    sh '''
+                        mkdir -p /var/jenkins_home/deploy-secrets
+                        cp "$FIREBASE_CREDENTIAL" /var/jenkins_home/deploy-secrets/firebase-admin.json
+                        chmod 644 /var/jenkins_home/deploy-secrets/firebase-admin.json
+
+                        docker stop glim || true
+                        docker rm glim || true
+
+                        docker run -d \
+                            --name glim \
+                            --add-host=host.docker.internal:172.19.0.1 \
+                            --network oci-ubuntu \
+                            -p ${GLIM_PORT}:8080 \
+                            -m 4g \
+                            -v /home/ubuntu/Glim/log:/home/log \
+                            -v /home/ubuntu/.oci:/root/.oci \
+                            -v /home/ubuntu/jenkins/deploy-secrets/firebase-admin.json:/run/secrets/firebase-admin.json:ro \
+                            -e FIREBASE_CREDENTIAL_PATH=/run/secrets/firebase-admin.json \
+                            -e SPRING_PROFILES_ACTIVE=prod \
+                            -e GLIM_DB_PORT=${GLIM_DB_PORT} \
+                            -e REDIS_PORT=${REDIS_PORT} \
+                            -e JASYPT_ENCRYPTOR_PASSWORD=${JASYPT_PASSWORD} \
+                            --restart unless-stopped \
+                            glim:latest
+                    '''
+                }
+            }
+        }
+    }
+}

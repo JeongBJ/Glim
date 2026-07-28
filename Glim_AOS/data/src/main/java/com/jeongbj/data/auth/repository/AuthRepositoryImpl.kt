@@ -2,9 +2,9 @@ package com.jeongbj.data.auth.repository
 
 import com.jeongbj.core.common.unwrap
 import com.jeongbj.data.auth.datasource.AuthRemoteDataSource
-import com.jeongbj.data.auth.manager.TokenManager
 import com.jeongbj.data.auth.mapper.toDomain
 import com.jeongbj.data.auth.request.RefreshTokenRequest
+import com.jeongbj.domain.auth.manager.TokenManager
 import com.jeongbj.domain.auth.model.AuthToken
 import com.jeongbj.domain.auth.repository.AuthRepository
 import javax.inject.Inject

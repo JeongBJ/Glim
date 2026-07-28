@@ -1,14 +1,66 @@
 spring:
   application:
     name: Glim_Server
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ENC(fHY5oWRCaBzS57lGwrfuix8rjqsi1llEcS4jpyq3CXm1xqJq3TYNnSO7xV1mAle2BIsyEZu9Kl1e1jiOH/AC+yzOSLZzTYiq1/M1gqa1RO4=)
-    username: ENC(xBFR63gDrimIDS1Gmnv802CbBHfY/DZFC2esE7bDHxPGsC03nhOlKg1g/hTEaT/T)
-    password: ENC(VkaoFZ1a5spf0m77HwZDRZK1Y4NVz1talKGR1++nM890/ihPtJ1WTGZQLft/FqEo)
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  cache:
+    type: redis
 
 
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
     password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+jwt:
+  secret: ENC(/jt4ypobScuVa5dMsAPoSAfVGs1L4AkVqjrooKxYM+u/TboQz4DOsxpiHNnWk8YmP8nN3YTQPIPG1D+fxLmG4GPJkyihZ/CvYOGaCiZGx5w=)
+  access-token-validity-in-minutes: 15
+  refresh-token-validity-in-days: 7
+
+oci:
+  namespace: ENC(l2xIgNKXGn7Guj4uQRD9sIkfWiBmgU/uFGSWFVYwMcsZYxu6OX4/01TRCcAVDZid)
+  bucket: Glim_Image
+  region: ap-chuncheon-1
+
+aladin:
+  base-url: https://www.aladin.co.kr
+  ttb-key: ENC(Xgl/ntCpri/zEQiIzrjQXJpc6O8rnFtliXaLMeF1SAhE7pUTk7x22AdTk8X5OFqpEY4lud9QZcgs6atfEXpUng==)
+  output: JS
+  version: 20131101
+
+pollination:
+  base-url: https://gen.pollinations.ai/image
+  key: ENC(GTYetLWNepVE2SNnS6YwbG6URRXFyjazKvfxMMA1YSGFQrVEJ/NcCw6hfB0n7kOeAMFhz280/brJPK8Mtv3xwwugag+YOGD0ubC6/Gi67Pg=)
+  height: 1792
+  width: 1024
+  model: flux
+
+gradio:
+  urls:
+    - ENC(zjIfDrHhWCxnKk/EZ0ukWwH1lgdoAL1eqvykF8OOdgJ2Sr4UxRvNu05A+zaRXKe4Pj3sL7dyOAlOCGtfC58i8g==)
+    - ENC(yJoVYdGgSreK2xJtqAVRMKgLZlRiRiLJ+wwPwmCUgU1TSm4XMzv42loeRTPFlW+7MufpmNzhpnyFoU6CcNhFRKc0cDfq680M9PBN2Po1qDU=)
+    - ENC(ckZmtqJ/1/7yks8DNKLWOHarfMCMJQ6xjG5EZ5Ii/dNZ2vcTOOiZPJ2UYBdHI/nWE15iLGVqzJPMeVabEXghsga87BUHcK4p6kTyVcjyZmGwGBvjoq9qyTOqAglT0d4u)
+    - ENC(zehK1IHuoap9c8RuhXL7XdIzNsg3JZT48Jzg3bXDPhOofRLBQ8rSWJVktqvKF9bqS/PD0qP3y3yWsUIkvNtstMe2ZrUPoCRSIFlaTpOX6kk=)
+  keys:
+    - ENC(35V/n4NWaNG/jhDr6DzIAgzGIjakzMUcpdI1HtLc4Trv3aIVgUYVHBAlD1+oOHfZkPDHj8kzfzoUM2ten0LtwhQODks/krV+Uq5t/RmOAvU=)
+    - ENC(XH2JA0EjzUW8sKnjVF6gtgQJid7V79rTef4b+0KZe0m3ZtqGDf+wHakH1Ye1lF1JhQVNT9ZEx8HVhhsgu0eqJ4Dm6Eu0QRtNggTjaSNJegQ=)
+    - ENC(WmXEUrYHGtNDkYBrJFhHMSO5IMjIMH+uvE9AI8NC+mKqxvAUSFr84chPLh5RzyqtIJ5rS7cVdnXBFxtDI+UnT7PlIJp9N/La5XcfiHVW10c=)
+  height: 1792
+  width: 1024
+
+gemini:
+  key: ENC(X73K/8bny9ofMFRlFKFxshx2sB6dmvDu8+frSUVv3Ht/A8440BxiFntEU9XWPaJeyeV4wDYsAb6terPdKeL6sjnO3sWm0adNp2YFRzSSm/o=)
+  model: gemini-3.1-flash-lite
+  base-url: https://generativelanguage.googleapis.com

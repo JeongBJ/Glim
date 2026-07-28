@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface AuthApi {
 
-    @POST("auth/refresh")
+    @POST("auth/reissue")
     suspend fun refreshAccessToken(@Body refreshTokenRequest: RefreshTokenRequest): BaseResponse<AuthTokenResponse>
 
     @DELETE("auth/logout")

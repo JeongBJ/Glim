@@ -45,8 +45,7 @@
 
 ## 프로젝트 구성
 
-### Android 
-- Compose / kotlin
+### Android - 
 - Multi Module + Clean Architecture + MVI
 - 구성:
   - `app` - Main, Navigation
@@ -59,13 +58,12 @@
 
 
 ### BackEnd
-- SpringBoot / kotlin
 - Feature-based MVC
 - 구성:
   - `Controller / Web` - HTTP 요청 처리, REST API 및 공유 페이지 렌더링
-  - `Service` - 도메인 비즈니스 로직, 트랜잭션 관리, 외부 API 호출 조합
+  - `Service` - 비즈니스 로직 처리, 트랜잭션 관리, Repository 및 외부 서비스 조합
   - `Repository` - JPA/Redis 기반 영속성 계층
-  - `Domain / DTO` - 도메인 모델, 요청/응답 데이터 변환
+  - `Entity / DTO` - 도메인 모델, 요청/응답 데이터 변환
   - `External` - Kakao/Google OAuth, Firebase, Oracle OCI 등 외부 연동 클라이언트
   - `Infra` - 인프라 관련 구현과 공통 구성
   - `Security` - 인증, 권한, JWT, Spring Security 설정
@@ -87,10 +85,15 @@
 
 ## 주요 기술 스택
 
+| Package | Version | Comment |
+| --- | --- | --- |
+| Kotlin | 2.4.10 | Android, Backend 공통 |
+| JDK | 21 |  |
+| Gradle | 9.6.1 | |
+
 ### Android
 | Package | Version | Comment |
 | --- | --- | --- |
-| Kotlin | 2.4.10 | |
 | Android Gradle Plugin | 9.3.1 | Android 빌드 도구 |
 | Jetpack Compose | 2026.06.01 | Compose UI |
 | Navigation Compose | 2.9.8 | Compose 네비게이션 |
@@ -116,31 +119,32 @@
 ### Backend
 | Package | Version | Comment |
 | --- | --- | --- |
-| Kotlin | 2.2.21 |  |
 | Spring Boot | 4.0.6 | 백엔드 프레임워크 |
-| Spring Security | 6.x | 인증 및 권한 관리 |
-| Spring Data JPA | 3.x | JPA 기반 데이터 액세스 |
-| Spring WebFlux | 6.x | 리액티브 웹 프레임워크 |
-| Spring WebMVC | 6.x | MVC 웹 프레임워크 |
-| Spring Cache | 6.x | 캐시 추상화 |
-| Spring Cloud OpenFeign | 2025.1.1 | 선언적 REST 클라이언트 |
-| PostgreSQL | Managed by Spring Boot | PostgreSQL 드라이버 |
-| Spring Data Redis | Managed by Spring Boot | Redis 데이터 액세스 |
-| Thymeleaf | 3.x | 서버 템플릿 렌더링 |
-| Flyway | 9.x | 데이터베이스 마이그레이션 |
+| Spring Framework | 7.0.7 | Spring Framework |
+| Spring Security | 7.0.7 | 인증 및 권한 관리 |
+| Spring Data JPA | 4.0.5 | JPA 기반 데이터 액세스 |
+| Spring WebFlux | 7.0.7 | 리액티브 웹 프레임워크 |
+| Spring WebMVC | 7.0.7 | MVC 웹 프레임워크 |
+| Spring Cache | 7.0.7 | 캐시 추상화 |
+| Spring Cloud OpenFeign | 5.0.1 | REST 클라이언트 |
+| PostgreSQL | 16.13 | RDBMS |
+| PostgreSQL JDBC | 42.7.3 | PostgreSQL 드라이버 |
+| Spring Data Redis | 4.0.5 | Redis 데이터 액세스 |
+| Thymeleaf | 3.1.3 | 서버 템플릿 렌더링 |
+| Flyway | 11.12.0 | 데이터베이스 마이그레이션 |
 | Jackson Kotlin Module | - | JSON 직렬화/역직렬화 |
 | Kotlin Reflect | - | 리플렉션 지원 |
 | JJWT API | 0.12.7 | JWT 토큰 처리 |
 | Firebase Admin | 9.8.0 | Firebase 서버 SDK |
 | Oracle OCI SDK Object Storage | 3.86.2 | Oracle Object Storage |
-| Kotlin Logging JVM | 8.0.03 | 로깅 유틸리티 |
+| Kotlin Logging JVM | 8.0.3 | 로깅 유틸리티 |
 | QueryDSL JPA | 5.1.0 | 타입 세이프 쿼리 DSL |
 | Jasypt Spring Boot Starter | 4.0.4 | 암호화 설정 |
 
 ### Infra
 | Name | Service | Comment |
 | --- | --- | --- |
-| Oracle Cloud | Instance | Ubuntu 22.04<br>Ampere A1 4 OCPUs, 24GB Memory, 200GB Storage |
+| Oracle Cloud | Instance | Ubuntu 22.04<br>Ampere A1 4 OCPUs, 24GB Memory, 200GB Block Volume |
 |  | Bucket | 20GB Object Storage |
 |  | Jenkins | CI/CD 파이프라인 자동화 |
 |  | Docker | 컨테이너 기반 배포 |

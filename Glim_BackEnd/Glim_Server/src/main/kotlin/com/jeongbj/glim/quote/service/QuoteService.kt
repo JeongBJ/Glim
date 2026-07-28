@@ -19,8 +19,9 @@ import com.jeongbj.glim.quote.repository.QuoteRankingRepository
 import com.jeongbj.glim.quote.repository.QuoteRepository
 import com.jeongbj.glim.user.mapper.toQuoteResponse
 import com.jeongbj.glim.user.repository.UserRepository
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import kotlin.random.Random
 
@@ -38,6 +39,7 @@ class QuoteService(
     private val geminiService: GeminiService
 ) {
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     suspend fun generateImage(content: String): ByteArray {
         val prompt = geminiService.generateText(content)
         println(prompt)

@@ -38,7 +38,9 @@ class JwtFilter(
 
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
         val path = request.servletPath
-        return path.startsWith("/auth/")
+        return path == "/auth/reissue" ||
+                path.startsWith("/login/") ||
+                path.startsWith("/share/")
     }
 
     private fun resolveToken(request: HttpServletRequest): String? =

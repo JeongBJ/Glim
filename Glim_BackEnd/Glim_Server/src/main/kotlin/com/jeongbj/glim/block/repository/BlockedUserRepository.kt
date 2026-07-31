@@ -8,4 +8,6 @@ import java.util.*
 @Repository
 interface BlockedUserRepository: JpaRepository<BlockedUser, Long> {
     fun deleteByUser_UserSeqAndBlockedUser_UserSeq(userSeq: Long, blockedUserSeq: Long): Optional<BlockedUser>
+    fun deleteAllByUser_UserSeq(userSeq: Long)
+    fun deleteAllByBlockedUser_UserSeq(userSeq: Long)
 }

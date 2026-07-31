@@ -14,4 +14,6 @@ interface LikeRepository: JpaRepository<Like, Long> {
     fun findLikedQuoteIds(userSeq: Long, bookSeq: Long): List<Long>
 
     fun findByUserUserSeqAndQuoteQuoteSeq(userSeq: Long, quoteSeq: Long): Like?
+
+    fun deleteAllByUser_UserSeq(userSeq: Long)
 }

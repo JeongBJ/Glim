@@ -8,4 +8,5 @@ import java.util.*
 @Repository
 interface BlockedQuoteRepository: JpaRepository<BlockedQuote, Long> {
     fun deleteByUser_UserSeqAndQuote_QuoteSeq(userSeq: Long, quoteSeq: Long): Optional<BlockedQuote>
+    fun deleteAllByUser_UserSeq(userSeq: Long)
 }

@@ -2,7 +2,10 @@ package com.jeongbj.glim.auth.service
 
 import com.jeongbj.glim.auth.dto.response.AuthTokenResponse
 import com.jeongbj.glim.auth.repository.AuthRedisRepository
+import com.jeongbj.glim.block.repository.BlockedQuoteRepository
+import com.jeongbj.glim.block.repository.BlockedUserRepository
 import com.jeongbj.glim.infra.bucket.BucketService
+import com.jeongbj.glim.like.repository.LikeRepository
 import com.jeongbj.glim.security.jwt.JwtProvider
 import com.jeongbj.glim.user.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -14,7 +17,10 @@ class AuthService(
     private val jwtProvider: JwtProvider,
     private val authRepository: AuthRedisRepository,
     private val userRepository: UserRepository,
-    private val bucketService: BucketService
+    private val likeRepository: LikeRepository,
+    private val bucketService: BucketService,
+    private val blockedQuoteRepository: BlockedQuoteRepository,
+    private val blockedUserRepository: BlockedUserRepository
 ) {
 
     fun createAuthToken(userSeq: Long): AuthTokenResponse {
@@ -49,10 +55,12 @@ class AuthService(
     fun resign(userSeq: Long) {
         val user = userRepository.findById(userSeq).orElseThrow()
         val images = (listOf(user.imageUrl) + user.quotes.map { it.imageUrl }).filterNotNull()
-
         authRepository.delete(userSeq)
-        userRepository.delete(user)
-
+        likeRepository.deleteAllByUser_UserSeq(userSeq)
+        blockedQuoteRepository.deleteAllByUser_UserSeq(userSeq)
+        blockedUserRepository.deleteAllByUser_UserSeq(userSeq)
+        blockedUserRepository.deleteAllByBlockedUser_UserSeq(userSeq)
+        userRepository.deleteById(userSeq)
         bucketService.batchDelete(images)
     }
 }

@@ -50,7 +50,7 @@ class BucketService(
             throw e
         }
 
-        return "https://objectstorage.${ociProperties.region}.oraclecloud.com/n/${ociProperties.namespace}/b/${ociProperties.bucket}/o/$objectName"
+        return "${ociProperties.cdnUrl}$objectName"
     }
 
     fun uploadImage(file: MultipartFile, prefix: String): String {
@@ -63,7 +63,7 @@ class BucketService(
     }
 
     fun deleteImage(imageUrl: String) {
-        val objectName = imageUrl.substringAfterLast("/o/")
+        val objectName = imageUrl.removePrefix(ociProperties.cdnUrl)
         val request = DeleteObjectRequest.builder()
             .namespaceName(ociProperties.namespace)
             .bucketName(ociProperties.bucket)
@@ -76,7 +76,7 @@ class BucketService(
         if (images.isEmpty()) return
         val objects = images.filterNotNull().map {
             BatchDeleteObjectIdentifier.builder()
-                .objectName(it.substringAfterLast("/o/"))
+                .objectName(it.removePrefix(ociProperties.cdnUrl))
                 .build()
         }
         val details = BatchDeleteObjectsDetails.builder()

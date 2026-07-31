@@ -8,5 +8,6 @@ data class OciProperties(
     val configPath: String,
     val namespace: String,
     val bucket: String,
-    val region: String
+    val region: String,
+    val cdnUrl: String
 )

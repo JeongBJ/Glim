@@ -34,7 +34,8 @@ fun ProfileInputSection(
             onValueChange = onNicknameChange,
             label = { Text("닉네임", color = Color.White) },
             textStyle = TextStyle(Color.White),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
 
         Spacer(modifier = Modifier.height(24.dp))

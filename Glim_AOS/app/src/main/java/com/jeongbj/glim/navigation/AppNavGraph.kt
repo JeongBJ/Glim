@@ -76,6 +76,7 @@ fun AppNavGraph(
         )
 
         postNav(
+            navigateToInfo = { navController.navigate(InfoRoute()) },
             navigateBack = { navController.popBackStack() },
         )
 

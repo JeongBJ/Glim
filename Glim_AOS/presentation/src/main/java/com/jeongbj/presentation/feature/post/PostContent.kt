@@ -82,6 +82,10 @@ fun PostContent(
             PostButtons(
                 state = state,
                 onAction = onAction,
+                onGenerateImageClicked = {
+                    focusManager.clearFocus()
+                    onAction(PostAction.OnImageGenerateClicked)
+                },
                 onCompleteClicked = {
                     scope.launch {
                         awaitFrame()

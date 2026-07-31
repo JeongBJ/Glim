@@ -50,14 +50,20 @@ class InfoViewModel @Inject constructor(
             is InfoAction.OnQuoteThumbnailClicked -> onQuoteThumbnailClicked(action.quoteSeq)
             is InfoAction.OnTabSelected -> onTabSelected(action.tab)
             InfoAction.OnSettingClicked -> onSettingClicked()
+            InfoAction.OnRefresh -> onRefresh()
         }
+    }
+
+    private fun onRefresh() {
+        getUserInfo()
+        quoteTrigger.tryEmit(quoteTrigger.value.copy(refreshKey = System.currentTimeMillis()))
     }
 
     private fun onSettingClicked() =
         _sideEffect.tryEmit(InfoSideEffect.NavigateToSettings)
 
     private val quoteTrigger = MutableStateFlow<InfoRequest>(
-        InfoRequest(InfoQuotesType.MY, null)
+        InfoRequest()
     )
     val quotes = quoteTrigger.flatMapLatest { request ->
         Pager(
@@ -135,7 +141,8 @@ class InfoViewModel @Inject constructor(
     }
 
     private data class InfoRequest(
-        val type: InfoQuotesType,
-        val userSeq: Long? = null
+        val type: InfoQuotesType = InfoQuotesType.MY,
+        val userSeq: Long? = null,
+        val refreshKey: Long = 0
     )
 }

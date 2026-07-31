@@ -44,6 +44,7 @@ fun BoxScope.PostButtons(
     state: PostState,
     onAction: (PostAction) -> Unit,
     onCompleteClicked: () -> Unit,
+    onGenerateImageClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -123,7 +124,7 @@ fun BoxScope.PostButtons(
                     tooltip = { PlainTooltip { Text("AI를 통해\n텍스트에 어울리는\n이미지를 만들어 보세요") } }
                 ) {
                     ActionButton(
-                        onClick = { onAction(PostAction.OnImageGenerateClicked) },
+                        onClick = { onGenerateImageClicked() },
                         painter = painterResource(R.drawable.ic_image_create)
                     )
                 }
@@ -188,6 +189,7 @@ fun PostButtonsPreview() {
                 state = PostState(),
                 onAction = { },
                 onCompleteClicked = { },
+                onGenerateImageClicked = { },
             )
         }
 

@@ -57,6 +57,7 @@ sealed interface PostSideEffect {
     data object ShowCloseDialog: PostSideEffect
     data class ShowToast(val msg: String): PostSideEffect
     data object NavigateBack: PostSideEffect
+    data object NavigateToInfo: PostSideEffect
 }
 
 data class PostText(

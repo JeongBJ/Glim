@@ -107,7 +107,7 @@ class PostViewModel @Inject constructor(
                             uploadedQuote = result.data
                         ) }
                         _sideEffect.emit(PostSideEffect.ShowToast("글림이 성공적으로 업로드 되었습니다."))
-                        _sideEffect.emit(PostSideEffect.NavigateBack)
+                        _sideEffect.emit(PostSideEffect.NavigateToInfo)
                     }
                     ResultType.Loading -> { _state.update { it.copy(isLoading = true) } }
                     is ResultType.Error -> { _state.update { it.copy(isLoading = false) } }

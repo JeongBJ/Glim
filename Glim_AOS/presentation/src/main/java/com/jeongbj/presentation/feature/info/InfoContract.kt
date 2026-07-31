@@ -7,6 +7,7 @@ import java.time.LocalDate
 
 data class InfoState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val isOwner: Boolean = false,
     val userSeq: Long? = null,
     val userInfo: UserInfo? = null,
@@ -19,6 +20,7 @@ sealed interface InfoAction {
     data class OnTabSelected(val tab: GlimType): InfoAction
     data class OnQuoteThumbnailClicked(val quoteSeq: Long): InfoAction
     data object OnSettingClicked: InfoAction
+    data object OnRefresh: InfoAction
 }
 
 sealed interface InfoSideEffect {

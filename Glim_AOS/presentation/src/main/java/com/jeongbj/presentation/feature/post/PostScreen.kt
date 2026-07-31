@@ -32,6 +32,7 @@ import com.jeongbj.presentation.theme.DarkThemeScreen
 @Composable
 fun PostScreen(
     viewModel: PostViewModel = hiltViewModel(),
+    navigateToInfo: () -> Unit,
     navigateBack: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
@@ -88,6 +89,7 @@ fun PostScreen(
                 }
 
                 PostSideEffect.NavigateBack -> navigateBack()
+                PostSideEffect.NavigateToInfo -> navigateToInfo()
             }
         }
     }

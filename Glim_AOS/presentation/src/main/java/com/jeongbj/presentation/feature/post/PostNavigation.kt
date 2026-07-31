@@ -11,12 +11,14 @@ data object PostRoute
 
 fun NavGraphBuilder.postNav(
     navigateBack: () -> Unit,
+    navigateToInfo: () -> Unit
 ) {
     composable<PostRoute> {
         val viewModel: PostViewModel = hiltViewModel()
         PostScreen(
             viewModel = viewModel,
             navigateBack = navigateBack,
+            navigateToInfo = navigateToInfo
         )
     }
 }

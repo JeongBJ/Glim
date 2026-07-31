@@ -13,6 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +47,8 @@ fun GlimItem(
     onBlockQuoteClicked: (Long) -> Unit = {},
     onBlockUserClicked: (Long) -> Unit = {}
 ) {
+    var showTextDialog by remember { mutableStateOf(false) }
+
     Box(
         modifier = modifier
     ) {
@@ -111,6 +117,11 @@ fun GlimItem(
                     onClick = onShareClicked,
                     painter = painterResource(R.drawable.ic_share)
                 )
+
+                ActionButton(
+                    onClick = { showTextDialog = true },
+                    painter = painterResource(R.drawable.ic_text)
+                )
             }
 
             Spacer(Modifier.height(16.dp))
@@ -120,6 +131,13 @@ fun GlimItem(
                 onBookInfoClick = { onBookInfoClicked(quote.book.isbn13) }
             )
 
+        }
+
+        if (showTextDialog) {
+            GlimTextDialog(
+                content = quote.content,
+                onDismiss = { showTextDialog = false }
+            )
         }
     }
 }

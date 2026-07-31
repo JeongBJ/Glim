@@ -30,7 +30,7 @@ jwt:
   refresh-token-validity-in-days: 7
 
 oci:
-  cdn-url: ENC(JuVLvXW0vEX7R8aRfqpbiPk55zl7c6knU16fl+SuzfpgUwVofX/yxs0za29ufYaFW4gUil7o+X2QPv+6b3ll9A==)
+  cdn-url: ENC(xbdG6Qn07KooplxV2CzwVwbhhWT/4bYdMIiJUSoJscXf+bgPVQ2snODx4rslnT/hAb6ED5efPh2tFwFQA/eI2A==)
   namespace: ENC(l2xIgNKXGn7Guj4uQRD9sIkfWiBmgU/uFGSWFVYwMcsZYxu6OX4/01TRCcAVDZid)
   bucket: Glim_Image
   region: ap-chuncheon-1

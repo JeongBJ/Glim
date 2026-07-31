@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.jeongbj.android.extentions.showToast
+import com.jeongbj.presentation.common.component.ConfirmDialog
 import com.jeongbj.presentation.common.component.GlimTopbar
 import com.jeongbj.presentation.common.notification.rememberNotificationPermissionState
 import com.jeongbj.presentation.common.preview.Previews
@@ -34,6 +35,8 @@ fun SettingContent(
 ) {
     val context = LocalContext.current
     var showTermsDialog by remember { mutableStateOf(false) }
+    var showResignDialog by remember { mutableStateOf(false) }
+
     val pushPermissionState = rememberNotificationPermissionState(
         onResult = { granted ->
             if (granted) {
@@ -156,7 +159,7 @@ fun SettingContent(
 
                 SettingItem(
                     title = "회원 탈퇴",
-                    onClick = { onAction(SettingAction.OnResignClicked) }
+                    onClick = { showResignDialog = true }
                 )
 
             }
@@ -166,6 +169,15 @@ fun SettingContent(
     if (showTermsDialog) {
         TermsDialog(
             onDismiss = { showTermsDialog = false },
+        )
+    }
+
+    if (showResignDialog) {
+        ConfirmDialog(
+            title = "회원 탈퇴",
+            message = "탈퇴 시 모든 데이터가 삭제되고 복구할 수 없습니다\n탈퇴 하시겠어요?",
+            onDismiss = { showResignDialog = false },
+            onConfirm = { onAction(SettingAction.OnResignClicked) }
         )
     }
 }

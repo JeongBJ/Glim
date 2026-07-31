@@ -27,7 +27,7 @@ class SecurityConfig(
                 it.requestMatchers("/privacy").permitAll()
                 it.requestMatchers("/child").permitAll()
                 it.requestMatchers("/delete").permitAll()
-                it.requestMatchers("/auth/**").permitAll()
+                it.requestMatchers("/auth/reissue").permitAll()
                 it.requestMatchers("/login/**").permitAll()
                 it.requestMatchers("/.well-known/**").permitAll()
                 it.requestMatchers("/share/**").permitAll()

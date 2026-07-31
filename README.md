@@ -83,7 +83,7 @@
     - FLUX.1 Schnell
     - 이미지 생성
 
-## 주요 기술 스택
+## 기술 스택
 
 | Package | Version | Comment |
 | --- | --- | --- |
@@ -148,7 +148,7 @@
 |  | Bucket | 20GB Object Storage |
 |  | Jenkins | CI/CD 파이프라인 자동화 |
 |  | Docker | 컨테이너 기반 배포 |
-| Hugging Face | Space | Nvidia RTX Pro 6000 (ZeroGPU) |
+| Hugging Face | Space | Nvidia RTX Pro 6000 Blackwell (ZeroGPU) |
 |  | Model | FLUX.1 Schnell|
 
 

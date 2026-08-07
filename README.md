@@ -3,6 +3,9 @@
 <img src = "./assets/image/glim_logo_image_large.png" width="160" height="160"> 
 
 
+## Play Store
+https://play.google.com/store/apps/details?id=com.jeongbj.glim
+
 ## ✍ 프로젝트 개요
 `글귀 + 울림`, ‘글귀 + film’ 또는 ‘glimpse(흘낏보다)’의 조합. 
 짧지만 깊은 인상을 남기는 글귀를 공유하며, 

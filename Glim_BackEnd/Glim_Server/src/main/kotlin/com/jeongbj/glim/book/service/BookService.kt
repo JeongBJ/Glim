@@ -63,12 +63,17 @@ class BookService(
             it.toQuoteRankResponse()
         }
 
+
         return BookItemListResponse(
             bestSeller = bestSeller,
             editorChoice = editorChoice,
             newSpecial = newSpecial,
             todayQuotes = quotes,
         )
+    }
+
+    fun clearHomeItemList() {
+        itemListCacheRepository.clear()
     }
 
     fun searchBookByIsbn13(isbn13: String, userSeq: Long): BookDetailResponse? {

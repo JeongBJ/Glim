@@ -8,8 +8,9 @@ import org.springframework.scheduling.annotation.Scheduled
 class BookScheduler(
     private val bookService: BookService
 ){
-    @Scheduled(cron = "0 0 6 * * *")
+    @Scheduled(cron = "0 45 6 * * *")
     fun refreshItemListCache() {
+        bookService.clearHomeItemList()
         bookService.getHomeItemList()
     }
 }

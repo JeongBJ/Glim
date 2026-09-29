@@ -26,6 +26,12 @@ class ItemListCacheRepository (
         )
     }
 
+    fun clear() {
+        ItemListQueryType.entries.forEach {
+            redisTemplate.delete(getKey(it))
+        }
+    }
+
     private fun getKey(queryType: ItemListQueryType)
             : String {
         return "book:item:${queryType.value}"
